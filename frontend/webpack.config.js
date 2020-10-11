@@ -35,10 +35,10 @@ module.exports = {
   },
   plugins: [new HtmlWebpackPlugin({ template: "./app/index.html" })],
   mode: process.env.NODE_ENV == "production" ? "production" : "development",
-    // devServer: {
-    //   historyApiFallback: true,
-    //   inline:true,
-    //   port: 8080,
-    //   host: '192.168.1.152'
-    // },
+    devServer: {
+      historyApiFallback: true,
+      inline:true,
+      port: 8080,
+      host: '192.168.1.152'
+    },
 };
