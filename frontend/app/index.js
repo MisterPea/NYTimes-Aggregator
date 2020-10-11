@@ -1,10 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import SectionMenu from "./components/SectionMenu";
 
 function App() {
   return (
     <div>
-      <p>Hello y'all</p>
+      <SectionMenu />
     </div>
   );
 }
