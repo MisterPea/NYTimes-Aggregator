@@ -1,0 +1,7 @@
+.DS_STORE
+README.md
+settings.json
+.env
+
+# Dependency directories
+node_modules/
