@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-
 /*  This function is called if the user is not logged in.
     They are first presented with a create account login,
     and an option to login. It might be better to have the login
     option presented first. 
-    @ props: message: which is presented at the top of the login. 
-    */
+    @ props: message: which is presented at the top of the login. */
+
+import React, { useState } from "react";
+import NavBar from './NavBar'
 
 export default function LoginDialog(props) {
   const [login, setLogin] = useState(false);
@@ -53,5 +53,9 @@ export default function LoginDialog(props) {
     </div>
   );
 
-  return <div>{login ? loginToAccount : createAccount}</div>;
+  return (
+    <div>
+      <NavBar />
+      {login ? loginToAccount : createAccount}
+    </div>);
 }
