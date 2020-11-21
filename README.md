@@ -1,7 +1,7 @@
 # NYTimes Top Stories Aggregator
 React project implementing the New York Times web API
 ### Features - To do:
-- [ ] OAuth login for users to save articles and subscribe to topics
+- [x] OAuth login for users to save articles and subscribe to topics
   * 2FA - Eventual
 - [ ] Texting capability for updated subscriptions
 - [ ] Streaming updates - Eventual
