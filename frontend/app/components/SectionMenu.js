@@ -1,16 +1,8 @@
-/* 
-SectionMenu.js is at the top of the component tree.
-Article.js, embedded, recives section props from a selection.
-It seems a little easier to have this arangement, rather than having compaonents at the same level.
- */
-
 import React, { useState } from "react";
 import Articles from "./Articles";
-import NavBar from "./NavBar";
 
 export default function SectionMenu() {
   const [section, setSection] = useState("home");
-  const [auth, setAuth] = useState(null);
 
   const sections = [
     { linkName: "arts", displayName: "Arts" },
@@ -43,7 +35,6 @@ export default function SectionMenu() {
 
   return (
     <div className="menu-wrapper">
-      <NavBar />
       <ul>
         {sections.map(({ linkName, displayName }, index) => (
           <li
@@ -56,7 +47,7 @@ export default function SectionMenu() {
           </li>
         ))}
       </ul>
-      <Articles section={section} />
+      <Articles section={section}/>
     </div>
   );
 }
