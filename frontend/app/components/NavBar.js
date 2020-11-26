@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
-import firebase from "./Auth";
+import firebase from "./api/Auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link, useLocation } from "react-router-dom";
-import uidContextProvider from "./UidContext";
+import uidContextProvider from "./api/UidContext";
 
 export default function NavBar() {
   const [uid, setUid] = useState(null);
