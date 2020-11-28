@@ -1,17 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import PropTypes from 'prop-types'
 import { Link } from "react-router-dom";
-import firebase from "./Auth";
+import firebase from "./api/Auth";
+import uidContextProvider from "./api/UidContext";
+import RecoverPassword from "./login/RecoverPassword"
+
 
 export default function Login({ message }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState(null);
-  const [userName, setUserName] = useState(null)
+  const [userName, setUserName] = useState(null);
+  const [recoverPassword, setRecoverPassword] = useState(false);
+  const { uidContext } = useContext(uidContextProvider);
   const auth = firebase.auth();
 
   useEffect(() => {
+    !userName && setUserName(uidContext.name);
     loginError && setLoginError(null);
-  }, [password, email]);
+  }, [password, email, uidContext.name]);
 
   const handleLogin = () => {
     auth
@@ -19,7 +26,7 @@ export default function Login({ message }) {
       .then(({ user }) => {
         setEmail("");
         setPassword("");
-        setUserName(user.displayName)
+        setUserName(user.displayName);
       })
       .catch((error) => {
         handleWarning(error);
@@ -34,6 +41,10 @@ export default function Login({ message }) {
     };
     setLoginError(errorList[error.code]);
   };
+
+  const handleReturnToLogin = () => {
+    setRecoverPassword(false)
+  }
 
   const preLogin = (
     <div className="login-wrapper">
@@ -67,6 +78,9 @@ export default function Login({ message }) {
         Submit
       </button>
       {loginError && <div className="warning-dialog">{loginError}</div>}
+      <button className="forgot-password" onClick={() => setRecoverPassword(true)}>
+        Forgot your password?
+      </button>
       <Link to="/sign-up">Create an Account</Link>
     </div>
   );
@@ -74,13 +88,18 @@ export default function Login({ message }) {
   const postLogin = (
     <div className="login-wrapper">
       <h4 className="welcome-back">Welcome back, {userName}!</h4>
-      <Link to="/" >Continue to the Home Page</Link>
+      <Link to="/">Continue to the Home Page</Link>
     </div>
-  )
+  );
 
+  
   return (
     <React.Fragment>
-      {!userName ? preLogin : postLogin}
+      {userName ? postLogin : recoverPassword ? <RecoverPassword loginReturn={handleReturnToLogin} /> : preLogin}
     </React.Fragment>
-  )
+  );
+}
+
+Login.propTypes = {
+  message: PropTypes.string
 }

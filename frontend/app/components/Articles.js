@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { grabTopStories } from "./api";
+import PropTypes from 'prop-types'
+import { grabTopStories } from "./api/api";
 import ModalSelectionLogin from "./ModalSelectionLogin";
 
 export default function Articles({ section }) {
@@ -8,9 +9,14 @@ export default function Articles({ section }) {
   const [modalFacets, setModalFacets] = useState({});
 
   useEffect(() => {
+    // The isMounted flag is to prevent update on an unmounted component. 
+    let isMounted = true;
     grabTopStories(section).then((dataPromise) => {
-      setTopStoriesData(dataPromise);
+      isMounted && setTopStoriesData(dataPromise);
     });
+    return () => {
+      isMounted = false;
+    };
   }, [section]);
 
   const handleModalClose = () => {
@@ -20,7 +26,12 @@ export default function Articles({ section }) {
 
   return (
     <div className="article-wrapper">
-      <ModalSelectionLogin modalFacets={modalFacets} closeModal={handleModalClose} />
+      {showModal && (
+        <ModalSelectionLogin
+          modalFacets={modalFacets}
+          closeModal={handleModalClose}
+        />
+      )}
       <ul>
         {topStoriesData.map(
           (
@@ -34,7 +45,9 @@ export default function Articles({ section }) {
               org_facet,
               per_facet,
               geo_facet,
-            },index) => (
+            },
+            index
+          ) => (
             <li key={index}>
               <div
                 onClick={() => {
@@ -49,16 +62,15 @@ export default function Articles({ section }) {
                   className="add-reading-alert"
                   onClick={() => {
                     setShowModal(true) ? showModal !== true : null;
-                    setModalFacets(
-                      { byline: byline ,
-                       des_facet: des_facet ,
-                      org_facet: org_facet ,
-                      per_facet: per_facet ,
+                    setModalFacets({
+                      byline: byline,
+                      des_facet: des_facet,
+                      org_facet: org_facet,
+                      per_facet: per_facet,
                       geo_facet: geo_facet,
-                      title }
-                    );
-                  }}
-                >
+                      title,
+                    });
+                  }}>
                   +
                 </button>
               </div>
@@ -68,4 +80,8 @@ export default function Articles({ section }) {
       </ul>
     </div>
   );
+}
+
+Articles.propTypes = {
+  section: PropTypes.string
 }
