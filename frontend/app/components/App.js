@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import NavBar from "./NavBar";
 import SectionMenu from "./SectionMenu";
 import Login from "./Login";
 import CreateAccount from "./CreateAccount";
 import UserInfo from "./UserInfo";
-import uidContextProvider from "./UidContext";
+import uidContextProvider from "./api/UidContext";
+import FourOhFour from "./FourOhFour";
 
 /* 
 In order for the useLocation hook to work the App component
@@ -15,17 +16,20 @@ NavBar.
 */
 
 export default function App() {
-  const [uidContext, setUidContext] = useState(null);
-  const value = {uidContext, setUidContext}
+  const [uidContext, setUidContext] = useState({ name: null, uid: null, subscriptions:[] });
+  const value = { uidContext, setUidContext };
 
   return (
     <uidContextProvider.Provider value={value}>
       <Router>
         <NavBar />
-        <Route exact path="/" component={SectionMenu} />
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/sign-up" component={CreateAccount} />
-        <Route exact path="/user-info" component={UserInfo} />
+        <Switch>
+          <Route exact path="/" component={SectionMenu} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/sign-up" component={CreateAccount} />
+          <Route exact path="/user-info" component={UserInfo} />
+          <Route component={FourOhFour} />
+        </Switch>
       </Router>
     </uidContextProvider.Provider>
   );
