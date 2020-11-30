@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import firebase from "./api/Auth";
 import uidContextProvider from "./api/UidContext";
 import RecoverPassword from "./login/RecoverPassword"
+import Success from "./login/Success"
 
 
 export default function Login({ message }) {
@@ -85,17 +86,9 @@ export default function Login({ message }) {
     </div>
   );
 
-  const postLogin = (
-    <div className="login-wrapper">
-      <h4 className="welcome-back">Welcome back, {userName}!</h4>
-      <Link to="/">Continue to the Home Page</Link>
-    </div>
-  );
-
-  
   return (
     <React.Fragment>
-      {userName ? postLogin : recoverPassword ? <RecoverPassword loginReturn={handleReturnToLogin} /> : preLogin}
+      {userName ? <Success userName={userName} /> : recoverPassword ? <RecoverPassword loginReturn={handleReturnToLogin} /> : preLogin}
     </React.Fragment>
   );
 }
