@@ -1,54 +1,82 @@
-// TODO: Add read for previously selected searches, if they are selected precheck the box.
+/**
+ * This is a modal dialog whose props are recived from Article.js
+ * @param {props<object>} modalFacets - which are the relatable search terms,
+ * @param {props<function>} closeModal - which is callback to close the modal - close function is in Article.js
+ * @return {jsx} Modal - with article topics (artifacts)
+ */
 
-/*  This is a modal dialog whose props are recived from Article.js
-    The props are: modalFacets, which are the relatable search terms,
-    closeModal, which is callback to close the modal - close function is in Article.js
-    and authInfo which will either be null or will have user info. */
-
-import React, { useState, useEffect, useContext } from "react";
-import PropTypes from 'prop-types'
+import React, { useContext, useEffect, useState, useRef } from "react";
+import PropTypes from "prop-types";
 import Login from "./Login";
 import uidContextProvider from "./api/UidContext";
-import {AddToUser} from "./api/DatabaseActions"
+import { AddToUser } from "./api/DatabaseActions";
 
 export default function ModalSelectionLogin(props) {
-  let flattenedFacets = [];
-  const { uidContext } = useContext(uidContextProvider);
+  const { uidContext, setUidContext } = useContext(uidContextProvider);
+  const [flattenedFacets, setFlattenedFacets] = useState([]);
   const [facetsClicked, setFacetsClicked] = useState([]);
-  const [checkboxDisabled, setCheckboxDisabled] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const uid = useRef(null);
+  const submittedResponse = useRef(null);
 
   useEffect(() => {
-    // disable button when no boxes are checked.
-    console.log(uidContext)
-    document.getElementById("submit-button").disabled = facetsClicked.length === 0 || !uidContext.uid ? true : false;
-    setCheckboxDisabled(!uidContext.uid ? true : false);
-  }, [facetsClicked, uidContext]);
+    setFacetsClicked(uidContext.subscriptions);
+  }, [uidContext.subscriptions]);
 
-  const handleCloseModal = () => {
-    props.closeModal();
+  useEffect(() => {
+    if (uidContext.uid !== null && uid.current === null) {
+      uid.current = uidContext.uid;
+    } else if (uidContext.uid === null && uid.current !== null) {
+      clearCheckBoxes();
+      handleCloseModal();
+    }
+  }, [uidContext.uid]);
+
+  useEffect(() => {
+    facetsClicked && checkCheckboxes();
+  }, [facetsClicked]);
+
+  useEffect(() => {
+    // This statement takes all facets and converts them to objects (Byline has 'Article by' added)
+    if (Object.entries(props.modalFacets).length !== 0) {
+      const bylineRegex = /By.|,.+|"and".+/g;
+      const { byline, des_facet, org_facet, per_facet, geo_facet } = props.modalFacets;
+      const rawFacets = [des_facet, org_facet, per_facet, geo_facet];
+      const filteredByline = byline.split(bylineRegex).filter((element) => {
+        return element != "" && element != "By";
+      });
+      // * If there's more than one author...
+      let appendedByline = filteredByline.map((author) => {
+        return { searchFacet: author, displayFacet: `Articles by ${author}` };
+      });
+      const facets = rawFacets.map((facetArray) => {
+        return facetArray.map((facet) => {
+          return { searchFacet: facet, displayFacet: facet };
+        });
+      });
+      setFlattenedFacets(appendedByline.concat(...facets));
+    }
+  }, []);
+
+  const checkCheckboxes = () => {
+    const checkBoxes = document.querySelectorAll(".modal-checkbox");
+    checkBoxes.forEach((element) => {
+      if (facetsClicked.includes(element.value)) {
+        element.checked = true;
+      }
+    });
   };
 
-  if (Object.entries(props.modalFacets).length !== 0) {
-    // This statement takes all facets and converts them to objects (Byline has 'Article by' added)
-    const bylineRegex = /By.|,.+|"and".+/g;
-    const { byline, des_facet, org_facet, per_facet, geo_facet } = props.modalFacets;
-    const rawFacets = [des_facet, org_facet, per_facet, geo_facet];
-    const filteredByline = byline.split(bylineRegex).filter((element) => {
-      return element != "" && element != "By";
+  const clearCheckBoxes = () => {
+    setFacetsClicked([]);
+    const checkBoxes = document.querySelectorAll(".modal-checkbox");
+    checkBoxes.forEach((element) => {
+      element.checked = false;
     });
-    let appendedByline = filteredByline.map((author) => {
-      return { searchFacet: author, displayFacet: `Articles by ${author}` };
-    });
-    const facets = rawFacets.map((facetArray) => {
-      return facetArray.map((facet) => {
-        return { searchFacet: facet, displayFacet: facet };
-      });
-    });
-    flattenedFacets = appendedByline.concat(...facets);
-  }
+  };
 
   const handleUpdateCheckbox = (e) => {
-    // If the clicked element is in array, we remove it, else we add it.
+    // If the clicked element is in array, we remove it, else we add it
     if (facetsClicked.includes(e.target.value)) {
       const index = facetsClicked.indexOf(e.target.value);
       let newArray = facetsClicked.slice();
@@ -60,45 +88,74 @@ export default function ModalSelectionLogin(props) {
   };
 
   const handleSubmit = () => {
-    AddToUser(uidContext.uid,facetsClicked)
-    console.log(uidContext.uid);
+    /**
+     * On submit we pass all facets to Context.
+     * It's not the best b/c we're passing the whole subscription
+     * rather than just appending or removing elements from an array
+     */
+    setUidContext({ ...uidContext, subscriptions: facetsClicked });
+    AddToUser(uidContext.uid, facetsClicked)
+      .then(setSubmitted(true))
+      .catch((err) => {
+        submittedResponse.current = err
+        setSubmitted(true);
+      });
   };
 
+  const handleCloseModal = () => {
+    props.closeModal();
+  };
+
+  const postSubmit = (
+    <div>
+      <p>{submittedResponse ? `Your subcriptions have been updated`:`${submittedResponse}`}</p>
+      <button onClick={handleCloseModal}>Close</button>
+    </div>
+  );
+
   return (
-    <div className="modal-wrapper">
-      {!uidContext.uid && <Login message={"You must be logged in to subscribe to topics."} />}
-      <button onClick={handleCloseModal}>close</button>
-      <h4>Subsribe to articles relating to:</h4>
-      <h3>{props.modalFacets.title}</h3>
-      <ul>
-        {flattenedFacets.map(({ searchFacet, displayFacet }, index) => (
-          <li key={index}>
-            <input
-              type="checkbox"
-              className="modal-checkbox"
-              name={searchFacet}
-              value={searchFacet}
-              disabled={checkboxDisabled}
-              onChange={(e) => handleUpdateCheckbox(e)}></input>
-            <label htmlFor={searchFacet} className="modal-check-text">
-              {displayFacet}
-            </label>
-          </li>
-        ))}
-      </ul>
-      <button
-        type="submit"
-        id="submit-button"
-        onClick={() => {
-          handleSubmit();
-        }}>
-        Submit
-      </button>
+    <div>
+      <div className="modal-wrapper">
+        <button onClick={handleCloseModal}>close</button>
+        {!uidContext.uid && <Login message={"You must be logged in to subscribe to topics."} />}
+        <h4>Subsribe to articles relating to:</h4>
+        <h3>{props.modalFacets.title}</h3>
+        {!submitted ? (
+          <>
+            <ul className="checkbox-list">
+              {flattenedFacets.map(({ searchFacet, displayFacet }) => (
+                <li key={searchFacet}>
+                  <input
+                    type="checkbox"
+                    className="modal-checkbox"
+                    name={searchFacet}
+                    value={searchFacet}
+                    disabled={!uidContext.uid}
+                    onChange={(e) => handleUpdateCheckbox(e)}></input>
+                  <label htmlFor={searchFacet} className="modal-check-text">
+                    {displayFacet}
+                  </label>
+                </li>
+              ))}
+            </ul>
+            <button
+              type="submit"
+              id="submit-button"
+              onClick={() => {
+                handleSubmit();
+              }}>
+              Submit
+            </button>
+          </>
+        ) : (
+          postSubmit
+        )}
+      </div>
     </div>
   );
 }
 
 ModalSelectionLogin.propTypes = {
   closeModal: PropTypes.func,
-  modalFacets: PropTypes.object
-}
+  modalFacets: PropTypes.object,
+};
