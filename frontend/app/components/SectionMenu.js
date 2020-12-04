@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import Articles from "./Articles";
+import { Link, useParams } from "react-router-dom";
 
 export default function SectionMenu() {
-  const [section, setSection] = useState("home");
+  let { section } = useParams();
 
   const sections = [
     { linkName: "arts", displayName: "Arts" },
@@ -12,7 +13,7 @@ export default function SectionMenu() {
     { linkName: "fashion", displayName: "Fashion" },
     { linkName: "food", displayName: "Food" },
     { linkName: "health", displayName: "Health" },
-    { linkName: "home", displayName: "Home" },
+    { linkName: "home", displayName: "Front Page" },
     { linkName: "insider", displayName: "Times Insider" },
     { linkName: "magazine", displayName: "Magazine" },
     { linkName: "movies", displayName: "Movies" },
@@ -37,17 +38,12 @@ export default function SectionMenu() {
     <div className="menu-wrapper">
       <ul>
         {sections.map(({ linkName, displayName }, index) => (
-          <li
-            key={index}
-            onClick={() => {
-              setSection(linkName);
-            }}
-            style={{ cursor: "pointer" }}>
-            {displayName}
+          <li key={index}>
+            <Link to={`/${linkName}`}>{displayName}</Link>
           </li>
         ))}
       </ul>
-      <Articles section={section}/>
+      <Articles section={section} />
     </div>
   );
 }
