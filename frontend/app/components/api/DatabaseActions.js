@@ -1,14 +1,12 @@
-/* 
-InitUser: Creates a space on the database tied to the User Id (uid)
-This method takes in a uid and returns a Promise.
-
-AddToUser: ****** need to change to array methods
-*/
-
 import firebase from "./Auth";
 const db = firebase.firestore();
 const userCollection = db.collection("users");
 
+/**
+ * InitUser: Creates a space on the database tied to the User Id (uid)
+ * @param {string} uid
+ * @returns {promise}
+ */
 export function InitUser(uid) {
   return new Promise((resolve, reject) => {
     userCollection.doc(uid).set({
@@ -24,28 +22,43 @@ export function InitUser(uid) {
   });
 }
 
+/**
+ * Adds, and removes subscription topics.
+ * @param {string} uid
+ * @param {Array<string>} selection
+ * @returns {promise} 
+ */
 export function AddToUser(uid, selection) {
-  userCollection.doc(uid).set({ selections: selection })
-    .then(() => {
-      console.log(`${selection} added with ID:`);
-    })
-    .catch((error) => {
-      console.error(`Error adding ${selection} to ${uid}: ${error}`);
-    });
+  return new Promise((resolve, reject) => {
+    userCollection.doc(uid).update({
+       selections: selection
+      })
+      .then(() => {
+        resolve();
+      })
+      .catch((error) => {
+        reject(`Error adding ${selection}: ${error}`);
+      });
+  });
 }
 
+/**
+ * Gets current subscription as an array
+ * @param {string} uid
+ * @returns {promise<Array>}
+ */
 export function GetCurrentSubscriptions(uid) {
   return new Promise((resolve, reject) => {
     userCollection.doc(uid).get()
       .then((doc) => {
         if (doc.exists) {
-          resolve(doc.data().selections)
+          resolve(doc.data().selections);
         } else {
-          reject("doc doesn't exist")
+          reject("doc doesn't exist");
         }
       })
       .catch((error) => {
-        reject(`Error getting current subscriptions. Code:${error}`)
-      })
+        reject(`Error getting current subscriptions. Code:${error}`);
+      });
   });
 }
