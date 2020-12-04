@@ -3,30 +3,50 @@ import firebase from "./api/Auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link, useLocation } from "react-router-dom";
 import uidContextProvider from "./api/UidContext";
+import { GetCurrentSubscriptions } from "./api/DatabaseActions";
 
 export default function NavBar() {
   const [uid, setUid] = useState(null);
   const [username, setUsername] = useState(null);
+  const [subscriptions, setSubscriptions] = useState(null);
   const [user] = useAuthState(firebase.auth());
   const auth = firebase.auth();
+  const { uidContext, setUidContext } = useContext(uidContextProvider);
   let path = useLocation().pathname;
-  const { setUidContext } = useContext(uidContextProvider);
- 
+
+  // This split of the useEffect is to handle sign-outs from places that
+  // recive user info from Context
   useEffect(() => {
     if (user) {
-      setUid(user.uid);
-      setUsername(user.displayName);
-      setUidContext(user.uid)
+      setUidContext({ name: user.displayName, uid: user.uid, subscriptions: subscriptions });
     }
-  }, [user]);
+  }, [user, subscriptions]);
+
+  useEffect(() => {
+    if (uidContext.uid) {
+      setUid(uidContext.uid);
+      setUsername(uidContext.name);
+
+      // I'm not sure this is the best approach to getting the db contents into the system. There must be a more elegant way!
+      if (subscriptions === null) {
+        GetCurrentSubscriptions(user.uid)
+          .then((response) => {
+            setSubscriptions(response);
+          })
+          .catch((err) => {
+            console.error(`Error with fetching subscriptions. Error: ${err} in NavBar`);
+          });
+      }
+    }
+  }, [uidContext.uid]);
 
   const signOut = () => {
     auth
       .signOut()
       .then(() => {
         setUid(null);
-        setUidContext(null)
-        console.log("Signed out");
+        setUsername(null);
+        setUidContext({ name: null, uid: null, subscriptions: [] });
         // unmount modal - flush context
       })
       .catch((err) => {
