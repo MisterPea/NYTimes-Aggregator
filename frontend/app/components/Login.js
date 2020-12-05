@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext} from "react";
 import PropTypes from 'prop-types'
 import { Link } from "react-router-dom";
 import firebase from "./api/Auth";
 import uidContextProvider from "./api/UidContext";
 import RecoverPassword from "./login/RecoverPassword"
 import Success from "./login/Success"
-
 
 export default function Login({ message }) {
   const [email, setEmail] = useState("");
@@ -15,7 +14,7 @@ export default function Login({ message }) {
   const [recoverPassword, setRecoverPassword] = useState(false);
   const { uidContext } = useContext(uidContextProvider);
   const auth = firebase.auth();
-
+  
   useEffect(() => {
     !userName && setUserName(uidContext.name);
     loginError && setLoginError(null);
