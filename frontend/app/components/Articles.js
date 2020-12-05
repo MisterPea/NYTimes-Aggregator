@@ -11,9 +11,13 @@ export default function Articles({ section }) {
   useEffect(() => {
     // The isMounted flag is to prevent update on an unmounted component. 
     let isMounted = true;
-    grabTopStories(section).then((dataPromise) => {
-      isMounted && setTopStoriesData(dataPromise);
-    });
+    grabTopStories(section)
+      .then((dataPromise) => {
+        isMounted && setTopStoriesData(dataPromise);
+      })
+      .catch(err => {
+        console.error(`There's been an error fetching NY Times's Top Stories: ${err}`)
+      })
     return () => {
       isMounted = false;
     };
