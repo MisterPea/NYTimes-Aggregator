@@ -26,7 +26,7 @@ export function InitUser(uid) {
  * Adds, and removes subscription topics.
  * @param {string} uid
  * @param {Array<string>} selection
- * @returns {promise} 
+ * @return {promise} 
  */
 export function AddToUser(uid, selection) {
   return new Promise((resolve, reject) => {
@@ -43,9 +43,9 @@ export function AddToUser(uid, selection) {
 }
 
 /**
- * Gets current subscription as an array
+ * Retrieves current subscription from Firestore. 
  * @param {string} uid
- * @returns {promise<Array>}
+ * @return {Promise}
  */
 export function GetCurrentSubscriptions(uid) {
   return new Promise((resolve, reject) => {
