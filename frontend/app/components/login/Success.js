@@ -3,7 +3,6 @@ import { Link, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 
 export default function Success({ userName }) {
-    console.log(location)
     const [counter, setCounter] = useState(5)
 
     useEffect(() => {
@@ -12,7 +11,6 @@ export default function Success({ userName }) {
         }, 1000); 
         return () => clearInterval(interval);
       }, []);
-
       
   return (
     <div className="login-wrapper">
