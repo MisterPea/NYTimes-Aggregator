@@ -3,7 +3,7 @@ React project implementing the New York Times web API
 ### Features - To do:
 - [ ] Authorization
   * [x] Firebase login for users to save articles and subscribe to topics
-  * [ ] Lost password/change password
+  * [x] Lost password/change password
   * [ ] Email account confirmation
 - [ ] Frontend designs:
   * [x] Articles browse page
