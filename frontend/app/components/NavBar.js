@@ -7,39 +7,49 @@ import { GetCurrentSubscriptions } from "./api/DatabaseActions";
 
 export default function NavBar() {
   const [uid, setUid] = useState(null);
-  const [username, setUsername] = useState(null);
+  const [username, setUsername] = useState("");
   const [subscriptions, setSubscriptions] = useState(null);
   const [user] = useAuthState(firebase.auth());
   const auth = firebase.auth();
-  const { uidContext, setUidContext } = useContext(uidContextProvider);
-  let path = useLocation().pathname;
+  const { setUidContext } = useContext(uidContextProvider);
+  let { pathname } = useLocation()
 
-  // This split of the useEffect is to handle sign-outs from places that
-  // recive user info from Context
+  /**
+   * This useEffect chain is pulling the info from auth and Firestore.
+   * Before the query/writes were cascaded Context was being set in stages
+   * which led to a bug (memory leak?) with the subscriptions. Essentally, 
+   * the context wasn't being update unless there was an additional render.
+   * This was solved by just setting all context elements at the same time.
+   * I'm still not totally sure why it wasn't updating...I think the update
+   * was sitting in an un executed setState because the state was being updated
+   * via useEffect. 
+   */
+
   useEffect(() => {
-    if (user) {
-      setUidContext({ name: user.displayName, uid: user.uid, subscriptions: subscriptions });
+    if(user){
+      setUid(user.uid)
+      setUsername(user.displayName)
     }
-  }, [user, subscriptions]);
+  },[user])
 
   useEffect(() => {
-    if (uidContext.uid) {
-      setUid(uidContext.uid);
-      setUsername(uidContext.name);
-
-      // I'm not sure this is the best approach to getting the db contents into the system. There must be a more elegant way!
-      if (subscriptions === null) {
-        GetCurrentSubscriptions(user.uid)
-          .then((response) => {
-            setSubscriptions(response);
-          })
-          .catch((err) => {
-            console.error(`Error with fetching subscriptions. Error: ${err} in NavBar`);
-          });
-      }
+    if(uid){
+      GetCurrentSubscriptions(uid)
+        .then((result) => {
+          setSubscriptions(result)
+        })
+        .catch((err) => {
+          console.error(`Error with fetching subscriptions. Error: ${err} in NavBar`);
+        });
     }
-  }, [uidContext.uid]);
+  },[uid])
 
+  useEffect(() => {
+    if(subscriptions){
+      setUidContext({ name:username, uid:uid, subscriptions: subscriptions })
+    }
+  },[subscriptions])
+  
   const signOut = () => {
     auth
       .signOut()
@@ -58,9 +68,9 @@ export default function NavBar() {
     <div className="navbar-wrapper">
       <div className="site-title">NYT Aggregator</div>
       <div className="navigation">
-        {path !== "/" && <Link to="/">Home</Link>}
-        {path !== "/login" && path !== "/sign-up" && !uid && <Link to="/login">Login</Link>}
-        {path !== "/user-info" && uid && <Link to="/user-info">{username}</Link>}
+        {pathname !== "/home" && <Link to="/">Home</Link>}
+        {pathname !== "/login" && pathname !== "/sign-up" && !uid && <Link to="/login">Login</Link>}
+        {pathname !== "/user-info" && uid && <Link to="/user-info">{username}</Link>}
         {uid && <button onClick={signOut}>Logout</button>}
       </div>
     </div>
