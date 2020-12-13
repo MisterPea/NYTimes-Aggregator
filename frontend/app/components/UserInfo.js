@@ -1,14 +1,24 @@
-import React, { useContext, useEffect } from "react";
-import {Redirect} from "react-router-dom"
-import uidContextProvider from "./api/UidContext";
+import React, { useState } from "react";
+import AccountInfo from "./userInfo/AccountInfo"
+import SubscriptionInfo from "./userInfo/SubscriptionInfo"
 
 export default function UserInfo() {
-    const {uidContext} = useContext(uidContextProvider)
-
+  const [currentPanel, setCurrentPanel] = useState("sub")
+  
+  const handleClick = (btn) => {
+    setCurrentPanel(btn)
+  }
+  
   return (
     <div>
-      {!uidContext && <Redirect to="/" />}
-      USER INFO for {uidContext}
+        <menu>
+            <button onClick={() => {handleClick('sub')}}>Subscription Info</button>
+            <button onClick={() => {handleClick('info')}}>Account Info</button>
+        </menu>
+        <div>
+        {/* <AccountInfo /> */}
+          {currentPanel === "info" ? <AccountInfo /> : <SubscriptionInfo />}
+        </div>
     </div>
   );
 }
