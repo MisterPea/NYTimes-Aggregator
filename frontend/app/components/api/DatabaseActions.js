@@ -52,7 +52,7 @@ export function GetCurrentSubscriptions(uid) {
     userCollection.doc(uid).get()
       .then((doc) => {
         if (doc.exists) {
-          resolve(doc.data().selections);
+          resolve(doc.data().selections.sort());
         } else {
           reject("doc doesn't exist");
         }
