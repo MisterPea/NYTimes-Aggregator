@@ -25,7 +25,7 @@ export default function ChangeUsername({user,refrence}){
 
     const changeUsernamePre = (
         <>
-            <input value={newUsername} onChange={(e) => {handleChange(e)}} placeholder="Enter new username" />
+            <input type="text" value={newUsername} onChange={(e) => {handleChange(e)}} placeholder="Enter new username" />
             <button onClick={() => {handleClick()}}>Submit</button>
         </>
     )
