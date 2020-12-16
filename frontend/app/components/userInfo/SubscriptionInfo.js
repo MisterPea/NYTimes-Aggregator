@@ -1,12 +1,14 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import uidContextProvider from "../api/UidContext";
 import { AddToUser } from "../api/DatabaseActions";
+import { GetActiveStatus, SetActiveStatus } from "../api/DatabaseActions";
 
 export default function AccountInfo() {
   const { uidContext, setUidContext } = useContext(uidContextProvider);
   const [facetsClicked, setFacetsClicked] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const [submittedButtonActive, setSubmittedButtonActive] = useState(false);
+  const [subscriptionActive, setSubscriptionActive] = useState(null);
   const submittedResponse = useRef(null);
   const firstRun = useRef(true);
   const subscriptionLength = useRef(0);
@@ -14,6 +16,19 @@ export default function AccountInfo() {
   useEffect(() => {
     if (uidContext.subscriptions) {
       setFacetsClicked(uidContext.subscriptions);
+    }
+
+    // Sets initial subscription status.
+    if (uidContext.uid) {
+      if (subscriptionActive === null) {
+        GetActiveStatus(uidContext.uid)
+          .then((res) => {
+            setSubscriptionActive(res);
+          })
+          .catch((err) => {
+            console.error(`Error retreiving subscription status: ${err.code}`);
+          });
+      }
     }
   }, [uidContext.uid]);
 
@@ -25,6 +40,11 @@ export default function AccountInfo() {
     }
     submitButtonControlTest();
   }, [facetsClicked]);
+
+  useEffect(() => {
+    subscriptionActive !== null &&
+      (document.getElementById("active-subscription").checked = subscriptionActive);
+  }, [subscriptionActive]);
 
   // Helper function to check checkboxes on inital load
   // We do this b/c checked={true} is unchangable.
@@ -59,12 +79,12 @@ export default function AccountInfo() {
     }
   };
 
+  /**
+   * On submit we pass all facets to Context.
+   * It's not the best b/c we're passing the whole subscription
+   * rather than just appending or removing elements from an array
+   */
   const handleSubmit = () => {
-    /**
-     * On submit we pass all facets to Context.
-     * It's not the best b/c we're passing the whole subscription
-     * rather than just appending or removing elements from an array
-     */
     setUidContext({ ...uidContext, subscriptions: facetsClicked });
     AddToUser(uidContext.uid, facetsClicked)
       .then(setSubmitted(true))
@@ -72,6 +92,12 @@ export default function AccountInfo() {
         submittedResponse.current = err;
         setSubmitted(true);
       });
+  };
+
+  // Pause you email subscription. 
+  const handlePauseSubscription = (e) => {
+    SetActiveStatus(uidContext.uid, e.target.checked);
+    setSubscriptionActive(e.target.checked);
   };
 
   const postSubmit = (
@@ -92,6 +118,21 @@ export default function AccountInfo() {
             ? postSubmit
             : uidContext.subscriptions !== [] && (
                 <>
+                  <div>
+                    <label>Pause Subscriptions</label>
+                    <input
+                      type="checkbox"
+                      id="active-subscription"
+                      onChange={(e) => {
+                        handlePauseSubscription(e);
+                      }}
+                    />
+                    {subscriptionActive ? (
+                      <p>Your subscription is active.</p>
+                    ) : (
+                      <p>Your subscription is paused.</p>
+                    )}
+                  </div>
                   <p>Your current subscriptions are:</p>
                   <p>Uncheck to unsubscribe.</p>
                   <ul>
