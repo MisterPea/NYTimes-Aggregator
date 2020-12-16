@@ -62,3 +62,45 @@ export function GetCurrentSubscriptions(uid) {
       });
   });
 }
+
+/**
+ * Retrieves current active status from Firestore.
+ * Active status is refereing to whether a subscritption is paused. 
+ * @param {string} uid
+ * @return {Promise}
+ */
+export function GetActiveStatus(uid) {
+  return new Promise((resolve, reject) => {
+    userCollection.doc(uid).get()
+      .then((doc) => {
+        if (doc.exists) {
+          resolve(doc.data().active);
+        } else {
+          reject("doc doesn't exist");
+        }
+      })
+      .catch((error) => {
+        reject(`Error getting current active status. Code:${error}`);
+      });
+  })
+}
+
+/**
+ * Sets Active status - Whether subscription is paused or not.
+ * @param {string} uid
+ * @param {boolean} activeOrPaused
+ * @returns {Promise}
+  */
+export function SetActiveStatus(uid, activeOrPaused){
+  return new Promise((resolve, reject) => {
+    userCollection.doc(uid).update({
+       active: activeOrPaused
+      })
+      .then(() => {
+        resolve();
+      })
+      .catch((error) => {
+        reject(`Error updating active status: ${error}`);
+      });
+  }); 
+}
