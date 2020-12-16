@@ -11,7 +11,7 @@ React project implementing the New York Times web API
   * [x] Modals - For selecting subscriptions and login
   * [ ] Styling - possible Materials-UI
   * [ ] Branding for NY Times API usage
-  * [ ] _User Info_ page with current subscriptions, ability to pause change notifications, change username/password/email 
+  * [x] _User Info_ page with current subscriptions, ability to pause change notifications, change username/password/email 
 - [ ] Backend
   * [ ] Scheduling calls to retreive latests stories
   * [x] Add/delete subscriptions
