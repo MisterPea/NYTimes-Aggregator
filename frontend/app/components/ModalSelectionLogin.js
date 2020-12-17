@@ -1,5 +1,5 @@
 /**
- * This is a modal dialog whose props are recived from Article.js
+ * This is a dialog whose props are recived from Article.js
  * @param {props<object>} modalFacets - which are the relatable search terms,
  * @param {props<function>} closeModal - which is callback to close the modal - close function is in Article.js
  * @return {jsx} Modal - with article topics (artifacts)
@@ -23,7 +23,6 @@ export default function ModalSelectionLogin(props) {
   const runOnce = useRef(false);
   const initialFacetsClicked = useRef([]);
 
-  //////TODO: Seperate authors...
   useEffect(() => {
     setFacetsClicked(uidContext.subscriptions);
     subscriptionLength.current = uidContext.subscriptions.length;
@@ -56,7 +55,6 @@ export default function ModalSelectionLogin(props) {
       const filteredByline = byline.split(bylineRegex).filter((element) => {
         return element != "" && element != "By";
       });
-      console.log(filteredByline)
       // * If there's more than one author...
       let appendedByline = filteredByline.map((author) => {
         return { searchFacet: author, displayFacet: `Articles by ${author}` };
