@@ -15,7 +15,7 @@ React project implementing the New York Times web API
 - [ ] Backend
   * [ ] Scheduling calls to retreive latests stories
   * [x] Add/delete subscriptions
-  * [ ] Add/delete/pause subscriptions through user panel
+  * [x] Add/delete/pause subscriptions through user panel
 
 
 * Rate Limit: 4,000 requests per day and 10 requests per minute. You should sleep 6 seconds between calls to avoid hitting the per minute rate limit.
