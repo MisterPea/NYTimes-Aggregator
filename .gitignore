@@ -1,6 +1,7 @@
 .DS_STORE
 README.md
 settings.json
+Auth.js
 .env
 
 # Dependency directories
