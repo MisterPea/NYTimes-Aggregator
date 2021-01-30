@@ -2,7 +2,10 @@
 README.md
 settings.json
 Auth.js
-.env
 
 # Dependency directories
 node_modules/
+
+# Auth info
+nyt-aggregator-b84bb62aec66.json
+.env
