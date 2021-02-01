@@ -15,11 +15,11 @@ const currentDate = () => {
 /**
  * Method that returns up to 10 articles with text and links
  * @param {String} searchTerm Term which derived from facet keywords
- * @return {Array<Objects>} The articles array returns an array composed of:
- * - headline Headline
- * - web_url URL of the article
- * - abstract Article summary
- * - thumbnail URL of the thumbnail image
+ * @return {Array<object>} The articles array is composed of object(s):
+ * - headline: Headline
+ * - web_url: URL of the article
+ * - abstract: Article summary
+ * - thumbnail: URL of the thumbnail image
  */
 function getSelectionArticles(searchTerm) {
   const articles = [];
