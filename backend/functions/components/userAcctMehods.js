@@ -1,3 +1,4 @@
+/* eslint-disable require-jsdoc */
 const admin = require("firebase-admin");
 
 admin.initializeApp();
@@ -16,7 +17,6 @@ const usersCollection = db.collection("users");
  */
 async function getUserInfo(callback) {
   const userPromiseArray = [];
-
   try {
     const users = await usersCollection.get();
     users.forEach((user) => {
@@ -33,29 +33,31 @@ async function getUserInfo(callback) {
   }
 
   const result = [];
-  for (let i = 0; i < userPromiseArray.length; i++) {
-    const userPromise = userPromiseArray[i];
+  userPromiseArray.map((userPromise) => {
     Promise.all(userPromise)
-        .then((userData) => {
+        .then((userData)=> {
           result.push({
             active: userData[0],
             selections: userData[1],
             email: userData[2],
           });
-          if (i === userPromiseArray.length - 1) {
+        })
+        .then(() => {
+          if (result.length === userPromiseArray.length) {
             callback(result);
           }
         })
         .catch((err) => {
           console.error(err);
         });
-  }
+  });
 }
 
+
 /**
- * Method to get all unique selections.
+ * Method to get all unique selections - only if active is true.
  * @param {Array.<Object>} userInfo Array of Objects derived from getUserInfo()
- * @return {Set} Returns a set of unique selections
+ * @return {Promise<array>} Returns an array of unique selections
  */
 function getUniqueSelections(userInfo) {
   const selectionsSet = new Set();
@@ -63,6 +65,6 @@ function getUniqueSelections(userInfo) {
     const {selections} = user;
     selections.forEach(selectionsSet.add, selectionsSet);
   }
-  return selectionsSet;
+  return Promise.resolve(Array.from(selectionsSet));
 }
 module.exports = {getUserInfo, getUniqueSelections};
