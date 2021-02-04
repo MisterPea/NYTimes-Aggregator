@@ -16,6 +16,8 @@ React project implementing the New York Times web API
   * [ ] Scheduling calls to retreive latests stories
   * [x] Add/delete subscriptions
   * [x] Add/delete/pause subscriptions through user panel
-
+  * [x] Rate limit prevention
+  * [x] Twilio SendGrid setup
+  * [ ] Firebase functions setup
 
 * Rate Limit: 4,000 requests per day and 10 requests per minute. You should sleep 6 seconds between calls to avoid hitting the per minute rate limit.
