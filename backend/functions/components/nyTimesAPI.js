@@ -1,4 +1,3 @@
-require("dotenv").config(); // Shouldn't need this during implementation.
 const axios = require("axios");
 const apiKey = process.env.NYT_API_KEY;
 const uri = (q, key) =>
