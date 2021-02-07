@@ -1,5 +1,4 @@
 const admin = require("firebase-admin");
-// const {user} = require("firebase-functions/lib/providers/auth");
 
 admin.initializeApp();
 const db = admin.firestore();
@@ -77,7 +76,6 @@ function getUniqueSelections(userInfo) {
  * @return {Promise<object>} Promise for user info and subscriptions
  */
 function packageEmailAndArticles(articles, users) {
-  // const usersWithArticles = [];
   const articleSearch = (term) => {
     return articles.find((article) => article.searchTerm === term) || null;
   };
@@ -86,7 +84,8 @@ function packageEmailAndArticles(articles, users) {
     const userArticles = user.selections.map((select) => {
       return articleSearch(select);
     });
-    user.searchArticles = userArticles.flatMap((entry) => (entry != null ? entry : []));
+    user.searchArticles = userArticles.flatMap((entry) => (
+      entry != null ? entry : []));
   }
   return Promise.resolve(users);
 }
