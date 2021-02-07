@@ -2,7 +2,7 @@ require("dotenv").config(); // Shouldn't need this during implementation.
 const axios = require("axios");
 const apiKey = process.env.NYT_API_KEY;
 const uri = (q, key) =>
-  `https://api.nytimes.com/svc/search/v2/articlesearch.json?q=${q}&sort=relevancet&${currentDate()}&api-key=${key}`;
+  `https://api.nytimes.com/svc/search/v2/articlesearch.json?q=${q}&sort=relevance&${currentDate()}&api-key=${key}`;
 
 const currentDate = () => {
   const dateObject = new Date();
@@ -15,40 +15,44 @@ const currentDate = () => {
 /**
  * Method that returns up to 10 articles with text and links
  * @param {String} searchTerm Term which derived from facet keywords
- * @return {Array<object>} The articles array is composed of object(s):
+ * @param {function} callback callback function recieves array of object(s):
  * - headline: Headline
  * - web_url: URL of the article
  * - abstract: Article summary
  * - thumbnail: URL of the thumbnail image
  */
-function getSelectionArticles(searchTerm) {
-  const articles = [];
+function getSelectionFromAPI(searchTerm, callback) {
+  const articles = {searchTerm: searchTerm, articles: []};
   axios({
     method: "get",
-    url: uri(searchTerm, apiKey),
+    url: encodeURI(uri(searchTerm, apiKey)),
     headers: {
       Accept: "application/json",
     },
   })
-      .then((result) => result.data.response)
+      .then((result) => result.data.response.docs)
       .then((result) => {
-        if (result.docs.length > 0) {
-          for (const doc of result.docs) {
+        if (result.length > 0) {
+          for (let i=0; i < result.length; i++) {
             const tempArticle = {};
-            tempArticle.headline = doc.headline.main;
-            tempArticle.web_url = doc.web_url;
-            tempArticle.abstract = doc.abstract;
-            for (const images of doc.multimedia) {
+            tempArticle.headline = result[i].headline.main;
+            tempArticle.web_url = result[i].web_url;
+            tempArticle.abstract = result[i].abstract;
+            for (const images of result[i].multimedia) {
               if (images.subtype === "thumbnail" && images.height === 75) {
                 tempArticle.thumbnail = `https://www.nytimes.com/${images.url}`;
               }
             }
-            articles.searchObject.push(tempArticle);
+            articles.articles.push(tempArticle);
+            if (result.length - 1 === i) {
+              callback(articles);
+            }
           }
         }
       })
-      .catch((err) => console.error(err));
-  return articles;
+      .catch((err) => {
+        console.error(`Error thrown from getSelectionFromAPI: ${err.data}`);
+      });
 }
 
-module.exports = {getSelectionArticles};
+module.exports = {getSelectionFromAPI};
