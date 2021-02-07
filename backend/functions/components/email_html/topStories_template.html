@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html data-editor-version="2" class="sg-campaigns" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <!--[if !mso]><!-->
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <!--<![endif]-->
+    <!--[if (gte mso 9)|(IE)]>
+      <xml>
+        <o:OfficeDocumentSettings>
+          <o:AllowPNG/>
+          <o:PixelsPerInch>96</o:PixelsPerInch>
+        </o:OfficeDocumentSettings>
+      </xml>
+      <![endif]-->
+    <!--[if (gte mso 9)|(IE)]>
+  <style type="text/css">
+    body {width: 600px;margin: 0 auto;}
+    table {border-collapse: collapse;}
+    table, td {mso-table-lspace: 0pt;mso-table-rspace: 0pt;}
+    img {-ms-interpolation-mode: bicubic;}
+  </style>
+<![endif]-->
+    <style type="text/css">
+        @media screen and (max-width:480px) {}
+    </style>
+    <!--user entered Head Start-->
+    <!--End Head user entered-->
+</head>
+
+<body>
+    <center>
+        <header>
+            <h1>Daily Stories</h1>
+            <h3>For {{date}}</h3>
+            <hr />
+        </header>
+    </center>
+    <main class="main-wrapper">
+        <p>Hey, {{name}}</p>
+        <p>Here are your most up-to-date articles</p>
+        <ul>
+            {{#each articleSearch}}
+            <li>Articles related to: {{this.searchTerm}}</li>
+            <ul>
+                {{#each articles}}
+                <li>
+                    <a href={{this.web_url}}>
+                        <img src={{this.thumbnail}} />
+                        <h5>{{this.headline}}</h5>
+                        <p>{{this.abstract}}</p>
+                    </a>
+                </li>
+                {{/each}}
+            </ul>
+            {{/each}}
+        </ul>
+    </main>
+    <footer><a class="Unsubscribe--unsubscribeLink" href="{{{unsubscribe}}}" target="_blank" style="">Unsubscribe</a></footer>
+</body>
+</html>
