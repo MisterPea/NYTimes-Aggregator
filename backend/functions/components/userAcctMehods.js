@@ -103,7 +103,6 @@ function packageEmailAndArticles(articles, users) {
  * @return {Array<object>} Returns an array of arrays of objects
  */
 function removeDuplicateArticles(articleObjects) {
-  articleObjects.forEach((art) => console.log(art.articles))
   const objectLength = articleObjects.length - 1;
   const treeTraverse = (o1, a1, o2, a2) => {
     const nodeOneLength = articleObjects[o1].articles.length - 1;
