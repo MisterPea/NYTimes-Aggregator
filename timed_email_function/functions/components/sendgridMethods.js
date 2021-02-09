@@ -1,4 +1,3 @@
-// require("dotenv").config();
 const sgMail = require("@sendgrid/mail");
 const templateID = process.env.TEMPLATE_ID;
 sgMail.setApiKey(process.env.EMAIL_API);
@@ -54,4 +53,3 @@ function composeEmail(userObject) {
 }
 
 module.exports = {composeEmail};
-
