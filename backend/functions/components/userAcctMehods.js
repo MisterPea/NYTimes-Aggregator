@@ -84,10 +84,63 @@ function packageEmailAndArticles(articles, users) {
     const userArticles = user.selections.map((select) => {
       return articleSearch(select);
     });
-    user.searchArticles = userArticles.flatMap((entry) => (
-      entry != null ? entry : []));
+    const articleObjects = userArticles.flatMap((entry) => (
+      entry != null && entry != undefined ? entry : []));
+
+    if (articleObjects.length > 1) {
+      user.searchArticles = removeDuplicateArticles(articleObjects);
+    } else {
+      user.searchArticles = articleObjects;
+    }
   }
   return Promise.resolve(users);
 }
 
+/**
+ * Greedy, recursive method to remove duplicate objects in a 2D Array.
+ * Duplicate objects are defined as having the same web_url
+ * @param {Array<object>} articleObjects Array of arrays of objects
+ * @return {Array<object>} Returns an array of arrays of objects
+ */
+function removeDuplicateArticles(articleObjects) {
+  articleObjects.forEach((art) => console.log(art.articles))
+  const objectLength = articleObjects.length - 1;
+  const treeTraverse = (o1, a1, o2, a2) => {
+    const nodeOneLength = articleObjects[o1].articles.length - 1;
+    const nodeTwoLength = articleObjects[o2].articles.length - 1;
+
+    const nodeOne = articleObjects[o1].articles[a1].web_url;
+    const nodeTwo = articleObjects[o2].articles[a2].web_url;
+    if (nodeOne === nodeTwo) {
+      articleObjects[o2].articles.splice(a2, 1);
+      // We see if we're rm from top of the stack, if not, decrement.
+      if (a2 != 0) {
+        a2 -= 1;
+      }
+      return treeTraverse(o1, a1, o2, a2);
+    }
+    if (a2 < nodeTwoLength) {
+      a2 += 1;
+      return treeTraverse(o1, a1, o2, a2);
+    } else if (a1 < nodeOneLength) {
+      a1 += 1;
+      a2 = 0;
+      return treeTraverse(o1, a1, o2, a2);
+    } else if (o2 < objectLength) {
+      o2 += 1;
+      a1 = 0;
+      a2 = 0;
+      return treeTraverse(o1, a1, o2, a2);
+    } else if (o1 < objectLength - 1) {
+      o1 += 1;
+      o2 = o1 + 1;
+      a1 = 0;
+      a2 = 0;
+      return treeTraverse(o1, a1, o2, a2);
+    } else {
+      return articleObjects;
+    }
+  };
+  return treeTraverse(0, 0, 1, 0);
+}
 module.exports = {getUserInfo, getUniqueSelections, packageEmailAndArticles};
