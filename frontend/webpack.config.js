@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 // const webpack = require("webpack");
 
 module.exports = {
-  entry: path.resolve(__dirname) + "/app/index.js",
+  entry: path.resolve(__dirname) + "/src/index.js",
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "index.bundle.js",
@@ -33,7 +33,7 @@ module.exports = {
       },
     ],
   },
-  plugins: [new HtmlWebpackPlugin({ template: "./app/index.html" })],
+  plugins: [new HtmlWebpackPlugin({ template: "./src/index.html" })],
   mode: process.env.NODE_ENV == "production" ? "production" : "development",
     devServer: {
       historyApiFallback: true,
