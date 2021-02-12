@@ -1,0 +1,21 @@
+version: '3.7'
+
+services:
+  backend:
+    env_file: 
+      "./backend/.env"
+    build:
+      context: ./backend
+      dockerfile: ./Dockerfile
+    image: "ny-times-aggregator-backend"
+    ports: 
+      - "8090:8090"
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ./Dockerfile
+    image: "ny-times-aggregator-frontend"
+    command: sh -c "npm install && npm start"
+    ports: 
+      - "8080:8080"
+   
