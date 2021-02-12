@@ -2,6 +2,7 @@
 README.md
 settings.json
 Auth.js
+.vscode/
 
 # Dependency directories
 node_modules/
