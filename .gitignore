@@ -3,6 +3,7 @@ README.md
 settings.json
 Auth.js
 .vscode/
+*dist
 
 # Dependency directories
 node_modules/
