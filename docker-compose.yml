@@ -6,16 +6,15 @@ services:
       "./backend/.env"
     build:
       context: ./backend
-      dockerfile: ./Dockerfile
-    image: "ny-times-aggregator-backend"
+      dockerfile: Dockerfile
+    image: "production-nytimes-backend"
     ports: 
       - "8090:8090"
   frontend:
-    build:
+    image: "production-nytimes-frontend"
+    build: 
       context: ./frontend
-      dockerfile: ./Dockerfile
-    image: "ny-times-aggregator-frontend"
-    command: sh -c "npm install && npm start"
+      dockerfile: Dockerfile
     ports: 
       - "8080:8080"
-   
+    
