@@ -6,7 +6,7 @@ COPY package*.json ./
 COPY /routes ./routes/ 
 COPY server.js ./
 
-RUN npm install -f
+RUN npm install
 
 EXPOSE 8090
 
