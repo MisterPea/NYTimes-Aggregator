@@ -4,6 +4,9 @@ settings.json
 Auth.js
 .vscode/
 *dist
+docker-compose-dev.yml
+frontend/docker-compose.yml
+frontend/Dockerfile.dev
 
 # Dependency directories
 node_modules/
