@@ -3,10 +3,10 @@
  * @param {string} section - String representation of the section to be pulled.
  * @return {Promise} Top Stories data.
 */
-export function grabTopStories(section){
+export function grabTopStories(/* section */){
     console.log("called")
-    return fetch(`http://localhost/api/${section}`)
-    // return fetch(`http://localhost/api`)
+    // return fetch(`http://localhost/api/${section}`)
+    return fetch(`http://localhost/api`)
         .then(result => result.json())
         .then(data => {
             if(!data.results){
