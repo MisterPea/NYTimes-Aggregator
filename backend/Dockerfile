@@ -7,7 +7,6 @@ ENV NYT_API_KEY=nDByaIg6JlesybbNCdNId8mQ7ScGOKCD
 COPY package*.json ./
 COPY /routes ./routes/
 COPY server.js ./
-COPY /debug ./debug/
 
 # RUN npm install
 
