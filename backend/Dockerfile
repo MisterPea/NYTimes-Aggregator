@@ -1,13 +1,18 @@
-FROM node:12-alpine
+FROM node:14-alpine
 
 WORKDIR /backend
+  
+ENV NYT_API_KEY=nDByaIg6JlesybbNCdNId8mQ7ScGOKCD
 
 COPY package*.json ./
-COPY /routes ./routes/ 
+COPY /routes ./routes/
 COPY server.js ./
+COPY /debug ./debug/
 
-RUN npm install
+# RUN npm install
 
-EXPOSE 8090
+RUN npm ci --loglevel verbose
+
+EXPOSE 80
 
 CMD ["node", "server.js"]
