@@ -1,20 +1,22 @@
-// const key = 'nDByaIg6JlesybbNCdNId8mQ7ScGOKCD' // This will be moved to the backend - will request new key at that time.
-
 /**
  * Method to pull stories from NY Times TopStories API.
  * @param {string} section - String representation of the section to be pulled.
  * @return {Promise} Top Stories data.
 */
 export function grabTopStories(section){
-    return fetch(`http://localhost:8090/${section}`)
+    console.log("called")
+    return fetch(`http://localhost/api/${section}`)
+    // return fetch(`http://localhost/api`)
         .then(result => result.json())
         .then(data => {
             if(!data.results){
                 throw new Error(data.message)
             }
+            console.log("returned")
             return data.results 
         }) 
-        .catch((err) => console.error(err))
+        .catch((err) => console.error("Failed",err))
+
 }
 
 
