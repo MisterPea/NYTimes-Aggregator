@@ -14,7 +14,7 @@ RUN npm run build
 # server environment
 FROM nginx:alpine
 # COPY nginx.conf /etc/nginx/conf.d/configfile.template
-COPY /frontend/nginx.conf /etc/nginx/conf.d/default.conf
+COPY /nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=frontend_build /frontend/dist /usr/share/nginx/html
 
 EXPOSE 80
