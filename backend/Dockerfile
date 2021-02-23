@@ -10,7 +10,7 @@ COPY server.js ./
 
 # RUN npm install
 
-RUN npm ci --loglevel verbose
+RUN npm ci --loglevel warn
 
 EXPOSE 80
 
