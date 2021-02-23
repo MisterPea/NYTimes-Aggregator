@@ -17,6 +17,9 @@ services:
   
   revproxy:
     build: ./nginx
+    depends_on: 
+      - frontend
+      - backend
     image: "misterpea/aws:reverseproxy"
     networks: 
       - nyt-net
