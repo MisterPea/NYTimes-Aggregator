@@ -5,7 +5,7 @@
 */
 export function grabTopStories(/* section */){
     // return fetch(`http://localhost/api/${section}`)
-    return fetch(`http://localhost/api/`)
+    return fetch(`http://revproxy/api/`)
         .then(result => result.json())
         .then(data => {
             if(!data.results){
