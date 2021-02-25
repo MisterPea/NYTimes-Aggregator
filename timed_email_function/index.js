@@ -68,7 +68,6 @@ function callGetArticleSelections(selectionsArray) {
   }
 }
 
-// TODO: don't send email if subscription is empty.
 /**
  * Method to trigger the sending of emails.
  * @param {Array<object>} users Array of user info objects.
