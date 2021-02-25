@@ -101,6 +101,7 @@ function packageEmailAndArticles(articles, users) {
  * Duplicate objects are defined as having the same web_url
  * @param {Array<object>} articleObjects Array of arrays of objects
  * @return {Array<object>} Returns an array of arrays of objects
+ * Note: There's prolly a better way to remove duplicates. Maybe bfs?
  */
 function removeDuplicateArticles(articleObjects) {
   const objectLength = articleObjects.length - 1;
