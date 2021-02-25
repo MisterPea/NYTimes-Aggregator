@@ -101,7 +101,9 @@ function packageEmailAndArticles(articles, users) {
  * Duplicate objects are defined as having the same web_url
  * @param {Array<object>} articleObjects Array of arrays of objects
  * @return {Array<object>} Returns an array of arrays of objects
- * Note: There's prolly a better way to remove duplicates. Maybe bfs?
+ * - This method works from the end to the beginning (length-1 -> 0), to
+ * avoid index issues when splicing.
+ * - Note: There's prolly a better way to remove duplicates. bfs or bitwise?
  */
 function removeDuplicateArticles(articleObjects) {
   const objectLength = articleObjects.length - 1;
@@ -111,6 +113,7 @@ function removeDuplicateArticles(articleObjects) {
 
     const nodeOne = articleObjects[o1].articles[a1].web_url;
     const nodeTwo = articleObjects[o2].articles[a2].web_url;
+
     if (nodeOne === nodeTwo) {
       articleObjects[o2].articles.splice(a2, 1);
       // We see if we're rm from top of the stack, if not, decrement.
@@ -118,6 +121,10 @@ function removeDuplicateArticles(articleObjects) {
         a2 -= 1;
       }
       return treeTraverse(o1, a1, o2, a2);
+    }
+    // If any objects are empty, return- no comparison needed.
+    if (o1 === 0 || o2 === 0) {
+      return articleObjects;
     }
     if (a2 < nodeTwoLength) {
       a2 += 1;
@@ -143,4 +150,5 @@ function removeDuplicateArticles(articleObjects) {
   };
   return treeTraverse(0, 0, 1, 0);
 }
+
 module.exports = {getUserInfo, getUniqueSelections, packageEmailAndArticles};
