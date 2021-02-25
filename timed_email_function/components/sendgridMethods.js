@@ -38,7 +38,7 @@ function composeEmail(userObject) {
     template_id: templateID,
     dynamic_template_data: {
       date: date,
-      subject: "Daily breifing",
+      subject: `Your personalized briefing for ${date}`,
       name: displayName,
       articleSearch: searchArticles,
     },
