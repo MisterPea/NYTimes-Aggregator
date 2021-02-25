@@ -68,13 +68,20 @@ function callGetArticleSelections(selectionsArray) {
   }
 }
 
+// TODO: don't send email if subscription is empty.
 /**
  * Method to trigger the sending of emails.
  * @param {Array<object>} users Array of user info objects.
+ * Each object is composed of:
+ * - active {boolean} Is the account holder currently subscribed to emails.
+ * - selections {Array<string>} Arrays of user's subscriptions.
+ * - displayName {string} User's display name.
+ * - email {string} User's email.
+ * - searchArticles {Array<object>} Articles based on user's subs.
  */
 function sendEmails(users) {
   for (const user of users) {
-    if (user.active) {
+    if (user.active && user.searchArticles.length != 0) {
       composeEmail(user);
     }
   }
