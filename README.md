@@ -24,6 +24,7 @@ React project implementing the New York Times web API
 #### Stack:
 - React
 - Sass
+- Express
 - Node
 - Docker
 - Nginx
