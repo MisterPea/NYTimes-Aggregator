@@ -10,7 +10,6 @@ export function grabTopStories(section){
             if(!data.results){
                 throw new Error(data.message)
             }
-            console.log("returned")
             return data.results 
         }) 
         .catch((err) => console.error("Failed",err))

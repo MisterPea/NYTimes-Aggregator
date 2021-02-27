@@ -5,6 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 import uidContextProvider from "./api/UidContext";
 import { GetCurrentSubscriptions } from "./api/DatabaseActions";
 
+
 export default function NavBar() {
   const [uid, setUid] = useState(null);
   const [username, setUsername] = useState("");
@@ -66,7 +67,7 @@ export default function NavBar() {
 
   return (
     <div className="navbar-wrapper">
-      <div className="site-title">NYT Aggregator</div>
+      <div className="site-title">the-times.page<span className="sub-title"> subscription/aggregation</span></div>
       <div className="navigation">
         {pathname !== "/home" && <Link to="/">Home</Link>}
         {pathname !== "/login" && pathname !== "/sign-up" && !uid && <Link to="/login">Login</Link>}
