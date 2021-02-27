@@ -12,12 +12,24 @@ React project implementing the New York Times web API
   * [ ] Styling - possible Materials-UI
   * [ ] Branding for NY Times API usage
   * [x] _User Info_ page with current subscriptions, ability to pause change notifications, change username/password/email 
-- [ ] Backend
-  * [ ] Scheduling calls to retreive latests stories
+- [x] Backend
+  * [x] Scheduling calls to retreive latests stories
   * [x] Add/delete subscriptions
   * [x] Add/delete/pause subscriptions through user panel
   * [x] Rate limit prevention
   * [x] Twilio SendGrid setup
-  * [ ] Firebase functions setup
+  * [x] Google Cloud Functions setup
 
-* Rate Limit: 4,000 requests per day and 10 requests per minute. You should sleep 6 seconds between calls to avoid hitting the per minute rate limit.
+------------------------
+#### Stack:
+- React
+- Sass
+- Express
+- Node
+- Docker
+- Nginx
+- Firebase Auth
+- Firestore NoSQL
+- Google Cloud Platform: Compute Engine, Cloud Functions & Cloud Scheduler
+
+Rate Limit: 4,000 requests per day and 10 requests per minute. You should sleep 6 seconds between calls to avoid hitting the per minute rate limit.
