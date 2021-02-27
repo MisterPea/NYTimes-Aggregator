@@ -1,0 +1,114 @@
+@use "./global_resets.scss";
+@use "./modal_subscription_style.scss";
+@import "./mixins.scss";
+
+#root {
+    display: flex;
+    flex-direction: column;
+}
+
+
+// **************************************** //
+// ************ NavBar / Menu ************* //
+// **************************************** //
+
+.navbar-wrapper {
+    width:100%;
+    background-color: rgb(242,214,174);
+    position: fixed;
+    height:45px;
+    z-index: 20;
+}
+
+.site-title {
+    @include bold-serif;
+    color: rgb(49, 76, 124);
+    letter-spacing: -0.02em;
+    font-size: 20px;
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 50%;
+    transform: translateY(-50%)
+}
+
+.sub-title {
+    @include neue-haas-light;
+    font-size: 13px;
+    letter-spacing: 0.025em;
+}
+
+.navigation {
+    float: right;
+    position: relative;
+}
+
+.menu-wrapper {
+    position: relative;
+    top:50px;
+}
+
+.section-list-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    position: relative;
+    
+}
+
+.section-list-item {
+    background-color: rgb(221, 221, 221);
+    margin: 2px 0 2px;
+}
+
+
+// *********************************** //
+// ************ Articles ************* // 
+// *********************************** //
+
+.article-list-item {
+    margin-bottom: 10px;
+    padding: 20px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 0.25px rgb(221, 221, 221) solid;
+}
+
+.image-headline {
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 10px 
+}
+
+.article-headline {
+    @include neue-haas-bold;
+    line-height: 2.125ex;
+    font-size: 20px;
+    letter-spacing: .03em;
+    padding-right:10px;
+}
+
+.image-headline img {
+    height: 100%;
+    border-radius: 18%;
+    margin-right: 10px;
+    border: 0.25px rgb(221, 221, 221) solid
+}
+
+.article-abstract {
+    @include neue-haas-light;
+    font-size: 16px;
+    letter-spacing: 0.05em;
+    line-height: 20px;
+    padding-right: 10px;
+}
+
+.modal-button {
+    color: rgb(198, 214, 50);
+    font-size: large;
+    cursor: pointer;
+    float: right;
+}
+

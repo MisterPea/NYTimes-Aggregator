@@ -1,0 +1,39 @@
+@import "./mixins.scss";
+
+.modal-wrapper {
+    // // position: fixed;
+    // background-color:rgba(255, 255, 255, 0.9);
+    // z-index: 10;
+    // height: 100%;
+    // width:100%;
+    // top:0;
+    // backdrop-filter: blur(3px);
+    padding: 20px 20px;
+}
+
+MuiDialog-container.MuiDialog-scrollPaper {
+   background-color:rgba(255, 255, 255, 0.9); 
+}
+
+.modal-close-button {
+    float: right;
+    cursor: pointer;
+    color: red;
+}
+
+.modal-cta {
+    padding-bottom: 20px;
+    @include regular-san-serif-demi;
+}
+
+.modal-headline {
+    padding-bottom: 20px;
+    font-size: 25px;
+    letter-spacing: -0.01em;
+    line-height: 30px;
+    @include bold-san-serif-italic;
+}
+
+.modal-check-text {
+    @include regular-san-serif;
+}
