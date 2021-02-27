@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "@material-ui/icons": "^4.11.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-firebase-hooks": "^2.2.0",
@@ -22,7 +23,9 @@
     "eslint-plugin-react": "^7.21.5",
     "firebase": "^8.1.1",
     "html-webpack-plugin": "^4.5.0",
+    "material-ui": "^0.15.0",
     "prop-types": "^15.7.2",
+    "sass": "^1.32.8",
     "sass-loader": "^10.0.3",
     "style-loader": "^2.0.0",
     "webpack": "^4.44.2",

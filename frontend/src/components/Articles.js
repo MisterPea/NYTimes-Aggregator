@@ -2,6 +2,12 @@ import React, { useState, useEffect } from "react";
 import PropTypes from 'prop-types'
 import { grabTopStories } from "./api/api";
 import ModalSelectionLogin from "./ModalSelectionLogin";
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+import { Dialog } from '@material-ui/core';
+import { Slide } from '@material-ui/core';
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="right" ref={ref} {...props} />;
+})
 
 export default function Articles({ section }) {
   const [topStoriesData, setTopStoriesData] = useState([]);
@@ -28,14 +34,16 @@ export default function Articles({ section }) {
     setModalFacets({});
   };
 
+
   return (
     <div className="article-wrapper">
-      {showModal && (
-        <ModalSelectionLogin
-          modalFacets={modalFacets}
-          closeModal={handleModalClose}
-        />
-      )}
+    <Dialog
+      open={showModal}
+      onClose={handleModalClose}
+      TransitionComponent={Transition}
+    >
+      <ModalSelectionLogin modalFacets={modalFacets} closeModal={handleModalClose} />
+    </Dialog>
       <ul>
         {topStoriesData.map(
           (
@@ -52,17 +60,20 @@ export default function Articles({ section }) {
             },
             index
           ) => (
-            <li key={index}>
+            <li className="article-list-item" key={index}>
               <div
                 onClick={() => {
                   window.open(url, "_blank");
                 }}>
-                <h2>{title}</h2>
-                <p>{abstract}</p>
-                <img src={multimedia ? multimedia[1].url : ""}></img>
+                <div className="image-headline">
+                  <img src={multimedia ? multimedia[1].url : ""}></img>
+                  <h2 className="article-headline">{title}</h2>
+                </div>
+                <p className="article-abstract">{abstract}</p>
               </div>
               <div className="modal-button">
-                <button
+                <AddCircleIcon
+                  style={{ fontSize: 32}}
                   className="add-reading-alert"
                   onClick={() => {
                     setShowModal(true) ? showModal !== true : null;
@@ -76,7 +87,7 @@ export default function Articles({ section }) {
                     });
                   }}>
                   +
-                </button>
+                </AddCircleIcon>
               </div>
             </li>
           )

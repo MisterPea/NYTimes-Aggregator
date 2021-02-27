@@ -1,6 +1,7 @@
 import React from "react";
 import Articles from "./Articles";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import HorizontalScrollMenu from './HortizonalScrollMenu'
 
 export default function SectionMenu() {
   let { section } = useParams();
@@ -36,13 +37,7 @@ export default function SectionMenu() {
 
   return (
     <div className="menu-wrapper">
-      <ul>
-        {sections.map(({ linkName, displayName }, index) => (
-          <li key={index}>
-            <Link to={`/${linkName}`}>{displayName}</Link>
-          </li>
-        ))}
-      </ul>
+      <HorizontalScrollMenu sections={sections} />
       <Articles section={section} />
     </div>
   );
