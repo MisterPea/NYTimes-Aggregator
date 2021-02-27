@@ -4,12 +4,13 @@
  * @param {props<function>} closeModal - which is callback to close the modal - close function is in Article.js
  * @return {jsx} Modal - with article topics (artifacts)
  */
-
 import React, { useContext, useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import Login from "./Login";
 import uidContextProvider from "./api/UidContext";
 import { AddToUser } from "./api/DatabaseActions";
+import CancelIcon from '@material-ui/icons/Cancel';
+import { DialogActions} from '@material-ui/core'
 
 export default function ModalSelectionLogin(props) {
   const { uidContext, setUidContext } = useContext(uidContextProvider);
@@ -144,10 +145,12 @@ export default function ModalSelectionLogin(props) {
   return (
     <div>
       <div className="modal-wrapper">
-        <button onClick={handleCloseModal}>close</button>
+      <DialogActions>
+        <CancelIcon style={{fontSize: 30}} className="modal-close-button" onClick={handleCloseModal} />
+      </DialogActions>
         {!uidContext.uid && <Login message={"You must be logged in to subscribe to topics."} />}
-        <h4>Subsribe to articles relating to:</h4>
-        <h3>{props.modalFacets.title}</h3>
+        <h4 className="modal-cta">Subsribe to articles relating to:</h4>
+        <h3 className="modal-headline">{props.modalFacets.title}</h3>
         {!submitted ? (
           <>
             <ul className="checkbox-list">
