@@ -7,7 +7,7 @@ React project implementing the New York Times web API
   * [ ] Email account confirmation
 - [ ] Frontend designs:
   * [x] Articles browse page
-  * [ ] Section menu
+  * [x] Section menu
   * [x] Modals - For selecting subscriptions and login
   * [ ] Styling - possible Materials-UI
   * [ ] Branding for NY Times API usage
@@ -25,7 +25,7 @@ React project implementing the New York Times web API
 ------------------------
 #### Stack:
 - React
-- Sass
+- Scss
 - Express
 - Node
 - Docker
