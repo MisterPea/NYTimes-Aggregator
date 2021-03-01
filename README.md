@@ -19,7 +19,9 @@ React project implementing the New York Times web API
   * [x] Rate limit prevention
   * [x] Twilio SendGrid setup
   * [x] Google Cloud Functions setup
-
+------------------------
+### Continuing Development:
+  * [ ] Move password reset to same page as login - via Form Dialog
 ------------------------
 #### Stack:
 - React
