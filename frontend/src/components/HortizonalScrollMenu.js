@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { AppBar } from "@material-ui/core";
 import { Tabs, Tab } from "@material-ui/core";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
-export default function HorizontalScrollMenu({ sections }) {
-  let { section } = useParams();
+export default function HorizontalScrollMenu({ sections, section }) {
   const [value, setValue] = useState(section);
 
   const handleChange = (event, newValue) => {
@@ -13,15 +12,21 @@ export default function HorizontalScrollMenu({ sections }) {
   };
 
   return (
-    <div>
-      <AppBar position="static" color="">
-        <Tabs value={value} onChange={handleChange} variant="scrollable" scrollButtons="on">
+    <div className="menu-bar">
+      <AppBar position="static">
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          variant="scrollable"
+          scrollButtons="on"
+          style={{ minHeight: 0 }}>
           {sections.map(({ linkName, displayName }, index) => (
             <Tab
               key={index}
               value={linkName}
               label={displayName}
               component={Link}
+              disableRipple={true}
               to={`/${linkName}`}
             />
           ))}
@@ -33,4 +38,5 @@ export default function HorizontalScrollMenu({ sections }) {
 
 HorizontalScrollMenu.propTypes = {
   sections: PropTypes.array,
+  section: PropTypes.string,
 };
