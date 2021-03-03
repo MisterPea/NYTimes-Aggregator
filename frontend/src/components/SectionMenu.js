@@ -1,10 +1,11 @@
 import React from "react";
 import Articles from "./Articles";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import HorizontalScrollMenu from './HortizonalScrollMenu'
 
 export default function SectionMenu() {
   let { section } = useParams();
+  let history = useHistory();
 
   const sections = [
     { linkName: "arts", displayName: "Arts" },
@@ -35,9 +36,14 @@ export default function SectionMenu() {
     { linkName: "world", displayName: "World" },
   ];
 
+  const matchingQuery = sections.find((e) => e.linkName === section)
+  if (!matchingQuery) {
+    history.replace("/home");
+  }
+
   return (
     <div className="menu-wrapper">
-      <HorizontalScrollMenu sections={sections} />
+      <HorizontalScrollMenu sections={sections} section={section} />
       <Articles section={section} />
     </div>
   );
