@@ -7,30 +7,51 @@ import CreateAccount from "./CreateAccount";
 import UserInfo from "./UserInfo";
 import uidContextProvider from "./api/UidContext";
 import FourOhFour from "./FourOhFour";
+import { StylesProvider } from "@material-ui/styles";
+import PropTypes from "prop-types";
+import "../../style/material_ui_style.scss";
 
 /**
  * In order for the useLocation hook to work the App component
  * needs to be wrapped with the Router, and that hook cannot be
  * in the same component as the Router. So, index renders App and App renders
  * NavBar.
-*/
-
+ */
 export default function App() {
   const [uidContext, setUidContext] = useState({ name: null, uid: null, subscriptions: [] });
   const value = { uidContext, setUidContext };
 
+  function PrivateRoute({ children, ...rest }) {
+    return (
+      <Route
+        {...rest}
+        render={() => {
+          return uidContext.uid !== null ? children : <Redirect to="/home" />;
+        }}
+      />
+    );
+  }
+
+  PrivateRoute.propTypes = {
+    children: PropTypes.object,
+  };
+
   return (
     <uidContextProvider.Provider value={value}>
       <Router>
-        <NavBar />
-        <Switch>
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/sign-up" component={CreateAccount} />
-          <Route exact path="/user-info" component={UserInfo} />
-          <Route exact path="/:section" component={SectionMenu} />
-          <Redirect exact from="/" to="/home" />
-          <Route component={FourOhFour} />
-        </Switch>
+        <StylesProvider injectFirst>
+          <NavBar />
+          <Switch>
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/sign-up" component={CreateAccount} />
+            <PrivateRoute exact path="/user-info">
+              <UserInfo />
+            </PrivateRoute>
+            <Route exact path="/:section" component={SectionMenu} />
+            <Redirect from="/" to="/home" />
+            <Route component={FourOhFour} />
+          </Switch>
+        </StylesProvider>
       </Router>
     </uidContextProvider.Provider>
   );
