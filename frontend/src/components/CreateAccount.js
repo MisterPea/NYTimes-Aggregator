@@ -1,7 +1,3 @@
-/* **************************************************************************** 
-TODO: Update context .... on logout return to differnt area
-**************************************************************************** */
-
 import React, { useEffect, useState, useContext } from "react";
 import PropTypes from 'prop-types'
 import firebase from "./api/Auth";
@@ -84,52 +80,58 @@ export default function CreateAccount({ message }) {
     </div>
   );
 
-  const loginInit = (<>
-    {message && <div className="message">{message}</div>}
-      <h3>Create a New Account</h3>
-      {validSubmission && !validationErrors.email && <li>Email address is not valid.</li>}
+  const loginInit = (
+    <div className="login-wrapper">
+      {message && <div className="message">{message}</div>}
+      <h3 className="login-headline">Create a New Account</h3>
+      <div className="email-input">
+        <label className="create-acct-space" htmlFor="username">Username</label>
+        <input
+          type="text"
+          name="username"
+          className="text-input"
+          value={username}
+          onChange={(e) => {
+            handleCredentialChange(e);
+          }}></input>
+      </div>
+      <p className="warning-dialog new-acct">
+      {validSubmission && !validationErrors.user && <p>Username must be between 3-35 characters.<br /> Using letters and &apos;-&apos;, &apos;_&apos;, or &.</p>}</p>
+      <div className="email-input">
+        <label className="create-acct-space" htmlFor="email">Email</label>
+        <input
+          type="text"
+          name="email"
+          className="text-input"
+          value={email}
+          onChange={(e) => {
+            handleCredentialChange(e);
+          }}></input>
+      </div>
+      <p className="warning-dialog new-acct">{validSubmission && !validationErrors.email && "Email address is not valid."}</p>
+      <div className="email-input">
+        <label className="create-acct-space" htmlFor="userPassword">Password</label>
+        <input
+          type="password"
+          name="password"
+          className="text-input"
+          value={password}
+          onChange={(e) => handleCredentialChange(e)}></input>
+      </div>
+      <p className="warning-dialog new-acct">
       {validSubmission && !validationErrors.password && (
-        <li>Password must be 8 characters in length with one capitalized letter and one number</li>
-      )}
-      {validSubmission && !validationErrors.user && (
-        <li>Username must be between 3-35 characters. Using letters and &apos;-&apos;, &apos;_&apos;, or &.</li>
-      )}
-      <label htmlFor="username">Username</label>
-      <input
-        type="text"
-        name="username"
-        className="text-input"
-        placeholder="Username"
-        value={username}
-        onChange={(e) => {
-          handleCredentialChange(e);
-        }}></input>
-      <label htmlFor="email">Email</label>
-      <input
-        type="text"
-        name="email"
-        className="text-input"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => {
-          handleCredentialChange(e);
-        }}></input>
-      <label htmlFor="userPassword">Password</label>
-      <input
-        type="password"
-        name="password"
-        className="text-input"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => handleCredentialChange(e)}></input>
+        <p>Password must be 8 characters in length<br /> with at least one capitalized letter and one number.</p>
+      )}</p>
+      <div className="login-buttons">
       <button
-        className={validCredentials ? "valid submit-button" : "not-valid submit-button"}
+        className={validCredentials ? "submit-button-active" : "submit-button-disabled"}
         onClick={() => {
           createUser();
         }}>
         Submit
       </button>
-      <Link to="/login">Already have an account?</Link>
+      <Link className="have-account-button" to="/login">Already have an account?</Link>
+      </div>
       {dbError && (
         <div>
           <p>Email already in use.</p>
@@ -140,10 +142,11 @@ export default function CreateAccount({ message }) {
           <p>There was a problem provisioning the database.</p>
         </div>
       )}
-  </>)
+    </div>
+  );
 
   return (
-    <div className="login-wrapper">
+    <div className="login-return-wrapper">
       {success ? welcome : loginInit}
     </div>
   );
