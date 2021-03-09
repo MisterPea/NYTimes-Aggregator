@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import firebase from "../api/Auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import PropTypes from "prop-types";
+import {SubmitButton} from "../material_ui_hoc/SubmitButton"
 
 /**
  * Dialog component to reauthenticate credentials for email and password chnages.
@@ -19,15 +20,15 @@ export default function Reauthenticate({ reference }) {
     switch (error) {
       case "auth/user-mismatch":
       case "auth/user-not-found":
-        return "User not found.";
+        return "Error: User not found.";
       case "auth/invalid-credential":
-        return "Invalid credentials.";
+        return "Error: Invalid credentials.";
       case "auth/invalid-email":
-        return "Invalid email.";
+        return "Error: Invalid email.";
       case "auth/wrong-password":
-        return "Wrong password";
+        return "Error: Wrong password";
       default:
-        return "There's been an error validating your credentials";
+        return "Error: Invalid credentials.";
     }
   };
 
@@ -49,11 +50,12 @@ export default function Reauthenticate({ reference }) {
 
   return (
     <div>
-      {error && <p>{`Error: ${error}`}</p>}
+      <p className="warning-dialog">{error && `${error}`}</p>
       <h4>Verify account with your current password.</h4>
-      <label htmlFor="password">Password</label>
-      <input type="password" id="password" onChange={(e) => setPassword(e.target.value)} />
-      <button onClick={handleSubmit}>Submit</button>
+      <div className="body-holder">
+        <input placeholder="Enter Password" type="password" id="password" onChange={(e) => setPassword(e.target.value)} />
+        <SubmitButton onClick={handleSubmit}>Submit</SubmitButton>
+      </div>
     </div>
   );
 }

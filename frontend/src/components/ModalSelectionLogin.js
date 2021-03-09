@@ -10,7 +10,9 @@ import Login from "./Login";
 import uidContextProvider from "./api/UidContext";
 import { AddToUser } from "./api/DatabaseActions";
 import CancelIcon from '@material-ui/icons/Cancel';
-import { DialogActions} from '@material-ui/core'
+import { DialogActions} from '@material-ui/core';
+import { SubmitButton } from "../components/material_ui_hoc/SubmitButton"
+import Checkbox from "../components/material_ui_hoc/Checkbox"
 
 export default function ModalSelectionLogin(props) {
   const { uidContext, setUidContext } = useContext(uidContextProvider);
@@ -23,6 +25,7 @@ export default function ModalSelectionLogin(props) {
   const subscriptionLength = useRef(0);
   const runOnce = useRef(false);
   const initialFacetsClicked = useRef([]);
+  const [submitDisabled, setSubmitDisabled] = useState(true);
 
   useEffect(() => {
     setFacetsClicked(uidContext.subscriptions);
@@ -66,9 +69,8 @@ export default function ModalSelectionLogin(props) {
         });
       });
       setFlattenedFacets(appendedByline.concat(...facets));
-      
     }
-    document.getElementById("submit-facets-button").disabled = true
+    setSubmitDisabled(true);
   }, []);
 
   const checkCheckboxesOnMount = () => {
@@ -113,7 +115,7 @@ export default function ModalSelectionLogin(props) {
     const newCheckInCheckbox = initialFacetsClicked.current
         .filter((x) => !facetsClickedModalScope.current.includes(x))
         .concat(facetsClickedModalScope.current.filter((y) => !initialFacetsClicked.current.includes(y))).length === 0;
-    document.getElementById("submit-facets-button").disabled = newCheckInCheckbox
+    setSubmitDisabled(newCheckInCheckbox);
   };
 
   /**
@@ -156,27 +158,22 @@ export default function ModalSelectionLogin(props) {
             <ul className="checkbox-list">
               {flattenedFacets.map(({ searchFacet, displayFacet }) => (
                 <li key={searchFacet}>
-                  <input
-                    type="checkbox"
-                    className="modal-checkbox"
-                    name={searchFacet}
-                    value={searchFacet}
-                    disabled={!uidContext.uid}
-                    onChange={(e) => handleUpdateCheckbox(e)}></input>
-                  <label htmlFor={searchFacet} className="modal-check-text">
-                    {displayFacet}
-                  </label>
+                  <Checkbox
+                    searchFacet={searchFacet}
+                    displayFacet={displayFacet}
+                    uid={uidContext.uid}
+                    updateCallback={handleUpdateCheckbox}
+                    />
                 </li>
               ))}
             </ul>
-            <button
+            <SubmitButton
               type="submit"
               id="submit-facets-button"
-              onClick={() => {
-                handleSubmit();
-              }}>
+              disabled={submitDisabled}
+              onClick={handleSubmit}>
               Submit
-            </button>
+            </SubmitButton>
           </>
         ) : (
           postSubmit

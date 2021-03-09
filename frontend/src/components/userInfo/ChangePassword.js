@@ -3,7 +3,7 @@ import { VerifyPassword } from "../api/VerifyEmailPassword";
 import PropTypes from "prop-types";
 import Reauthenticate from "./Reauthenticate";
 
-export default function ChangePassword({ user }) {
+export default function ChangePassword({ user, dialogRef }) {
   const [newPassword, setNewPassword] = useState("");
   const [submitDeactive, setSubmitDeactive] = useState(true);
   const [reauthSuccess, setReauthSuccess] = useState(false);
@@ -36,9 +36,10 @@ export default function ChangePassword({ user }) {
   };
 
   const passwordChangeInit = (
-    <>
+    <div className="body-holder">
       <input
         value={newPassword}
+        type="password"
         onChange={(e) => {
           handleUpdate(e);
         }}
@@ -51,13 +52,14 @@ export default function ChangePassword({ user }) {
         disabled={submitDeactive}>
         Submit
       </button>
-    </>
+    </div>
   );
 
   const passwordChangeConfirm = (
-    <>
+    <div className="body-holder input">
       <p>Your password has been updated.</p>
-    </>
+      <button onClick={dialogRef}>Close</button>
+    </div>
   );
 
   return (
@@ -75,4 +77,5 @@ export default function ChangePassword({ user }) {
 
 ChangePassword.propTypes = {
   user: PropTypes.object,
+  dialogRef: PropTypes.func,
 };

@@ -15,9 +15,9 @@ export default function Success({ userName }) {
   return (
     <div className="login-wrapper">
       <h4 className="welcome-back">Welcome back, {userName}!</h4>
-      <Link to="/">Continue to the Home Page</Link>
-      <p>{`You will be redircted in ${counter} seconds`}</p>
-      {counter === 0 ? <Redirect to="/" /> : null}
+      <Link className="continue-button" to="/">Continue to the Home Page</Link>
+      <p className="welcome-back">{`You will be redircted in ${counter} seconds`}</p>
+      {counter <= -1 ? <Redirect to="/" /> : null}
     </div>
   );
 }

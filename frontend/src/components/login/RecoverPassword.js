@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { Link } from 'react-router-dom';
 import firebase from "../api/Auth";
 import { VerifyEmail } from "../api/VerifyEmailPassword";
+import { Dialog, DialogContentText } from "@material-ui/core";
+import CancelIcon from '@material-ui/icons/Cancel';
+import {IconButton} from '@material-ui/core'
+import { Button } from '@material-ui/core'
 
 export default function setRecoverPassword(props) {
   const [emailRecover, setEmailRecover] = useState("");
@@ -29,62 +34,79 @@ export default function setRecoverPassword(props) {
   const handleLoginReturn = () => {
     props.loginReturn();
   };
+
+  const handleFailDialogClose = () => {
+    setSuccess(null);
+  }
+
   const preSubmit = (
-    <React.Fragment>
-      <p>{"Enter your email address and we'll send you a link to reset your password."}</p>
+    <div className="password-recover-wrapper">
+      <p className="login-body-text">
+        {"Enter your email address and we'll send you a link to reset your password."}
+      </p>
       <label htmlFor="email-recover">Email</label>
       <input
+        className="password-recover-input"
         name="email-recover"
         value={emailRecover}
-        placeholder="Email Address"
         onChange={(e) => {
           setEmailRecover(e.target.value);
         }}></input>
-      <button
-        disabled={validEmailRecover}
-        className="submit-recover"
-        onClick={() => {
-          handlePasswordReset();
-        }}>
-        Submit
-      </button>
-      <button
-        onClick={() => {
-          setRecoverPassword(false);
-        }}>
-        Login
-      </button>
-    </React.Fragment>
+      <div className="login-buttons">
+        <button
+          disabled={validEmailRecover}
+          className={`submit-button-${validEmailRecover ? "disabled" : "active"}`}
+          onClick={() => {
+            handlePasswordReset();
+          }}>
+          Submit
+        </button>
+        <Link className="create-acct-button" to="/sign-up">Create an Account</Link>
+      </div>
+    </div>
   );
 
   const postSubmitSuccess = (
-    <React.Fragment>
-      <p>{"A password reset link has been sent to email."}</p>
-      <button
+    <div>
+      <DialogContentText>{"A password-reset link has been sent to your email."}</DialogContentText>
+      <Button
         onClick={() => {
           handleLoginReturn();
         }}>
         Return to the login page.
-      </button>
-    </React.Fragment>
+      </Button>
+    </div>
   );
 
   const postSubmitFailure = (
-    <React.Fragment>
-      <p>{"We don't have that email on file."}</p>
-      <button
-        onClick={() => {
-          setSuccess(null);
-        }}>
-        Re-enter your email.
-      </button>
-    </React.Fragment>
+    <div>
+      <IconButton 
+        onClick={handleFailDialogClose}
+        className="close-button"
+        >
+        <CancelIcon />
+      </IconButton>
+      <DialogContentText>{"Sorry, we can't seem to find that email in our files. Could you try again?"}</DialogContentText>
+    </div>
   );
 
   return (
     <div className="login-wrapper">
-      <h3>Forgot your password?</h3>
-      {success === null ? preSubmit : success === true ? postSubmitSuccess : postSubmitFailure}
+      <h3 className="login-headline">Forgot your password?</h3>
+      {preSubmit}
+      <Dialog
+        className="dialog-fail-wrapper"
+        open={success === false}
+        onClose={handleFailDialogClose}>
+        {postSubmitFailure}
+      </Dialog>
+
+      <Dialog
+        className="dialog-success-wrapper"
+        open={success === true}
+        onClose={handleFailDialogClose}>
+        {postSubmitSuccess}
+      </Dialog>
     </div>
   );
 }

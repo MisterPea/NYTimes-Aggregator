@@ -12,12 +12,19 @@ export default function Login({ message }) {
   const [loginError, setLoginError] = useState(null);
   const [userName, setUserName] = useState(null);
   const [recoverPassword, setRecoverPassword] = useState(false);
+  const [submitDisabled, setSubmitDisabled] = useState(true);
   const { uidContext } = useContext(uidContextProvider);
+  
   const auth = firebase.auth();
   
   useEffect(() => {
     !userName && setUserName(uidContext.name);
     loginError && setLoginError(null);
+    if(email !== "" && password !== "") {
+      setSubmitDisabled(false);
+    } else {
+      !submitDisabled && setSubmitDisabled(true);
+    }
   }, [password, email, uidContext.name]);
 
   const handleLogin = () => {
@@ -49,46 +56,53 @@ export default function Login({ message }) {
   const preLogin = (
     <div className="login-wrapper">
       {message && <div className="message">{message}</div>}
-      <h3>Login to your Account</h3>
-      <label htmlFor="userEmail">Email</label>
-      <input
-        type="text"
-        name="userEmail"
-        className="text-input"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => {
-          setEmail(e.target.value);
-        }}></input>
+      <h3 className="login-headline">Login to your Account</h3>
+      <div className="warning-dialog">{loginError}</div>
+      <div className="email-input">
+        <label htmlFor="userEmail">Email</label>
+        <input
+          type="text"
+          name="userEmail"
+          className="text-input"
+          // placeholder="Email"
+          value={email}
+          onChange={(e) => {
+            setEmail(e.target.value);
+          }}></input>
+      </div>
+      <div className="password-input">
       <label htmlFor="userPassword">Password</label>
       <input
         type="password"
         name="userPassword"
         className="text-input"
-        placeholder="Password"
         value={password}
         onChange={(e) => {
           setPassword(e.target.value);
         }}></input>
+        </div>
+      <div className="login-buttons">
       <button
+        disabled={submitDisabled}
         id="login-submit-button"
+        className={`submit-button-${submitDisabled ? "disabled" : "active"}`}
         onClick={() => {
           handleLogin();
         }}>
         Submit
       </button>
-      {loginError && <div className="warning-dialog">{loginError}</div>}
       <button className="forgot-password" onClick={() => setRecoverPassword(true)}>
-        Forgot your password?
+        Forgot password?
       </button>
-      <Link to="/sign-up">Create an Account</Link>
+        <Link className="create-acct-button" to="/sign-up">Create an Account</Link>
+      </div>
     </div>
   );
 
   return (
-    <React.Fragment>
+    <div className="login-return-wrapper">
       {userName ? <Success userName={userName} /> : recoverPassword ? <RecoverPassword loginReturn={handleReturnToLogin} /> : preLogin}
-    </React.Fragment>
+    </div>
   );
 }
 

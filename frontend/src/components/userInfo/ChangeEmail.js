@@ -3,7 +3,7 @@ import { VerifyEmail } from "../api/VerifyEmailPassword";
 import PropTypes from "prop-types";
 import Reauthenticate from "./Reauthenticate";
 
-export default function ChangeEmail({ user, reference }) {
+export default function ChangeEmail({ user, reference, dialogRef }) {
   const [newEmail, setNewEmail] = useState("");
   const [submitDeactive, setSubmitDeactive] = useState(true);
   const [reauthSuccess, setReauthSuccess] = useState(false);
@@ -40,7 +40,7 @@ export default function ChangeEmail({ user, reference }) {
   };
 
   const emailChangeInit = (
-    <>
+    <div className="body-holder input">
       <input
         value={newEmail}
         onChange={(e) => {
@@ -55,13 +55,14 @@ export default function ChangeEmail({ user, reference }) {
         disabled={submitDeactive}>
         Submit
       </button>
-    </>
+    </div>
   );
 
   const emailChangeConfirm = (
-    <>
+    <div className="body-holder input">
       <p>Your email address has been updated.</p>
-    </>
+      <button onClick={dialogRef}>Close</button>
+    </div>
   );
 
   return (
@@ -79,5 +80,6 @@ export default function ChangeEmail({ user, reference }) {
 
 ChangeEmail.propTypes = {
   user: PropTypes.object,
-  reference: PropTypes.func
+  reference: PropTypes.func,
+  dialogRef: PropTypes.func,
 };
