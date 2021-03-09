@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import firebase from "../api/Auth";
 import { useAuthState } from "react-firebase-hooks/auth";
-import ChangeUsername from "./ChangeUsername"
-import ChangeEmail from "./ChangeEmail"
-import ChangePassword from "./ChangePassword"
+import ChangeUsername from "./ChangeUsername";
+import ChangeEmail from "./ChangeEmail";
+import ChangePassword from "./ChangePassword";
+import { Dialog, DialogContent } from "@material-ui/core";
+import { ButtonGroup } from "@material-ui/core";
+import ContainedButton from "../material_ui_hoc/ContainedButton"
 
 export default function AccountInfo() {
   const [userInfo, setUserInfo] = useState({ username: "", email: "" });
@@ -18,45 +21,81 @@ export default function AccountInfo() {
   }, [user]);
 
   const handleSectionChange = (e) => {
-    if (e.target.value === activeSection) {
+    if (e === activeSection) {
       setActiveSection(null);
     } else {
-      setActiveSection(e.target.value);
+      setActiveSection(e);
     }
   };
 
   const changeUsernameReference = (newUsername) => {
-    setUserInfo({...userInfo, username:newUsername})
-  }
+    setUserInfo({ ...userInfo, username: newUsername });
+  };
 
   const changeEmailReference = (newEmail) => {
-    setUserInfo({...userInfo, email:newEmail})
-  }
+    setUserInfo({ ...userInfo, email: newEmail });
+  };
+
+  const handleCloseReauth = () => {
+    setActiveSection(null);
+  };
 
   return (
     <div>
+      <Dialog open={!!activeSection} onClose={handleCloseReauth}>
+        <DialogContent className="account-change-dialog">
+          <div className="account-change-wrapper">
+            {activeSection === "email" && (
+              <ChangeEmail
+                user={user}
+                dialogRef={handleCloseReauth}
+                reference={changeEmailReference}
+              />
+            )}
+            {activeSection === "password" && (
+              <ChangePassword user={user} dialogRef={handleCloseReauth} />
+            )}
+            {activeSection === "username" && (
+              <ChangeUsername
+                user={user}
+                dialogRef={handleCloseReauth}
+                reference={changeUsernameReference}
+              />
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
+      <h4>Your account info.</h4>
       <div className="email-block">
-        <p>{`Current email: ${userInfo.email}`}</p>
+        <p>
+          Current email: <span className="current-info">{userInfo.email}</span>
+        </p>
         <div className="change-email">
           <label htmlFor="current"></label>
         </div>
-        <menu>
-          <button value="email" onClick={(e) => {handleSectionChange(e)}}>Change email</button>
-          <button value="password" onClick={(e) => {handleSectionChange(e)}}>Change password</button>
-        </menu>
-        {activeSection === "email" && <ChangeEmail user={user} reference={changeEmailReference}/>}
-        {activeSection === "password" && <ChangePassword user={user}/>}
-        <p>{`Current username: ${userInfo.username}`}</p>
-        <menu>
-          <button
-            value="username"
-            onClick={(e) => {
-              handleSectionChange(e);
+        <ButtonGroup>
+          <ContainedButton
+            onClick={() => {
+              handleSectionChange("email");
             }}>
-            Change username
-          </button>
-          {activeSection === "username" && <ChangeUsername user={user} reference={changeUsernameReference}/>}
-        </menu>
+            Change Email
+          </ContainedButton>
+          <ContainedButton
+            onClick={() => {
+              handleSectionChange("password");
+            }}>
+            Change Password
+          </ContainedButton>
+        </ButtonGroup>
+        <p className="current-username">
+          Current username: <span className="current-info">{userInfo.username}</span>
+        </p>
+          <ContainedButton
+            onClick={() => {
+              handleSectionChange("username");
+            }}>
+            Change Username
+          </ContainedButton>      
       </div>
     </div>
   );

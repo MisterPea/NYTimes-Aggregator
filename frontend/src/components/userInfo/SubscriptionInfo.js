@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import uidContextProvider from "../api/UidContext";
 import { AddToUser } from "../api/DatabaseActions";
 import { GetActiveStatus, SetActiveStatus } from "../api/DatabaseActions";
+import Checkbox from "../material_ui_hoc/Checkbox";
+import {SubmitButton} from "../material_ui_hoc/SubmitButton"
 
 export default function SubscriptionInfo() {
   const { uidContext, setUidContext } = useContext(uidContextProvider);
@@ -42,9 +44,8 @@ export default function SubscriptionInfo() {
   }, [facetsClicked]);
 
   useEffect(() => {
-    const activeCheckbox = document.getElementById("active-subscription")
-    if(subscriptionActive !== null && activeCheckbox){
-      
+    const activeCheckbox = document.getElementById("active-subscription");
+    if (subscriptionActive !== null && activeCheckbox) {
       document.getElementById("active-subscription").checked = subscriptionActive;
     }
   }, [subscriptionActive]);
@@ -97,7 +98,7 @@ export default function SubscriptionInfo() {
       });
   };
 
-  // Pause you email subscription. 
+  // Pause you email subscription.
   const handlePauseSubscription = (e) => {
     SetActiveStatus(uidContext.uid, e.target.checked);
     setSubscriptionActive(e.target.checked);
@@ -121,50 +122,42 @@ export default function SubscriptionInfo() {
             ? postSubmit
             : uidContext.subscriptions !== [] && ( //This needs to change...we need to always have access to active subs button regardless of number of subscrioptions
                 <>
-                  <div>
-                    <label>Pause Subscriptions</label>
-                    <input
-                      type="checkbox"
-                      id="active-subscription"
-                      onChange={(e) => {
-                        handlePauseSubscription(e);
-                      }}
-                    />
+                  <div className="pause-subscription">
+                    <div className="top-pause-subscriptions">
+                      <Checkbox
+                        searchFacet={"active-subscription"}
+                        updateCallback={handlePauseSubscription}
+                        uid={"true"}
+                        frontLabel={`${
+                          subscriptionActive ? "Unclick to pause" : "Click to unpause"
+                        } subscriptions`}
+                      />
+                    </div>
                     {subscriptionActive ? (
-                      <p>Your subscription is active.</p>
+                      <p className="p-italic">Your subscription is active.</p>
                     ) : (
-                      <p>Your subscription is paused.</p>
+                      <p className="p-italic">Your subscription is paused.</p>
                     )}
                   </div>
-                  <p>Your current subscriptions are:</p>
-                  <p>Uncheck to unsubscribe.</p>
-                  <ul>
-                    {uidContext.subscriptions.map((topic) => (
-                      <li key={topic}>
-                        <div>
-                          <label htmlFor={topic}>{topic}</label>
-                        </div>
-                        <div>
-                          <input
-                            type="checkbox"
-                            name={topic}
-                            value={topic}
-                            className="modal-checkbox"
-                            onChange={(e) => {
-                              handleUpdateCheckbox(e);
-                            }}
+                  <p className="current-subscriptions-title">Your current subscriptions are:</p>
+                  <p className="subscription-direction">Uncheck to unsubscribe.</p>
+                  <div className="subscription-list">
+                    <ul>
+                      {uidContext.subscriptions.map((topic) => (
+                        <li key={topic}>
+                          <Checkbox
+                            displayFacet={topic}
+                            searchFacet={topic}
+                            uid={"true"}
+                            updateCallback={handleUpdateCheckbox}
                           />
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                  <button
-                    onClick={() => {
-                      handleSubmit();
-                    }}
-                    disabled={submittedButtonActive}>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <SubmitButton disabled={submittedButtonActive} onClick={handleSubmit}>
                     Submit
-                  </button>
+                  </SubmitButton>
                 </>
               )}
         </>

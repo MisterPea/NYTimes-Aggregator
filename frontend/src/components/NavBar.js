@@ -8,6 +8,7 @@ import HomeIcon from "@material-ui/icons/HomeSharp";
 import { IconButton } from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { Menu, MenuItem, Button } from "@material-ui/core";
+import { withStyles } from "@material-ui/styles"
 
 export default function NavBar() {
   const [uid, setUid] = useState(null);
@@ -20,6 +21,24 @@ export default function NavBar() {
   let { pathname } = useLocation();
   const uiButtonLockout = pathname === "/login" || pathname === "/sign-up";
 
+  const StyledMenu = withStyles({
+    paper: {
+      margin: "0 12px",
+    },
+    list:{
+      padding:"0px",
+    },
+  })(Menu)
+
+  const StyledMenuItem = withStyles({
+    root:{
+      fontFamily: "neue-haas-grotesk-display, sans-serif",
+      fontSize:"16px",
+      fontWeight: 400,
+      justifyContent: "center",
+    },
+  })(MenuItem)
+
   /**
    * This useEffect chain is pulling the info from auth and Firestore.
    * Before the query/writes were cascaded, Context was being set in stages
@@ -30,7 +49,6 @@ export default function NavBar() {
    * was sitting in an un executed setState because the state was being updated
    * via useEffect.
    */
-
   useEffect(() => {
     if (user) {
       setUid(user.uid);
@@ -84,7 +102,7 @@ export default function NavBar() {
         the-times.page<span className="sub-title"> subscription/aggregation</span>
       </div>
       <nav className="navigation-wrapper">
-        <div className={`home-icon-${pathname === "/home"}`}>
+        <div className={`home-icon-${pathname === "/home" ? "deactive":"active"}`}>
           <IconButton disabled={pathname === "/home"} href="/">
             <HomeIcon />
           </IconButton>
@@ -97,7 +115,7 @@ export default function NavBar() {
             disabled={uiButtonLockout}>
             <AccountCircleIcon />
           </IconButton>
-          <Menu
+          <StyledMenu
             anchorEl={anchorElement}
             keepMounted
             open={!!anchorElement}
@@ -113,23 +131,24 @@ export default function NavBar() {
             }}
             getContentAnchorEl={null}>
             {pathname !== "/login" && pathname !== "/sign-up" && !uid && (
-              <MenuItem onClick={handleClose}>
-                <Link to="/login">Login/Sign-up</Link>
-              </MenuItem>
+              <StyledMenuItem onClick={handleClose}>
+                <Link className="link-button" to="/login">Login/Sign-up</Link>
+              </StyledMenuItem>
             )}
             {uid && (
               <div>
                 {pathname !== "/user-info" && (
-                  <MenuItem onClick={handleClose}>
-                    <Link to="/user-info">Account Info</Link>
-                  </MenuItem>
+                  <StyledMenuItem onClick={handleClose}>
+                    <Link className="link-button" to="/user-info">Account Info</Link>
+                  </StyledMenuItem>
                 )}
-                <MenuItem onClick={handleClose}>
-                  <Button onClick={signOut}>Logout</Button>
-                </MenuItem>
+                <StyledMenuItem onClick={signOut}>
+                  Logout
+                  
+                </StyledMenuItem>
               </div>
             )}
-          </Menu>
+          </StyledMenu>
         </div>
       </nav>
     </div>
