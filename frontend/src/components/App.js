@@ -7,9 +7,8 @@ import CreateAccount from "./CreateAccount";
 import UserInfo from "./UserInfo";
 import uidContextProvider from "./api/UidContext";
 import FourOhFour from "./FourOhFour";
-import { StylesProvider } from "@material-ui/styles";
+import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
 import PropTypes from "prop-types";
-import "../../style/material_ui_style.scss";
 
 /**
  * In order for the useLocation hook to work the App component
@@ -20,6 +19,29 @@ import "../../style/material_ui_style.scss";
 export default function App() {
   const [uidContext, setUidContext] = useState({ name: null, uid: null, subscriptions: [] });
   const value = { uidContext, setUidContext };
+
+  const theme = createMuiTheme({
+    props: {
+      MuiButtonBase: {
+        disableRipple: true,
+      },
+    },
+    typography: {
+      textTransform: "none",
+      textDecorationColor: "none",
+      fontFamily: "neue-haas-grotesk-display, sans-serif",
+      fontWeight: 400,
+      fontStyle: "normal",
+      color: "#000",
+      button: {
+        textTransform: "none",
+        fontFamily: "neue-haas-grotesk-display, sans-serif",
+        fontWeight: 600,
+        fontStyle: "normal",
+        color: "#000",
+      },
+    },
+  });
 
   function PrivateRoute({ children, ...rest }) {
     return (
@@ -39,7 +61,7 @@ export default function App() {
   return (
     <uidContextProvider.Provider value={value}>
       <Router>
-        <StylesProvider injectFirst>
+        <MuiThemeProvider theme={theme}>
           <NavBar />
           <Switch>
             <Route exact path="/login" component={Login} />
@@ -51,7 +73,7 @@ export default function App() {
             <Redirect from="/" to="/home" />
             <Route component={FourOhFour} />
           </Switch>
-        </StylesProvider>
+        </MuiThemeProvider>
       </Router>
     </uidContextProvider.Provider>
   );
