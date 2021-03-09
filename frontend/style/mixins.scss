@@ -1,63 +1,21 @@
 @import url("https://use.typekit.net/ire3pav.css");
 
+@mixin visually-hidden {
+  position: absolute;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      height: 1px;
+      width: 1px;
+      margin: -1px;
+      padding: 0;
+      border: 0;
+}
+
 @mixin bold-serif {
   font-family: bely-display, sans-serif;
   font-style: normal;
   font-weight: 400;
   letter-spacing: 0.075rem;
-}
-@mixin regular-serif {
-  ont-family: bely, serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-@mixin regular-bold-serif {
-  ont-family: bely, serif;
-  font-weight: 700;
-  font-style: normal;
-}
-
-@mixin regular-san-serif {
-  font-family: quasimoda, sans-serif;
-  font-weight: 300;
-  font-style: normal;
-}
-
-@mixin regular-san-serif-demi {
-  font-family: quasimoda, sans-serif;
-  font-weight: 600;
-  font-style: normal;
-}
-
-@mixin regular-san-serif-medium {
-  font-family: quasimoda, sans-serif;
-  font-weight: 500;
-  font-style: normal;
-}
-
-@mixin bold-san-serif-italic {
-  font-family: quasimoda, sans-serif;
-  font-weight: 700;
-  font-style: italic;
-}
-
-@mixin regular-cronos {
-  font-family: cronos-pro, sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-@mixin regular-cronos-light {
-  font-family: cronos-pro, sans-serif;
-  font-weight: 300;
-  font-style: normal;
-}
-
-@mixin regular-cronos-bold {
-  font-family: cronos-pro-caption, sans-serif;
-  font-weight: 600;
-  font-style: normal;
 }
 
 @mixin neue-haas-bold {
