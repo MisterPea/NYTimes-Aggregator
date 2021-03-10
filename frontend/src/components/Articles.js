@@ -44,6 +44,7 @@ export default function Articles({ section }) {
     >
       <ModalSelectionLogin modalFacets={modalFacets} closeModal={handleModalClose} />
     </Dialog>
+    <div className="test"></div>
       <ul>
         {topStoriesData.map(
           (
@@ -61,15 +62,13 @@ export default function Articles({ section }) {
             index
           ) => (
             <li className="article-list-item" key={index}>
-              <div
-                onClick={() => {
-                  window.open(url, "_blank");
-                }}>
-                <div className="image-headline">
+              <div className="main-card-area"
+               >
+                <div className="image-headline main-card-element">
                   <img src={multimedia ? multimedia[1].url : ""}></img>
                   <h2 className="article-headline">{title}</h2>
                 </div>
-                <p className="article-abstract">{abstract}</p>
+                <p className="article-abstract main-card-element">{abstract}</p>
               </div>
               <div className="modal-button">
                 <AddCircleIcon
@@ -88,7 +87,11 @@ export default function Articles({ section }) {
                   }}>
                   +
                 </AddCircleIcon>
+                
               </div>
+              <div className="shadow-holder"  onClick={() => {
+                  window.open(url, "_blank");
+                }}></div>
             </li>
           )
         )}
