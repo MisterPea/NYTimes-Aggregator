@@ -41,3 +41,20 @@
   font-weight: 600;
   font-style: italic;
 }
+
+// media queries
+@mixin small--600px-and-up {
+    @media (min-width: 600px) { @content; }
+}
+
+@mixin med--960px-and-up {
+  @media (min-width: 960px) { @content; }
+}
+
+@mixin lg--1280px-and-up {
+  @media (min-width: 1280px) { @content; }
+}
+
+@mixin xl--1920px-and-up {
+  @media (min-width: 1920px) { @content; }
+}
