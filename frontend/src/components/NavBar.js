@@ -7,7 +7,7 @@ import { GetCurrentSubscriptions } from "./api/DatabaseActions";
 import HomeIcon from "@material-ui/icons/HomeSharp";
 import { IconButton } from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import { Menu, MenuItem, Button } from "@material-ui/core";
+import { Menu, MenuItem } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles"
 
 export default function NavBar() {
