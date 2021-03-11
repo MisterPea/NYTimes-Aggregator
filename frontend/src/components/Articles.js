@@ -34,7 +34,6 @@ export default function Articles({ section }) {
     setModalFacets({});
   };
 
-
   return (
     <div className="article-wrapper">
     <Dialog
@@ -44,13 +43,14 @@ export default function Articles({ section }) {
     >
       <ModalSelectionLogin modalFacets={modalFacets} closeModal={handleModalClose} />
     </Dialog>
-    <div className="test"></div>
       <ul>
         {topStoriesData.map(
           (
-            {
+            { 
               title,
               abstract,
+              section,
+              subsection,
               multimedia,
               url,
               byline,
@@ -62,6 +62,7 @@ export default function Articles({ section }) {
             index
           ) => (
             <li className="article-list-item" key={index}>
+              <p className="section-text">{`${section} ${subsection === "" ? "" : "• " + subsection}`}</p>
               <div className="main-card-area"
                >
                 <div className="image-headline main-card-element">
@@ -87,7 +88,6 @@ export default function Articles({ section }) {
                   }}>
                   +
                 </AddCircleIcon>
-                
               </div>
               <div className="shadow-holder"  onClick={() => {
                   window.open(url, "_blank");
