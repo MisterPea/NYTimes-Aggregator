@@ -24,22 +24,10 @@
   font-style: normal;
 }
 
-@mixin neue-haas-light {
+@mixin neue-haas-display {
   font-family: neue-haas-grotesk-display, sans-serif;
-  font-weight: 400;
+  font-weight: 500;
   font-style: normal;
-}
-
-@mixin neue-haas-extralight {
-  font-family: neue-haas-grotesk-display, sans-serif;
-  font-weight: 300;
-  font-style: normal;
-}
-
-@mixin neue-haas-bold-italic {
-  font-family: neue-haas-grotesk-display, sans-serif;
-  font-weight: 600;
-  font-style: italic;
 }
 
 // media queries
