@@ -22,6 +22,7 @@ React project implementing the New York Times web API
 ------------------------
 ### Continuing Development:
   * [ ] Move password reset to same page as login - via Form Dialog
+  * [ ] Add backdrop loading indicator 
 ------------------------
 #### Stack:
 - React
