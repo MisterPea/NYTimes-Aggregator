@@ -2,17 +2,37 @@ import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import firebase from "../api/Auth";
 import { VerifyEmail } from "../api/VerifyEmailPassword";
-import { Dialog, DialogContentText } from "@material-ui/core";
+import { Dialog, DialogContent, DialogContentText } from "@material-ui/core";
 import CancelIcon from '@material-ui/icons/Cancel';
 import {IconButton} from '@material-ui/core'
-import { Button } from '@material-ui/core'
+import { SubmitButton } from "../material_ui_hoc/SubmitButton"
+import  ContainedButton from "../material_ui_hoc/ContainedButton"
+import { makeStyles } from "@material-ui/styles"
 
-export default function setRecoverPassword(props) {
+export default function setRecoverPassword({loginReturn, modalClose}) {
   const [emailRecover, setEmailRecover] = useState("");
   const [validEmailRecover, setValidEmailRecover] = useState(true);
   const [success, setSuccess] = useState(null);
 
   const auth = firebase.auth();
+
+  const useStyles = makeStyles({
+    closeButton:{
+      color:'red',
+      position:'absolute',
+      top:"2px",
+      right:"2px",
+      height: "25px",
+      width: "25px"
+    },
+    notifyText:{
+      margin: "20px 0",
+      color: "#000",
+      fontSize: "1.1rem"
+    }
+  });
+
+  const {closeButton,notifyText} = useStyles();
 
   useEffect(() => {
     setValidEmailRecover(VerifyEmail(emailRecover) ? false : true);
@@ -32,7 +52,8 @@ export default function setRecoverPassword(props) {
   };
 
   const handleLoginReturn = () => {
-    props.loginReturn();
+    loginReturn();
+    modalClose && modalClose();
   };
 
   const handleFailDialogClose = () => {
@@ -41,9 +62,11 @@ export default function setRecoverPassword(props) {
 
   const preSubmit = (
     <div className="password-recover-wrapper">
-      <p className="login-body-text">
-        {"Enter your email address and we'll send you a link to reset your password."}
-      </p>
+      <div className="login-body-text-wrapper">
+        <p className="login-body-text">
+          {"Enter your email address and we'll send you a link to reset your password."}
+        </p>
+      </div>
       <label htmlFor="email-recover">Email</label>
       <input
         className="password-recover-input"
@@ -52,29 +75,32 @@ export default function setRecoverPassword(props) {
         onChange={(e) => {
           setEmailRecover(e.target.value);
         }}></input>
-      <div className="login-buttons">
-        <button
+        <SubmitButton
           disabled={validEmailRecover}
-          className={`submit-button-${validEmailRecover ? "disabled" : "active"}`}
           onClick={() => {
             handlePasswordReset();
           }}>
           Submit
-        </button>
-        <Link className="create-acct-button" to="/sign-up">Create an Account</Link>
+        </SubmitButton>
+      <div className="login-buttons">
+        <Link className="create-acct-button" to="/sign-up" onClick={handleLoginReturn}>Create an Account</Link>
       </div>
     </div>
   );
 
   const postSubmitSuccess = (
     <div>
-      <DialogContentText>{"A password-reset link has been sent to your email."}</DialogContentText>
-      <Button
+    <DialogContent>
+      <DialogContentText className={notifyText}>
+        {"A password-reset link has been sent to your email."}
+        </DialogContentText>
+      <ContainedButton
         onClick={() => {
           handleLoginReturn();
         }}>
         Return to the login page.
-      </Button>
+      </ContainedButton>
+      </DialogContent>
     </div>
   );
 
@@ -82,11 +108,15 @@ export default function setRecoverPassword(props) {
     <div>
       <IconButton 
         onClick={handleFailDialogClose}
-        className="close-button"
+        className={closeButton}
         >
         <CancelIcon />
       </IconButton>
-      <DialogContentText>{"Sorry, we can't seem to find that email in our files. Could you try again?"}</DialogContentText>
+      <DialogContent>
+        <DialogContentText className={notifyText}>
+          {"Sorry, we can't seem to find that email in our files. Could you try again?"}
+        </DialogContentText>
+      </DialogContent>
     </div>
   );
 
