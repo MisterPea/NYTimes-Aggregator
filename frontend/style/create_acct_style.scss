@@ -1,0 +1,54 @@
+@import "./mixins.scss";
+
+// There is some inheritance from login_style.scss
+
+.create-return-wrapper {
+    padding-top: 45px;
+    margin: 0 20px;
+}
+
+.create-acct-wrapper {
+    display: flex;
+    flex-direction: column;
+    @include med--960px-and-up {
+        flex-direction: row;
+        justify-content: space-around;
+    }
+}
+
+.create-acct-about {
+    max-width: 500px; 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin: 0 auto;
+
+    .create-acct-text-holder {
+        
+        margin: 20px 0 ;
+        max-width: 400px;
+        
+        padding:15px 20px 20px;
+        border-radius: 5px;
+        border: 0.5px rgba(207, 197, 183, 0.5) solid;
+        background-color: rgba(207, 197, 183, 0.125);
+        @include med--960px-and-up {
+            margin-top: 0;
+        }
+    }
+    
+    h3 {
+        @include neue-haas-bold;
+        text-align: center;
+        padding: 4px 0;
+        color:#4b4b4b;
+    }
+
+    p {
+        @include neue-haas-display;
+        line-height: 3ex;
+        letter-spacing: 0.125ex;
+        font-size: 14px;
+        color: rgba(0, 0, 0, 0.7);
+    }
+}
