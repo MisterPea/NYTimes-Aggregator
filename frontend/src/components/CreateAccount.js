@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import {VerifyEmailAndPassword} from "./api/VerifyEmailPassword";
 import { InitUser } from "./api/DatabaseActions";
 import uidContextProvider from "./api/UidContext";
+import {SubmitButton} from "./material_ui_hoc/SubmitButton";
 
 export default function CreateAccount({ message }) {
   const [credentials, setCredentials] = useState({ email: "", password: "", username: "" });
@@ -81,72 +82,110 @@ export default function CreateAccount({ message }) {
   );
 
   const loginInit = (
-    <div className="login-wrapper">
-      {message && <div className="message">{message}</div>}
-      <h3 className="login-headline">Create a New Account</h3>
-      <div className="email-input">
-        <label className="create-acct-space" htmlFor="username">Username</label>
-        <input
-          type="text"
-          name="username"
-          className="text-input"
-          value={username}
-          onChange={(e) => {
-            handleCredentialChange(e);
-          }}></input>
-      </div>
-      <p className="warning-dialog new-acct">
-      {validSubmission && !validationErrors.user && <p>Username must be between 3-35 characters.<br /> Using letters and &apos;-&apos;, &apos;_&apos;, or &.</p>}</p>
-      <div className="email-input">
-        <label className="create-acct-space" htmlFor="email">Email</label>
-        <input
-          type="text"
-          name="email"
-          className="text-input"
-          value={email}
-          onChange={(e) => {
-            handleCredentialChange(e);
-          }}></input>
-      </div>
-      <p className="warning-dialog new-acct">{validSubmission && !validationErrors.email && "Email address is not valid."}</p>
-      <div className="email-input">
-        <label className="create-acct-space" htmlFor="userPassword">Password</label>
-        <input
-          type="password"
-          name="password"
-          className="text-input"
-          value={password}
-          onChange={(e) => handleCredentialChange(e)}></input>
-      </div>
-      <p className="warning-dialog new-acct">
-      {validSubmission && !validationErrors.password && (
-        <p>Password must be 8 characters in length<br /> with at least one capitalized letter and one number.</p>
-      )}</p>
-      <div className="login-buttons">
-      <button
-        className={validCredentials ? "submit-button-active" : "submit-button-disabled"}
-        onClick={() => {
-          createUser();
-        }}>
-        Submit
-      </button>
-      <Link className="have-account-button" to="/login">Already have an account?</Link>
-      </div>
-      {dbError && (
-        <div>
-          <p>Email already in use.</p>
+    <div className="create-acct-wrapper">
+      <div className="create-acct-about">
+        <div className="create-acct-text-holder">
+          <h3>Why Create an Account?</h3>
+          <p>
+            {
+              "Creating an account will allow you to recieve once daily, email updates based upon the topics you have subscribed to. You will only recive an email if there are new articles for the topics you selected. Add or remove topics as often or infrequently as you like."
+            }
+          </p>
         </div>
-      )}
-      {authError && (
-        <div>
-          <p>There was a problem provisioning the database.</p>
+      </div>
+      <div className="login-wrapper">
+        {message && <div className="message">{message}</div>}
+        <h3 className="login-headline">Create a New Account</h3>
+        <div className="email-input">
+          <label className="create-acct-space" htmlFor="username">
+            Username
+          </label>
+          <input
+            type="text"
+            name="username"
+            className="text-input"
+            value={username}
+            onChange={(e) => {
+              handleCredentialChange(e);
+            }}></input>
         </div>
-      )}
+        <p className="warning-dialog new-acct">
+          {validSubmission && !validationErrors.user && (
+            <p>
+              Username must be between 3-35 characters.
+              <br /> Using letters and &apos;-&apos;, &apos;_&apos;, or &.
+            </p>
+          )}
+        </p>
+        <div className="email-input">
+          <label className="create-acct-space" htmlFor="email">
+            Email
+          </label>
+          <input
+            type="text"
+            name="email"
+            className="text-input"
+            value={email}
+            onChange={(e) => {
+              handleCredentialChange(e);
+            }}></input>
+        </div>
+        <p className="warning-dialog new-acct">
+          {validSubmission && !validationErrors.email && "Email address is not valid."}
+        </p>
+        <div className="email-input">
+          <label className="create-acct-space" htmlFor="userPassword">
+            Password
+          </label>
+          <input
+            type="password"
+            name="password"
+            className="text-input"
+            value={password}
+            onChange={(e) => handleCredentialChange(e)}></input>
+        </div>
+        <p className="warning-dialog new-acct">
+          {validSubmission && !validationErrors.password && (
+            <p>
+              Password must be 8 characters in length
+              <br /> with at least one capitalized letter and one number.
+            </p>
+          )}
+        </p>
+
+        <SubmitButton
+          disabled={!validCredentials}
+          onClick={() => {
+            createUser();
+          }}>
+          Submit
+        </SubmitButton>
+        <div className="login-buttons">
+          <Link
+            className="have-account-button"
+            to={{
+              pathname: "/home",
+              state: { locationFrom: true },
+            }}>
+            Already have an account?
+          </Link>
+        </div>
+        {dbError && (
+          <div>
+            <p>Email already in use.</p>
+          </div>
+        )}
+        {authError && (
+          <div>
+            <p>There was a problem provisioning the database.</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 
   return (
-    <div className="login-return-wrapper">
+    <div className="create-return-wrapper">
       {success ? welcome : loginInit}
     </div>
   );
