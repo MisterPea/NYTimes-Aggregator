@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
 import NavBar from "./NavBar";
 import SectionMenu from "./SectionMenu";
-import Login from "./Login";
 import CreateAccount from "./CreateAccount";
 import UserInfo from "./UserInfo";
 import uidContextProvider from "./api/UidContext";
@@ -64,12 +63,11 @@ export default function App() {
         <MuiThemeProvider theme={theme}>
           <NavBar />
           <Switch>
-            <Route exact path="/login" component={Login} />
             <Route exact path="/sign-up" component={CreateAccount} />
             <PrivateRoute exact path="/user-info">
               <UserInfo />
             </PrivateRoute>
-            <Route exact path="/:section" component={SectionMenu} />
+            <Route path="/:section/" component={SectionMenu} />
             <Redirect from="/" to="/home" />
             <Route component={FourOhFour} />
           </Switch>
