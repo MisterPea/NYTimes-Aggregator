@@ -10,10 +10,10 @@ import PropTypes from "prop-types";
  * @param {function} updateCallback - Function called on checkbox click.
  * @returns Checkbox component.
  */
-export default function Checkbox({ searchFacet, displayFacet=false, uid, updateCallback, frontLabel=false,}) {
+const Checkbox = ({ searchFacet, displayFacet , uid, updateCallback, frontLabel}) => {
   return (
     <label htmlFor={searchFacet} className="modal-check-text">
-      {frontLabel && <span className="label-text front-label">{frontLabel}</span>}
+      {frontLabel !== "false" && <span className="label-text front-label">{frontLabel}</span>}
       <input
         id={searchFacet}
         type="checkbox"
@@ -24,7 +24,7 @@ export default function Checkbox({ searchFacet, displayFacet=false, uid, updateC
         onChange={(e) => updateCallback(e)}
       />
       <span className="modal-checkmark"></span>
-      {displayFacet && <span className="label-text">{displayFacet}</span>}
+      {displayFacet !== "false" && <span className="label-text">{displayFacet}</span>}
     </label>
   );
 }
@@ -35,3 +35,4 @@ Checkbox.propTypes = {
   updateCallback: PropTypes.func,
   frontLabel: PropTypes.string,
 };
+export default Checkbox
