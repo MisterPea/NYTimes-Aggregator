@@ -9,6 +9,9 @@ import { IconButton } from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { Menu, MenuItem } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles"
+import { Dialog, DialogContent, DialogActions } from "@material-ui/core"
+import CancelIcon from '@material-ui/icons/Cancel';
+import Login from "./Login";
 
 export default function NavBar() {
   const [uid, setUid] = useState(null);
@@ -18,6 +21,7 @@ export default function NavBar() {
   const auth = firebase.auth();
   const { setUidContext } = useContext(uidContextProvider);
   const [anchorElement, setAnchorElement] = useState(null);
+  const [activeLogin, setActiveLogin] = useState(false);
   let { pathname } = useLocation();
   const uiButtonLockout = pathname === "/login" || pathname === "/sign-up";
 
@@ -96,13 +100,31 @@ export default function NavBar() {
       });
   };
 
+  const handleOpenLogin = () => {
+    setActiveLogin(true);
+  }
+
+  const handleCloseLogin = () => {
+    setActiveLogin(false);
+  }
+
   return (
     <div className="navbar-wrapper">
+      <Dialog
+        open={activeLogin}
+        onClose={handleCloseLogin}>
+        <DialogContent>
+          <DialogActions>
+            <CancelIcon style={{ fontSize: 30 }} onClick={handleCloseLogin} className="modal-close-button" />
+          </DialogActions>
+          <Login modalClose={handleCloseLogin}/>
+        </DialogContent>
+      </Dialog>
       <div className="site-title">
         the-times.page<span className="sub-title"> subscription/aggregation</span>
       </div>
       <nav className="navigation-wrapper">
-        <div className={`home-icon-${pathname === "/home" ? "deactive":"active"}`}>
+        <div className={`home-icon-${pathname === "/home" ? "deactive" : "active"}`}>
           <IconButton disabled={pathname === "/home"} href="/">
             <HomeIcon />
           </IconButton>
@@ -131,21 +153,21 @@ export default function NavBar() {
             }}
             getContentAnchorEl={null}>
             {pathname !== "/login" && pathname !== "/sign-up" && !uid && (
-              <StyledMenuItem onClick={handleClose}>
-                <Link className="link-button" to="/login">Login/Sign-up</Link>
+              <StyledMenuItem onClick={() => {handleClose(); handleOpenLogin(); }}>
+                Login/Sign-up
+                {/* <Link className="link-button" to="/login">Login/Sign-up</Link> */}
               </StyledMenuItem>
             )}
             {uid && (
               <div>
                 {pathname !== "/user-info" && (
                   <StyledMenuItem onClick={handleClose}>
-                    <Link className="link-button" to="/user-info">Account Info</Link>
+                    <Link className="link-button" to="/user-info">
+                      Account Info
+                    </Link>
                   </StyledMenuItem>
                 )}
-                <StyledMenuItem onClick={signOut}>
-                  Logout
-                  
-                </StyledMenuItem>
+                <StyledMenuItem onClick={signOut}>Logout</StyledMenuItem>
               </div>
             )}
           </StyledMenu>
