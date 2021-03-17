@@ -129,7 +129,7 @@ export default function NavBar() {
             <HomeIcon />
           </IconButton>
         </div>
-        <div className="user-interface">
+        <div className={`user-interface-logged-${uid ? "in":"out"}`}>
           <IconButton
             aria-controls="user-info-button"
             aria-haspopup="true"
@@ -155,7 +155,6 @@ export default function NavBar() {
             {pathname !== "/login" && pathname !== "/sign-up" && !uid && (
               <StyledMenuItem onClick={() => {handleClose(); handleOpenLogin(); }}>
                 Login/Sign-up
-                {/* <Link className="link-button" to="/login">Login/Sign-up</Link> */}
               </StyledMenuItem>
             )}
             {uid && (
