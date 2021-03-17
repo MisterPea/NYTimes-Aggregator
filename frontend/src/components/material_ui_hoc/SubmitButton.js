@@ -16,13 +16,14 @@ const styles = {
         padding: "5px 30px",
         textTransform:"none",
         "&:hover" : {
-            backgroundColor: "red",
+            backgroundColor: "#70a33b",
+            color:"#e8ede4"
+        },
+        "&:disabled" : {
+            backgroundColor:"#cde0b6",
+            color:"#b7c9a1",
+            cursor: "none"
         }
-    },
-    disabled: {
-        backgroundColor:"#aed581",
-        color:"#c5e1a5",
-        cursor: "none"
     }
 }
 
