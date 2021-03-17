@@ -1,10 +1,18 @@
 @use "./global_resets.scss";
 @use "./modal_subscription_style.scss";
+@use "./login_style.scss";
+@use "./create_acct_style.scss";
 @import "./mixins.scss";
 
 body {
   background-color: #fff;
 }
+
+// .test {
+//   width:1280px;
+//   height:200px;
+//   background-color: #000;
+// }
 
 #root {
   display: flex;
@@ -33,13 +41,25 @@ body {
 
 .home-icon-deactive {
   .MuiSvgIcon-root {
-    color: rgba(255, 255, 255, 0.10);
+    color: rgba(255, 255, 255, 0.1);
   }
 }
 
 .home-icon-active {
   .MuiSvgIcon-root {
-    color: rgba(255, 255, 255, 0.60);
+    color: rgba(255, 255, 255, 0.6);
+  }
+}
+
+.user-interface-logged-in {
+  .MuiIconButton-root {
+    color: rgba(216, 255, 109, 0.6);
+  }
+}
+
+.user-interface-logged-out {
+  .MuiIconButton-root {
+    color: rgba(255, 255, 255, 0.6);
   }
 }
 
@@ -60,7 +80,7 @@ body {
 }
 
 .sub-title {
-  @include neue-haas-light;
+  @include neue-haas-display;
   opacity: 0.5;
   font-size: 13px;
   letter-spacing: 0.025em;
@@ -90,7 +110,7 @@ body {
 }
 
 .link-button {
-  @include neue-haas-light;
+  @include neue-haas-display;
   color: #000;
   height: 100%;
   width: 100%;
@@ -111,12 +131,16 @@ body {
       justify-content: space-around;
     }
   }
-  
+
   li {
     cursor: pointer;
     background-color: rgb(250, 240, 225);
-    display: block;
     position: relative;
+    padding: 20px 15px 15px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 0.25px rgb(207, 197, 183) solid;
     @include small--600px-and-up {
       margin-bottom: 6px;
       border-radius: 4px;
@@ -124,39 +148,68 @@ body {
     }
     @include med--960px-and-up {
       flex: 0 1 calc(33% - 3px);
+      display: flex;
+      flex-direction: column;
+      border-radius: 4px 4px 20px 4px;
+      padding: 20px;
     }
     @include lg--1280px-and-up {
       flex: 0 1 calc(25% - 6px);
     }
     @include xl--1920px-and-up {
-      flex: 0 1 calc(20% - 6px)
+      flex: 0 1 calc(20% - 6px);
     }
   }
 
+  .section-text {
+    @include neue-haas-display;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: rgb(134, 126, 115);
+    position: absolute;
+    top: 5px;
+    left: 21px;
+  }
+
   .main-card-area {
-    height:100%;
-    display:flex;
+    height: 100%;
+    display: flex;
     flex-direction: column;
     justify-content: space-between;
   }
 
-  .shadow-holder::after {
-    content: "";
+  // This is set to bring the onClick into view. 
+  .shadow-holder {
     position: absolute;
-    width:100%;
-    height:100%;
-    top:0;
-    left:0;
-    border-radius: 5px;
-    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
   }
-  li:hover {
-    background-color: rgb(255, 246, 232);
-    & > .shadow-holder::after {
-      opacity: 1;
-      z-index: 10;
+
+  // Only have box-shadow rollover on desktop sizes. 
+  @include lg--1280px-and-up {
+    .shadow-holder::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      border-radius: 4px 4px 20px 4px;
+      box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+      -webkit-transform: translateZ(0);
+      transform: translateZ();
+      -webkit-transition: opacity .25s ease-in-out;
+    }
+    li:hover {
+      background-color: rgb(255, 246, 232);
+      & > .shadow-holder::after {
+        opacity: 1;
+        z-index: 10;
+      }
     }
   }
 
@@ -165,14 +218,6 @@ body {
     z-index: 11;
   }
 
-  .article-list-item {
-    padding: 20px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 0.25px rgb(207, 197, 183) solid;
-  }
-  
   .image-headline {
     display: flex;
     flex-direction: row;
@@ -180,161 +225,64 @@ body {
     .article-headline {
       @include neue-haas-bold;
       line-height: 2.125ex;
-      font-size: 20px;
+      font-size: 19px;
       letter-spacing: 0.03em;
       padding-right: 10px;
       color: rgb(75, 75, 75);
+      
+      @include med--960px-and-up {
+        font-size: 18px;
+        line-height: 2.4ex;
+        border-bottom: 0.25px rgb(207, 197, 183) solid
+      }
     }
     img {
-      
-      height:75px;
-      border-radius: 18%;
+      height: 75px;
+      border-radius: 0 18% 18% 18%;
       margin-right: 10px;
       border: 0.25px rgb(221, 221, 221) solid;
+      @include med--960px-and-up {
+        height: 70px;
+      }
     }
   }
   .article-abstract {
-    @include neue-haas-light;
+    @include neue-haas-display;
     font-size: 16px;
     letter-spacing: 0.05em;
     line-height: 20px;
     padding-right: 10px;
+
+    @include med--960px-and-up {
+      font-size: 14px;
+      padding-right: 20px;
+    }
   }
+
   .modal-button {
-    color: rgb(68, 133, 175);
+    z-index: 18;
+    color: #4b4b4b;
     font-size: large;
     cursor: pointer;
-    float: right;
-    padding: 6px 6px 0;
-    transition: transform 80ms cubic-bezier(0.42, 0.7, 0.51, 0.99);
+    padding: 6px 6px 1px;
     border-radius: 50%;
     transform-origin: 50% 50%;
-    // &:hover {
-    //   transform: rotate(45deg);
-    // }
-  }
-}
 
-// **************************************** //
-// **************** Login ***************** //
-// **************************************** //
-
-.login-body-text {
-  @include neue-haas-light;
-  text-align: center;
-  font-size: 18px;
-  letter-spacing: 0.08em;
-  padding: 0 20px 30px;
-
-  &.failure {
-    padding: 0 20px;
-  }
-}
-
-.login-wrapper {
-  @include neue-haas-bold;
-  letter-spacing: 0.06em;
-  padding: 80px 20px 0;
-  display: flex;
-  flex-direction: column;
-  max-width: 500px;
-  margin: 0 auto;
-}
-
-.login-headline {
-  text-align: center;
-  padding-bottom: 10px;
-  min-width: 100%;
-}
-
-.warning-dialog {
-  color: red;
-  max-width: 500px;
-  text-align: center;
-  margin: 0 auto;
-  height: 25px;
-}
-
-.new-acct {
-  @include neue-haas-light;
-  font-size: 15px;
-  height: 40px;
-}
-
-.email-input,
-.password-input,
-.password-recover-wrapper {
-  display: flex;
-  flex-direction: column;
-  @include neue-haas-light;
-  font-size: 12px;
-  letter-spacing: 0.08em;
-
-  input {
-    @include neue-haas-light;
-    border-radius: 2px;
-    font-size: 16px;
-    letter-spacing: 0.05em;
-    height: 45px;
-    border: none;
-    margin-top: 3px;
-    padding-left: 15px;
-    background-color: rgba(0, 0, 0, 0.07);
-  }
-}
-
-.password-recover-wrapper {
-  padding: 0 20px;
-}
-
-.password-input {
-  padding: 35px 0;
-}
-
-.login-buttons {
-  display: flex;
-  flex-direction: column;
-  padding: 20px 20px;
-
-  button {
-    @include neue-haas-light;
-    letter-spacing: 0.06em;
-    font-size: 18px;
-    padding: 10px 0;
-    border: none;
-    border-radius: 5px;
-    flex: 1 0;
-    cursor: pointer;
-  }
-
-  .forgot-password {
-    @include neue-haas-light;
-    color: rgb(0, 0, 0);
-    font-size: 14px;
-    text-align: center;
-    // padding: 5px 0;
-    background: none;
-  }
-
-  .create-acct-button,
-  .have-account-button {
-    @include neue-haas-light;
-    font-size: 18px;
-    margin-top: 60px;
-    padding: 10px 0;
-    text-align: center;
-    color: rgb(0, 0, 0);
-    border: 0.5px solid rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
-    transition: background-color 0.3s ease-in-out;
-    &:hover {
-      background-color: rgb(209, 255, 209);
+    @include med--960px-and-up  {
+      transition: transform 120ms cubic-bezier(0.42, 0.7, 0.51, 0.99);
+      position: absolute;
+      bottom: 1px;
+      right: 1px;
+      &:hover {
+        transform: rotate(45deg) scale(1.08,1.08);
+      }
     }
   }
 }
+
 // Success page
 .welcome-back {
-  @include neue-haas-light;
+  @include neue-haas-display;
   font-size: 18px;
   text-align: center;
 }
@@ -358,18 +306,10 @@ body {
 ///+*+*+*+*+* Control panel *+*+*+*+*+///
 ///*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*///
 
-.info-holder {
-  background-color: #fff;
-  border-radius: 5px;
-  padding: 20px;
-  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-}
-
 .control-panel {
   min-width: 350px;
   margin: 60px auto 0;
   letter-spacing: 0.05em;
-
   h4 {
     @include neue-haas-bold;
     text-align: center;
@@ -377,11 +317,26 @@ body {
   }
   p,
   label {
-    @include neue-haas-light;
+    @include neue-haas-display;
   }
   .p-italic {
-    @include neue-haas-light;
-    // font-style: italic;
+    @include neue-haas-display;
+  }
+  @include med--960px-and-up {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+  }
+  .info-holder {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    @include med--960px-and-up {
+      min-width: 400px;
+      flex:1;
+      margin: 20px 20px 0;
+    }
   }
 
   // <---- Subscription Info ----> //
@@ -436,7 +391,8 @@ body {
 ///+*+*+*+*+* Re-auth panel *+*+*+*+*+///
 ///*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*///
 .account-change-wrapper {
-  @include neue-haas-light;
+  @include neue-haas-display;
+
   text-align: center;
   h4 {
     margin-bottom: 8px;

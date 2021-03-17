@@ -4,11 +4,28 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px 20px;
+  padding: 0 20px;
+  // background-color: rgb(197, 154, 154);
+}
+
+.modal-wrapper-login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  // height:620px;
+  padding: 0 30px;
+  @include med--960px-and-up {
+    padding: 0 40px;
+    
+  }
+
+.MuiDialogActions-root {
+    padding:0;
+  }
 }
 
 .modal-check-text {
-  @include neue-haas-light;
+  @include neue-haas-display;
   display: block;
   padding-left: 15px;
   text-indent: -25px;
@@ -70,16 +87,41 @@
 }
 
 .modal-cta {
-    position: absolute;
-  padding-bottom: 18px;
+  //   position: absolute;
+  // padding-bottom: 18px;
+  text-align: center;
   @include neue-haas-bold;
 }
 
+.modal-cta-login {
+  padding-top:250px;
+}
+
 .modal-headline {
-padding-top: 10px;
+  padding-top: 10px;
   padding-bottom: 20px;
   font-size: 25px;
   letter-spacing: -0.01em;
   line-height: 30px;
   @include neue-haas-bold;
+}
+
+.checkbox-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  ul {
+    display: inline-block;
+    margin: 0 auto;
+    li {
+      white-space: nowrap;
+      padding: 2px 0;
+    }
+  }
+}
+
+.submit-confirm {
+  @include neue-haas-display;
+  padding-bottom: 20px;
+  font-size: 18px;
 }
