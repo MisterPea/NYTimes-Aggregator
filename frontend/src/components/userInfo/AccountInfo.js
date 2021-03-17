@@ -20,6 +20,12 @@ export default function AccountInfo() {
     }
   }, [user]);
 
+  useEffect(() => {
+    return () => {
+      setUserInfo({ username: "", email: "" })
+    }
+  },[])
+
   const handleSectionChange = (e) => {
     if (e === activeSection) {
       setActiveSection(null);
