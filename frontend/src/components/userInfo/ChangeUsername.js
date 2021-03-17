@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import SubmitButton from "../material_ui_hoc/SubmitButton"
 
 export default function ChangeUsername({ user, reference, dialogRef }) {
   const [newUsername, setNewUsername] = useState("");
@@ -34,12 +35,12 @@ export default function ChangeUsername({ user, reference, dialogRef }) {
         }}
         placeholder="Enter new username"
       />
-      <button
+      <SubmitButton
         onClick={() => {
           handleClick();
         }}>
         Submit
-      </button>
+      </SubmitButton>
     </div>
   );
 

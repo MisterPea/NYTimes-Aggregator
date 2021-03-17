@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { VerifyEmail } from "../api/VerifyEmailPassword";
 import PropTypes from "prop-types";
 import Reauthenticate from "./Reauthenticate";
+import SubmitButton from "../material_ui_hoc/SubmitButton"
 
 export default function ChangeEmail({ user, reference, dialogRef }) {
   const [newEmail, setNewEmail] = useState("");
@@ -48,20 +49,20 @@ export default function ChangeEmail({ user, reference, dialogRef }) {
         }}
         placeholder="Enter new email"
       />
-      <button
+      <SubmitButton
         onClick={() => {
           handleEmailChange();
         }}
         disabled={submitDeactive}>
         Submit
-      </button>
+      </SubmitButton>
     </div>
   );
 
   const emailChangeConfirm = (
     <div className="body-holder input">
       <p>Your email address has been updated.</p>
-      <button onClick={dialogRef}>Close</button>
+      <SubmitButton onClick={dialogRef}>Close</SubmitButton>
     </div>
   );
 

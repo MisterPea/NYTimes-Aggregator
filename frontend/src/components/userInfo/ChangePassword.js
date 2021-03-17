@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { VerifyPassword } from "../api/VerifyEmailPassword";
 import PropTypes from "prop-types";
 import Reauthenticate from "./Reauthenticate";
+import SubmitButton from "../material_ui_hoc/SubmitButton"
 
 export default function ChangePassword({ user, dialogRef }) {
   const [newPassword, setNewPassword] = useState("");
@@ -45,20 +46,20 @@ export default function ChangePassword({ user, dialogRef }) {
         }}
         placeholder="Enter new password"
       />
-      <button
+      <SubmitButton
         onClick={() => {
           handlePasswordChange();
         }}
         disabled={submitDeactive}>
         Submit
-      </button>
+      </SubmitButton>
     </div>
   );
 
   const passwordChangeConfirm = (
     <div className="body-holder input">
       <p>Your password has been updated.</p>
-      <button onClick={dialogRef}>Close</button>
+      <SubmitButton onClick={dialogRef}>Close</SubmitButton>
     </div>
   );
 
