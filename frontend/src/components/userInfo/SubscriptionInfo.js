@@ -3,7 +3,7 @@ import uidContextProvider from "../api/UidContext";
 import { AddToUser } from "../api/DatabaseActions";
 import { GetActiveStatus, SetActiveStatus } from "../api/DatabaseActions";
 import Checkbox from "../material_ui_hoc/Checkbox";
-import {SubmitButton} from "../material_ui_hoc/SubmitButton"
+import SubmitButton from "../material_ui_hoc/SubmitButton"
 
 export default function SubscriptionInfo() {
   const { uidContext, setUidContext } = useContext(uidContextProvider);
@@ -16,21 +16,24 @@ export default function SubscriptionInfo() {
   const subscriptionLength = useRef(0);
 
   useEffect(() => {
+    let isMounted = true;
     if (uidContext.subscriptions) {
       setFacetsClicked(uidContext.subscriptions);
     }
-
     // Sets initial subscription status.
     if (uidContext.uid) {
       if (subscriptionActive === null) {
         GetActiveStatus(uidContext.uid)
           .then((res) => {
-            setSubscriptionActive(res);
+            isMounted && setSubscriptionActive(res);
           })
           .catch((err) => {
             console.error(`Error retreiving subscription status: ${err.code}`);
-          });
+          })
       }
+    }
+    return () => {
+      isMounted = false;
     }
   }, [uidContext.uid]);
 
