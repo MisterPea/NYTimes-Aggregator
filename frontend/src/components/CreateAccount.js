@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import {VerifyEmailAndPassword} from "./api/VerifyEmailPassword";
 import { InitUser } from "./api/DatabaseActions";
 import uidContextProvider from "./api/UidContext";
-import {SubmitButton} from "./material_ui_hoc/SubmitButton";
+import SubmitButton from "./material_ui_hoc/SubmitButton";
 
 export default function CreateAccount({ message }) {
   const [credentials, setCredentials] = useState({ email: "", password: "", username: "" });
