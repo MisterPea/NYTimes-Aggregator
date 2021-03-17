@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, Suspense, lazy } from "react";
 import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
 import NavBar from "./NavBar";
 import SectionMenu from "./SectionMenu";
-import CreateAccount from "./CreateAccount";
-import UserInfo from "./UserInfo";
 import uidContextProvider from "./api/UidContext";
 import FourOhFour from "./FourOhFour";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
+const CreateAccount = lazy(() => import('./CreateAccount'));
+const UserInfo = lazy(() => import("./UserInfo"));
 import PropTypes from "prop-types";
 
 /**
@@ -60,18 +60,20 @@ export default function App() {
   return (
     <uidContextProvider.Provider value={value}>
       <Router>
-        <MuiThemeProvider theme={theme}>
-          <NavBar />
-          <Switch>
-            <Route exact path="/sign-up" component={CreateAccount} />
-            <PrivateRoute exact path="/user-info">
-              <UserInfo />
-            </PrivateRoute>
-            <Route path="/:section/" component={SectionMenu} />
-            <Redirect from="/" to="/home" />
-            <Route component={FourOhFour} />
-          </Switch>
-        </MuiThemeProvider>
+        <Suspense fallback={<div>Loading...</div>}>
+          <MuiThemeProvider theme={theme}>
+            <NavBar />
+            <Switch>
+              <Route exact path="/sign-up" component={CreateAccount} />
+              <PrivateRoute exact path="/user-info">
+                <UserInfo />
+              </PrivateRoute>
+              <Route path="/:section/" component={SectionMenu} />
+              <Redirect from="/" to="/home" />
+              <Route component={FourOhFour} />
+            </Switch>
+          </MuiThemeProvider>
+        </Suspense>
       </Router>
     </uidContextProvider.Provider>
   );
