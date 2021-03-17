@@ -4,8 +4,7 @@ import { Link } from "react-router-dom";
 import firebase from "./api/Auth";
 import uidContextProvider from "./api/UidContext";
 import RecoverPassword from "./login/RecoverPassword"
-import Success from "./login/Success"
-import {SubmitButton} from "./material_ui_hoc/SubmitButton"
+import SubmitButton from "./material_ui_hoc/SubmitButton"
 
 export default function Login({ message, modalClose }) {
   const [email, setEmail] = useState("");
@@ -27,6 +26,10 @@ export default function Login({ message, modalClose }) {
       !submitDisabled && setSubmitDisabled(true);
     }
   }, [password, email, uidContext.name]);
+
+  useEffect(() => {
+    userName && modalClose();
+  },[userName])
 
   const handleLogin = () => {
     auth
@@ -84,8 +87,8 @@ export default function Login({ message, modalClose }) {
       </div>
       <SubmitButton
         disabled={submitDisabled}
-        id="login-submit-button"
-        onClick={() => {
+        id={"login-submit-button"}
+        submitCallback={() => {
           handleLogin();
         }}>
         Submit
@@ -103,7 +106,7 @@ export default function Login({ message, modalClose }) {
 
   return (
     <div className="login-return-wrapper">
-      {userName ? <Success userName={userName} /> : recoverPassword ? <RecoverPassword loginReturn={handleReturnToLogin} modalClose={modalClose} /> : preLogin}
+      {userName ? null : recoverPassword ? <RecoverPassword loginReturn={handleReturnToLogin} modalClose={modalClose} /> : preLogin}
     </div>
   );
 }
