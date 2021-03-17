@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import firebase from "../api/Auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import PropTypes from "prop-types";
-import {SubmitButton} from "../material_ui_hoc/SubmitButton"
+import SubmitButton from "../material_ui_hoc/SubmitButton"
 
 /**
  * Dialog component to reauthenticate credentials for email and password chnages.
