@@ -5,7 +5,7 @@ import { VerifyEmail } from "../api/VerifyEmailPassword";
 import { Dialog, DialogContent, DialogContentText } from "@material-ui/core";
 import CancelIcon from '@material-ui/icons/Cancel';
 import {IconButton} from '@material-ui/core'
-import { SubmitButton } from "../material_ui_hoc/SubmitButton"
+import SubmitButton from "../material_ui_hoc/SubmitButton"
 import  ContainedButton from "../material_ui_hoc/ContainedButton"
 import { makeStyles } from "@material-ui/styles"
 
