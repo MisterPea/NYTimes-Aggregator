@@ -11,7 +11,7 @@
  import { AddToUser } from "./api/DatabaseActions";
  import CancelIcon from '@material-ui/icons/Cancel';
  import { DialogActions} from '@material-ui/core';
- import { SubmitButton } from './material_ui_hoc/SubmitButton';
+ import SubmitButton from './material_ui_hoc/SubmitButton';
  import Checkbox from "../components/material_ui_hoc/Checkbox";
  
  export default function ModalSelectionLogin(props) {
@@ -141,7 +141,7 @@
    const postSubmit = (
      <div>
        <p className="submit-confirm">{submittedResponse ? `Your subcriptions have been updated` : `${submittedResponse}`}</p>
-       <SubmitButton onClick={handleCloseModal}>Close</SubmitButton>
+       <SubmitButton type="submit" onClick={handleCloseModal}>Close</SubmitButton>
      </div>
    );
  
@@ -151,14 +151,17 @@
        <DialogActions>
          <CancelIcon style={{fontSize: 30}} className="modal-close-button" onClick={handleCloseModal} />
        </DialogActions>
-         {!uidContext.uid && <Login message={"You must be logged in to subscribe to topics."} />}
-         <h4 className="modal-cta">Subsribe to articles relating to:</h4>
+         {!uidContext.uid 
+          ? <Login message={"You must be logged in to subscribe to topics."} />
+          : <div>
+          <h4 className="modal-cta">Subsribe to articles relating to:</h4>
          <div className="modal-headline-div">
          <h3 className="modal-headline">{props.modalFacets.title}</h3>
          </div>
          {!submitted ? (
            <>
-             <ul className="checkbox-list">
+            <div className="checkbox-list">
+             <ul>
                {flattenedFacets.map(({ searchFacet, displayFacet }) => (
                  <li key={searchFacet}>
                   <Checkbox
@@ -171,17 +174,21 @@
                  </li>
                ))}
              </ul>
+             </div>         
              <SubmitButton
-              type="submit"
-              id="submit-facets-button"
+              id={"submit-facets-button"}
               disabled={submitDisabled}
-              onClick={handleSubmit}>
+              submitCallback={handleSubmit}>
               Submit
             </SubmitButton>
            </>
          ) : (
            postSubmit
          )}
+          </div>
+          
+          }
+         
        </div>
      </div>
    );
