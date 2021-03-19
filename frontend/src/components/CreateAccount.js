@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import PropTypes from 'prop-types'
 import firebase from "./api/Auth";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import {VerifyEmailAndPassword} from "./api/VerifyEmailPassword";
 import { InitUser } from "./api/DatabaseActions";
 import uidContextProvider from "./api/UidContext";
@@ -44,15 +44,16 @@ export default function CreateAccount({ message }) {
               setCredentials({...credentials, email: "", password: "" });
               handleEmailVerification();
             })
-            .catch(() => {
-              setAcctCreationError({ dbError: true });
-            });
+            .catch((err) => {
+              setAcctCreationError({authError: true});
+              console.error(`Dang. Something's not right: ${err}`)
+            })
         })
         .catch(() => {
-          setAcctCreationError({ authError: true });
+          setAcctCreationError({ dbError: true });
         });
     } else {
-      // This will be set if there are validation errors.
+      // This will be called if there are validation errors.
       // Then it will be updated through useEffect.
       // This is done to allow one submission.
       setValidSubmission(true);
@@ -73,13 +74,6 @@ export default function CreateAccount({ message }) {
         console.error(`There's been an error: ${err}`);
       });
   };
-
-  const welcome = (
-    <div className="welcome-wagon">
-      <p>{`Hi, ${username}! Your account has been created.`}</p>
-      <p>Check your email...some verbage</p>
-    </div>
-  );
 
   const loginInit = (
     <div className="create-acct-wrapper">
@@ -109,14 +103,14 @@ export default function CreateAccount({ message }) {
               handleCredentialChange(e);
             }}></input>
         </div>
-        <p className="warning-dialog new-acct">
+        <div className="warning-dialog new-acct">
           {validSubmission && !validationErrors.user && (
             <p>
               Username must be between 3-35 characters.
               <br /> Using letters and &apos;-&apos;, &apos;_&apos;, or &.
             </p>
           )}
-        </p>
+        </div>
         <div className="email-input">
           <label className="create-acct-space" htmlFor="email">
             Email
@@ -144,20 +138,20 @@ export default function CreateAccount({ message }) {
             value={password}
             onChange={(e) => handleCredentialChange(e)}></input>
         </div>
-        <p className="warning-dialog new-acct">
+        <div className="warning-dialog new-acct">
           {validSubmission && !validationErrors.password && (
             <p>
               Password must be 8 characters in length
               <br /> with at least one capitalized letter and one number.
             </p>
           )}
-        </p>
+        </div>
 
         <SubmitButton
-          disabled={!validCredentials}
-          onClick={() => {
-            createUser();
-          }}>
+          submitCallback={createUser}
+          disabled={false}
+          id={"create-acct-submit"}
+          >
           Submit
         </SubmitButton>
         <div className="login-buttons">
@@ -186,7 +180,12 @@ export default function CreateAccount({ message }) {
 
   return (
     <div className="create-return-wrapper">
-      {success ? welcome : loginInit}
+      {success 
+        ? <Redirect to={{
+            pathname:'/home',
+            state:{newUser:credentials.username}
+          }}/> 
+          : loginInit}
     </div>
   );
 }
