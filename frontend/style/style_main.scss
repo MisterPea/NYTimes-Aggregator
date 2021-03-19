@@ -340,6 +340,11 @@ body {
   }
 
   // <---- Subscription Info ----> //
+  .no-subscriptions {
+    text-align: center;
+    margin-top: 20px;
+  }
+
   .pause-subscription {
     margin: 25px 0;
     display: flex;
