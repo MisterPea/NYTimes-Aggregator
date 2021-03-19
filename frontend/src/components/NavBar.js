@@ -12,6 +12,7 @@ import { withStyles } from "@material-ui/styles"
 import { Dialog, DialogContent, DialogActions } from "@material-ui/core"
 import CancelIcon from '@material-ui/icons/Cancel';
 import Login from "./Login";
+import SuccessSnackbar from "./material_ui_hoc/SuccessSnackbar"
 
 export default function NavBar() {
   const [uid, setUid] = useState(null);
@@ -22,6 +23,8 @@ export default function NavBar() {
   const { setUidContext } = useContext(uidContextProvider);
   const [anchorElement, setAnchorElement] = useState(null);
   const [activeLogin, setActiveLogin] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("User");
   let { pathname } = useLocation();
   const uiButtonLockout = pathname === "/login" || pathname === "/sign-up";
 
@@ -86,6 +89,15 @@ export default function NavBar() {
     setAnchorElement(null);
   };
 
+  const handleSnackBarClose = () => {
+    setSnackbarOpen(false);
+  }
+
+  const handleSnackbarOpen = (message) => {
+    setSnackbarOpen(true);
+    setSnackbarMessage(message);
+  }
+
   const signOut = () => {
     auth
       .signOut()
@@ -110,6 +122,11 @@ export default function NavBar() {
 
   return (
     <div className="navbar-wrapper">
+      <SuccessSnackbar 
+        onOpen={snackbarOpen}
+        onClose={handleSnackBarClose}
+        message={snackbarMessage}
+      />
       <Dialog
         open={activeLogin}
         onClose={handleCloseLogin}>
@@ -117,7 +134,7 @@ export default function NavBar() {
           <DialogActions>
             <CancelIcon style={{ fontSize: 30 }} onClick={handleCloseLogin} className="modal-close-button" />
           </DialogActions>
-          <Login modalClose={handleCloseLogin}/>
+          <Login modalClose={handleCloseLogin} postLogin={handleSnackbarOpen}/>
         </DialogContent>
       </Dialog>
       <div className="site-title">
