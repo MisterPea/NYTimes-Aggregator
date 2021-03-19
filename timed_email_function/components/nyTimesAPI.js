@@ -50,7 +50,7 @@ function getSelectionFromAPI(searchTerm, callback) {
         }
       })
       .catch((err) => {
-        console.error(`Error thrown from getSelectionFromAPI: ${err.data}`);
+        console.error(`Error from getSelectionFromAPI: ${err}:${err.data}`);
       });
 }
 
