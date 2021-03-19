@@ -97,58 +97,30 @@ function packageEmailAndArticles(articles, users) {
 }
 
 /**
- * Greedy, recursive method to remove duplicate objects in a 2D Array.
- * Duplicate objects are defined as having the same web_url
+ * Simple method to look at web_urls, only passes unique ones through.
+ * The information passed in (articleObjects) is for one user at a time.
  * @param {Array<object>} articleObjects Array of arrays of objects
  * @return {Array<object>} Returns an array of arrays of objects
- * - This method works from the end to the beginning (length-1 -> 0), to
- * avoid index issues when splicing.
- * - Note: There's prolly a better way to remove duplicates. bfs or bitwise?
  */
 function removeDuplicateArticles(articleObjects) {
-  const objectLength = articleObjects.length - 1;
-  const treeTraverse = (o1, a1, o2, a2) => {
-    const nodeOneLength = articleObjects[o1].articles.length - 1;
-    const nodeTwoLength = articleObjects[o2].articles.length - 1;
+  const tempArray = [];
+  const seenLinks = [];
+  for (let i=0; i<articleObjects.length; i++) {
+    const {searchTerm, articles} = articleObjects[i];
+    tempArray[i] = {searchTerm: searchTerm,articles:[]};
 
-    const nodeOne = articleObjects[o1].articles[a1].web_url;
-    const nodeTwo = articleObjects[o2].articles[a2].web_url;
-
-    if (nodeOne === nodeTwo) {
-      articleObjects[o2].articles.splice(a2, 1);
-      // We see if we're rm from top of the stack, if not, decrement.
-      if (a2 != 0) {
-        a2 -= 1;
+    let articleIndex = 0;
+    const articleLength = articles.length;
+    while (articleIndex < articleLength) {
+      const currentArticle = articles[articleIndex];
+      if (!seenLinks.includes(currentArticle.web_url)) {
+        seenLinks.push(currentArticle.web_url);
+        tempArray[i].articles.push(currentArticle);
       }
-      return treeTraverse(o1, a1, o2, a2);
+      articleIndex++;
     }
-    // If any objects are empty, return- no comparison needed.
-    if (o1 === 0 || o2 === 0) {
-      return articleObjects;
-    }
-    if (a2 < nodeTwoLength) {
-      a2 += 1;
-      return treeTraverse(o1, a1, o2, a2);
-    } else if (a1 < nodeOneLength) {
-      a1 += 1;
-      a2 = 0;
-      return treeTraverse(o1, a1, o2, a2);
-    } else if (o2 < objectLength) {
-      o2 += 1;
-      a1 = 0;
-      a2 = 0;
-      return treeTraverse(o1, a1, o2, a2);
-    } else if (o1 < objectLength - 1) {
-      o1 += 1;
-      o2 = o1 + 1;
-      a1 = 0;
-      a2 = 0;
-      return treeTraverse(o1, a1, o2, a2);
-    } else {
-      return articleObjects;
-    }
-  };
-  return treeTraverse(0, 0, 1, 0);
+  }
+  return tempArray;
 }
 
 module.exports = {getUserInfo, getUniqueSelections, packageEmailAndArticles};
