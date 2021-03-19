@@ -115,7 +115,13 @@ function removeDuplicateArticles(articleObjects) {
       const currentArticle = articles[articleIndex];
       if (!seenLinks.includes(currentArticle.web_url)) {
         seenLinks.push(currentArticle.web_url);
-        tempArray[i].articles.push(currentArticle);
+        const {headline, abstract, web_url, thumbnail} = currentArticle;
+        const newThumbnail = !thumbnail ? "https://avatars.githubusercontent.com/u/221409?s=75" : thumbnail;
+        tempArray[i].articles.push({
+          headline,
+          abstract,
+          web_url,
+          thumbnail: newThumbnail});
       }
       articleIndex++;
     }
