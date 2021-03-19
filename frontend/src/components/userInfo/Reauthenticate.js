@@ -54,7 +54,7 @@ export default function Reauthenticate({ reference }) {
       <h4>Verify account with your current password.</h4>
       <div className="body-holder">
         <input placeholder="Enter Password" type="password" id="password" onChange={(e) => setPassword(e.target.value)} />
-        <SubmitButton onClick={handleSubmit}>Submit</SubmitButton>
+        <SubmitButton submitCallback={handleSubmit}>Submit</SubmitButton>
       </div>
     </div>
   );

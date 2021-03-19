@@ -47,7 +47,7 @@ export default function ChangePassword({ user, dialogRef }) {
         placeholder="Enter new password"
       />
       <SubmitButton
-        onClick={() => {
+        submitCallback={() => {
           handlePasswordChange();
         }}
         disabled={submitDeactive}>
@@ -59,7 +59,7 @@ export default function ChangePassword({ user, dialogRef }) {
   const passwordChangeConfirm = (
     <div className="body-holder input">
       <p>Your password has been updated.</p>
-      <SubmitButton onClick={dialogRef}>Close</SubmitButton>
+      <SubmitButton submitCallback={dialogRef}>Close</SubmitButton>
     </div>
   );
 

@@ -77,7 +77,7 @@ export default function setRecoverPassword({loginReturn, modalClose}) {
         }}></input>
         <SubmitButton
           disabled={validEmailRecover}
-          onClick={() => {
+          submitCallback={() => {
             handlePasswordReset();
           }}>
           Submit

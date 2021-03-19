@@ -36,7 +36,7 @@ export default function ChangeUsername({ user, reference, dialogRef }) {
         placeholder="Enter new username"
       />
       <SubmitButton
-        onClick={() => {
+        submitCallback={() => {
           handleClick();
         }}>
         Submit
@@ -49,12 +49,12 @@ export default function ChangeUsername({ user, reference, dialogRef }) {
       {!error ? (
         <div className="body-holder">
           <p>Your username has been updated.</p>
-          <button onClick={dialogRef}>Close</button>
+          <SubmitButton submitCallback={dialogRef}>Close</SubmitButton>
         </div>
       ) : (
         <div className="body-holder">
           <p>{`There has been an error: ${error}`}</p>
-          <button onClick={dialogRef}>Close</button>
+          <SubmitButton submitCallback={dialogRef}>Close</SubmitButton>
         </div>
       )}
     </div>

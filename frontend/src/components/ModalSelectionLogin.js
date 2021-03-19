@@ -141,9 +141,11 @@
    const postSubmit = (
      <div>
        <p className="submit-confirm">{submittedResponse ? `Your subcriptions have been updated` : `${submittedResponse}`}</p>
-       <SubmitButton type="submit" onClick={handleCloseModal}>Close</SubmitButton>
+       <SubmitButton type="submit" submitCallback={handleCloseModal}>Close</SubmitButton>
      </div>
    );
+
+   
  
    return (
      <div>

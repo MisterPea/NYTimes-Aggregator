@@ -50,7 +50,7 @@ export default function ChangeEmail({ user, reference, dialogRef }) {
         placeholder="Enter new email"
       />
       <SubmitButton
-        onClick={() => {
+        submitCallback={() => {
           handleEmailChange();
         }}
         disabled={submitDeactive}>
@@ -62,7 +62,7 @@ export default function ChangeEmail({ user, reference, dialogRef }) {
   const emailChangeConfirm = (
     <div className="body-holder input">
       <p>Your email address has been updated.</p>
-      <SubmitButton onClick={dialogRef}>Close</SubmitButton>
+      <SubmitButton submitCallback={dialogRef}>Close</SubmitButton>
     </div>
   );
 
