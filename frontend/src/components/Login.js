@@ -6,7 +6,7 @@ import uidContextProvider from "./api/UidContext";
 import RecoverPassword from "./login/RecoverPassword"
 import SubmitButton from "./material_ui_hoc/SubmitButton"
 
-export default function Login({ message, modalClose }) {
+export default function Login({ message, modalClose, postLogin }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState(null);
@@ -28,7 +28,10 @@ export default function Login({ message, modalClose }) {
   }, [password, email, uidContext.name]);
 
   useEffect(() => {
-    userName && modalClose();
+    if(userName){
+      postLogin(userName);
+      modalClose && modalClose();
+    }
   },[userName])
 
   const handleLogin = () => {
@@ -114,4 +117,5 @@ export default function Login({ message, modalClose }) {
 Login.propTypes = {
   message: PropTypes.string,
   modalClose: PropTypes.func,
+  postLogin: PropTypes.func,
 }
