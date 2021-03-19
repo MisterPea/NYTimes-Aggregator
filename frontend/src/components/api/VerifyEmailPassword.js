@@ -9,7 +9,7 @@
   */
 export function VerifyEmailAndPassword(user = null, userEmail = null, userPassword = null) {
   const eRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  const pRegex = /(?=[A-Za-z0-9@#$%^&+!=]+$)^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,}).*$/;
+  const pRegex = /(?=[A-Za-z0-9@#$%^&+!-=]+$)^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,}).*$/;
   const uRegex = /([A-Za-z\-_& ]){3,35}/;
 
   const email = eRegex.test(userEmail);
