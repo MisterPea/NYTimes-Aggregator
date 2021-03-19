@@ -117,8 +117,8 @@ export default function SubscriptionInfo() {
   return (
     <>
       <h4>Your subscription info.</h4>
-      {uidContext.subscriptions.length === 0 ? (
-        <p>{"You aren't currently subscibed to any topics."}</p>
+      { uidContext.subscriptions === undefined || !uidContext.subscriptions.length? (
+        <p className="no-subscriptions">{"You aren't currently subscibed to any topics."}</p>
       ) : (
         <>
           {submitted
@@ -158,7 +158,7 @@ export default function SubscriptionInfo() {
                       ))}
                     </ul>
                   </div>
-                  <SubmitButton disabled={submittedButtonActive} onClick={handleSubmit}>
+                  <SubmitButton disabled={submittedButtonActive} submitCallback={handleSubmit}>
                     Submit
                   </SubmitButton>
                 </>
