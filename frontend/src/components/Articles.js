@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect, useContext } from "react";
 import PropTypes from 'prop-types'
 import { grabTopStories } from "./api/api";
 import ModalSelectionLogin from "./ModalSelectionLogin";
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { Dialog } from '@material-ui/core';
 import { Slide } from '@material-ui/core';
+import SuccessSnackbar from './material_ui_hoc/SuccessSnackbar'
 import { useLocation } from "react-router-dom";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -13,11 +14,12 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default function Articles({ section }) {
   const { state } = useLocation();
-  const openLogin = state ? state.locationFrom : false
   const [topStoriesData, setTopStoriesData] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [showLoginSnackbar, setShowLoginSnackbar] = useState(false);
   const [modalFacets, setModalFacets] = useState({});
   const [mapCompleted, setMapCompleted] = useState(false);
+  const [userMessage, setUserMessage] = useState("New User")
 
   useEffect(() => {
     // The isMounted flag is to prevent update on an unmounted component. 
@@ -29,26 +31,36 @@ export default function Articles({ section }) {
       .catch(err => {
         console.error(`There's been an error fetching NY Times's Top Stories: ${err}`)
       })
-    
     return () => {
       isMounted = false;
     };
   }, [section]);
 
   useLayoutEffect(() => {
-    if(topStoriesData !== []){
-      if(mapCompleted === true){
-      openLogin === true && setShowModal(true) 
+    // Checking if we're coming from elsewhere.
+    // Called after everything loads.
+    if (topStoriesData !== []) {
+      if (mapCompleted === true && state) {
+        state.locationFrom === true && setShowModal(true);
+        state.newUser && (setUserMessage(`Hey, ${state.newUser} ! Your account has been created!`) || setShowLoginSnackbar(true));
       }
     }
-  },[mapCompleted]);
+  }, [mapCompleted]);
 
   const handleModalClose = () => {
     setShowModal(false);
     setModalFacets({});
     window.history.replaceState({locationFrom:false},null)
+    
   };
 
+  const handleLoginSnackbarClose = () => {
+    setShowLoginSnackbar(false);
+    window.history.replaceState({newUser:null} ,null);
+  }
+
+  // This tracks the completeion of the article population. 
+  // Once done, we can trigger the opening of a Snackbar or Dialog.
   const trackMapCompletion = (index, length) => {
     if(index === length - 1) {
       if(mapCompleted === false) {
@@ -59,6 +71,11 @@ export default function Articles({ section }) {
 
   return (
     <div className="article-wrapper">
+    <SuccessSnackbar 
+      onOpen={showLoginSnackbar}
+      onClose={handleLoginSnackbarClose}
+      message={userMessage}
+    />
     <Dialog
       open={showModal}
       onClose={handleModalClose}
