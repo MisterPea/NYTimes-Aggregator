@@ -125,7 +125,7 @@ export default function NavBar() {
       <SuccessSnackbar 
         onOpen={snackbarOpen}
         onClose={handleSnackBarClose}
-        message={snackbarMessage}
+        message={`Welcome back, ${snackbarMessage}`}
       />
       <Dialog
         open={activeLogin}

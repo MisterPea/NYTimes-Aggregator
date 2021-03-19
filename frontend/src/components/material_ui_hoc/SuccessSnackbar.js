@@ -12,7 +12,7 @@ function SuccessSnackbar({ message, onOpen, onClose }) {
       autoHideDuration={5000}
       >
       <Alert onClose={onClose} severity="success" variant="filled">
-        {`Welcome back, ${message}`}
+        {message}
       </Alert>
     </Snackbar> 
   );

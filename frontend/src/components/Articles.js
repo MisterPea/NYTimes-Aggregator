@@ -42,7 +42,7 @@ export default function Articles({ section }) {
     if (topStoriesData !== []) {
       if (mapCompleted === true && state) {
         state.locationFrom === true && setShowModal(true);
-        state.newUser && (setUserMessage(`Hey, ${state.newUser} ! Your account has been created!`) || setShowLoginSnackbar(true));
+        state.newUser && (setUserMessage(`Hey, ${state.newUser}! Your account has been created.`) || setShowLoginSnackbar(true));
       }
     }
   }, [mapCompleted]);
@@ -50,8 +50,7 @@ export default function Articles({ section }) {
   const handleModalClose = () => {
     setShowModal(false);
     setModalFacets({});
-    window.history.replaceState({locationFrom:false},null)
-    
+    window.history.replaceState({locationFrom:false},null);
   };
 
   const handleLoginSnackbarClose = () => {
