@@ -50,5 +50,13 @@ SubmitButton.propTypes = {
     submitCallback: PropTypes.func
 }
 
+/**
+ * Basic submit button
+ * @param {string} id Id for the button.
+ * @param {boolean} disabled Boolean passed in to make button active/inactive
+ * @param {func} submitCallback onClick callback.
+ * @param {string} children Typically the name to appear on the buttton
+ * @returns 
+ */
 export default withStyles(styles)(SubmitButton)
 
