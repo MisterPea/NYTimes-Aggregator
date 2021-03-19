@@ -14,3 +14,5 @@ node_modules/
 # Auth info
 nyt-aggregator-b84bb62aec66.json
 .env
+things_to_fix.txt
+timed_email_function/test.js
