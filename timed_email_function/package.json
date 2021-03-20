@@ -1,12 +1,9 @@
 {
   "name": "functions",
-  "description": "Cloud Functions for Firebase",
+  "description": "Node methods for pulling user subscriptions and emailing pertinent articles.",
   "scripts": {
     "lint": "eslint .",
-    "serve": "firebase emulators:start --only functions",
-    "shell": "firebase functions:shell",
     "start": "npm run shell",
-    "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log"
   },
   "engines": {
@@ -17,14 +14,11 @@
     "@sendgrid/mail": "^7.4.2",
     "axios": "^0.21.1",
     "dotenv": "^8.2.0",
-    "firebase-admin": "^9.2.0",
-    "firebase-functions": "^3.11.0",
-    "slugify": "^1.4.6"
+    "firebase-admin": "^9.2.0"
   },
   "devDependencies": {
     "eslint": "^7.6.0",
-    "eslint-config-google": "^0.14.0",
-    "firebase-functions-test": "^0.2.0"
+    "eslint-config-google": "^0.14.0"
   },
   "private": true
 }
