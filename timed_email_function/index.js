@@ -17,7 +17,7 @@ let userData = [];
  * - getUserInfo -> getUserCallback -> uniqueSelections ->
  * - callGetArticleSelections -> rateLimitedCaller ->
  * - getSelectionFromAPI -> getSelectionFromAPIcallback ->
- * - packageEmailAndArticles -> email
+ * - packageEmailAndArticles -> removeDuplicates -> email
  */
 exports.userInfo = () => {
   const getUserCallback = (data) => {
