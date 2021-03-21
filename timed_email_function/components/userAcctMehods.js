@@ -105,9 +105,9 @@ function packageEmailAndArticles(articles, users) {
 function removeDuplicateArticles(articleObjects) {
   const tempArray = [];
   const seenLinks = [];
-  for (let i=0; i<articleObjects.length; i++) {
+  for (let i=articleObjects.length-1; i >= 0; i--) {
     const {searchTerm, articles} = articleObjects[i];
-    tempArray[i] = {searchTerm: searchTerm,articles:[]};
+    tempArray[i] = {searchTerm: searchTerm, articles: []};
 
     let articleIndex = 0;
     const articleLength = articles.length;
@@ -123,10 +123,16 @@ function removeDuplicateArticles(articleObjects) {
           web_url,
           thumbnail: newThumbnail});
       }
+      // Look for empty article arrays. Remove them, if not empty, advance index
+      if (tempArray[i].articles.length === 0) {
+        console.log("length 0", tempArray[i].searchTerm);
+        tempArray.splice(i, 1);
+      }
       articleIndex++;
     }
   }
   return tempArray;
 }
+
 
 module.exports = {getUserInfo, getUniqueSelections, packageEmailAndArticles};
