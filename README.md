@@ -42,5 +42,6 @@ React project implementing the New York Times web API
 - Firebase Auth
 - Firestore NoSQL
 - Google Cloud Platform: Compute Engine, Cloud Functions & Cloud Scheduler
+- Twilio Sendgrid
 
 Rate Limit: 4,000 requests per day and 10 requests per minute. You should sleep 6 seconds between calls to avoid hitting the per minute rate limit.
