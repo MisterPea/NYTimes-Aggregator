@@ -29,7 +29,7 @@ export default function Articles({ section }) {
         isMounted && setTopStoriesData(dataPromise);
       })
       .catch(err => {
-        console.error(`There's been an error fetching NY Times's Top Stories: ${err}`)
+        console.error(`There's been an error fetching NY Times Top Stories: ${err}`)
       })
     return () => {
       isMounted = false;
@@ -58,7 +58,7 @@ export default function Articles({ section }) {
     window.history.replaceState({newUser:null} ,null);
   }
 
-  // This tracks the completeion of the article population. 
+  // This tracks the completion of the article population. 
   // Once done, we can trigger the opening of a Snackbar or Dialog.
   const trackMapCompletion = (index, length) => {
     if(index === length - 1) {

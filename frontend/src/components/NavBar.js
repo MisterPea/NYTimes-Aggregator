@@ -49,7 +49,7 @@ export default function NavBar() {
   /**
    * This useEffect chain is pulling the info from auth and Firestore.
    * Before the query/writes were cascaded, Context was being set in stages
-   * which led to a bug (memory leak?) with the subscriptions. Essentally,
+   * which led to a bug (memory leak?) with the subscriptions. Essentially,
    * the context wasn't being update unless there was an additional render.
    * This was solved by just setting all context elements at the same time.
    * I'm still not totally sure why it wasn't updating...I think the update
@@ -141,8 +141,8 @@ export default function NavBar() {
         the-times.page<span className="sub-title"> subscription/aggregation</span>
       </div>
       <nav className="navigation-wrapper">
-        <div className={`home-icon-${pathname === "/home" ? "deactive" : "active"}`}>
-          <IconButton disabled={pathname === "/home"} href="/">
+        <div className={`home-icon-${pathname === "/us" ? "deactive" : "active"}`}>
+          <IconButton disabled={pathname === "/us"} href="/">
             <HomeIcon />
           </IconButton>
         </div>
