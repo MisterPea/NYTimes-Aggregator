@@ -47,7 +47,7 @@ export default function App() {
       <Route
         {...rest}
         render={() => {
-          return uidContext.uid !== null ? children : <Redirect to="/home" />;
+          return uidContext.uid !== null ? children : <Redirect to="/us" />;
         }}
       />
     );
@@ -69,7 +69,7 @@ export default function App() {
                 <UserInfo />
               </PrivateRoute>
               <Route path="/:section/" component={SectionMenu} />
-              <Redirect from="/" to="/home" />
+              <Redirect from="/" to="/us" />
               <Route component={FourOhFour} />
             </Switch>
           </MuiThemeProvider>

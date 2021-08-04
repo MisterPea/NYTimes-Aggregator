@@ -158,7 +158,7 @@ export default function CreateAccount({ message }) {
           <Link
             className="have-account-button"
             to={{
-              pathname: "/home",
+              pathname: "/us",
               state: { locationFrom: true },
             }}>
             Already have an account?
@@ -182,7 +182,7 @@ export default function CreateAccount({ message }) {
     <div className="create-return-wrapper">
       {success 
         ? <Redirect to={{
-            pathname:'/home',
+            pathname:'/us',
             state:{newUser:credentials.username}
           }}/> 
           : loginInit}
