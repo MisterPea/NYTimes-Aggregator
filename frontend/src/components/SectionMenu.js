@@ -1,10 +1,10 @@
 import React from "react";
 import Articles from "./Articles";
 import { useParams, Redirect } from "react-router-dom";
-import HorizontalScrollMenu from './HortizonalScrollMenu'
+import HorizontalScrollMenu from './HorizontalScrollMenu'
 
 export default function SectionMenu() {
-  let { section} = useParams();
+  let { section } = useParams();
 
   const sections = [
     { linkName: "arts", displayName: "Arts" },
@@ -14,7 +14,6 @@ export default function SectionMenu() {
     { linkName: "fashion", displayName: "Fashion" },
     { linkName: "food", displayName: "Food" },
     { linkName: "health", displayName: "Health" },
-    { linkName: "home", displayName: "Front Page" },
     { linkName: "insider", displayName: "Times Insider" },
     { linkName: "magazine", displayName: "Magazine" },
     { linkName: "movies", displayName: "Movies" },
@@ -37,7 +36,7 @@ export default function SectionMenu() {
 
   const matchingQuery = sections.find((e) => e.linkName === section)
   if(!matchingQuery){
-    return <Redirect to={"/home"} />
+    return <Redirect to={"/us"} />
   }
 
   return (
