@@ -19,3 +19,4 @@ timed_email_function/test.js
 timed_email_function/components/email_html/email-original-working-copy.html
 timed_email_function/components/email_html/email-original.html
 timed_email_function/components/email_html/topStories_template_v2.html
+frontend/package-lock.json
