@@ -1,58 +1,57 @@
 {
   "name": "ny_times_aggregator",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "dependencies": {
-    "@material-ui/core": "^4.11.3",
-    "@material-ui/icons": "^4.11.2",
-    "@material-ui/lab": "^4.0.0-alpha.57",
-    "@material-ui/styles": "^4.11.3",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-firebase-hooks": "^2.2.0",
-    "react-router": "^5.2.0",
-    "react-router-dom": "^5.2.0"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.11.6",
-    "@babel/preset-env": "^7.11.5",
-    "@babel/preset-react": "^7.10.4",
-    "babel": "^6.23.0",
-    "babel-loader": "^8.1.0",
-    "css-loader": "^4.3.0",
-    "dotenv-webpack": "^6.0.0",
-    "eslint": "^7.14.0",
-    "eslint-plugin-react": "^7.21.5",
-    "firebase": "^8.1.1",
-    "html-webpack-plugin": "^4.5.0",
-    "material-ui": "^0.15.0",
-    "prop-types": "^15.7.2",
-    "sass": "^1.32.8",
-    "sass-loader": "^10.0.3",
-    "style-loader": "^2.0.0",
-    "webpack": "^4.44.2",
-    "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.0"
-  },
+  "version": "1.1.0",
+  "description": "Implementation of the NY Times api",
+  "main": "webpack.config.js",
   "scripts": {
     "start": "webpack-dev-server --host 0.0.0.0",
     "build": "NODE_ENV='production' webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "NYTimes-Aggregator"
+  },
+  "keywords": [
+    "React",
+    "NodeJS",
+    "Material-UI",
+    "ExpressJS"
+  ],
+  "author": "Perry Angelora",
+  "license": "MIT",
+  "dependencies": {
+    "@material-ui/core": "^4.12.3",
+    "@material-ui/icons": "^4.11.2",
+    "@material-ui/lab": "^4.0.0-alpha.60",
+    "@material-ui/styles": "^4.11.4",
+    "firebase": "^8.10.0",
+    "prop-types": "^15.7.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-firebase-hooks": "^3.0.4",
+    "react-router": "^5.2.1",
+    "react-router-dom": "^5.2.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/preset-env": "^7.16.0",
+    "@babel/preset-react": "^7.16.0",
+    "babel": "^6.23.0",
+    "babel-loader": "^8.2.3",
+    "css-loader": "^6.5.1",
+    "dotenv-webpack": "^7.0.3",
+    "html-webpack-plugin": "^5.5.0",
+    "sass": "^1.43.4",
+    "sass-loader": "^12.3.0",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.64.1",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.5.0"
   },
   "babel": {
     "presets": [
       "@babel/preset-env",
       "@babel/preset-react"
     ]
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/MisterPea/NYTimes-Aggregator.git"
-  },
-  "author": "Perry Angelora",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/MisterPea/NYTimes-Aggregator/issues"
-  },
-  "homepage": "https://github.com/MisterPea/NYTimes-Aggregator#readme"
+  }
 }
