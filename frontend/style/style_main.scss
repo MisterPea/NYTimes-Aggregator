@@ -238,11 +238,27 @@ body {
     }
     img {
       height: 75px;
+      width: 75px;
       border-radius: 0 18% 18% 18%;
       margin-right: 10px;
       border: 0.25px rgb(221, 221, 221) solid;
+      object-fit: cover;
       @include med--960px-and-up {
         height: 70px;
+        width: 70px;
+      }
+    }
+    .nyt-logo {
+      height: 60px;
+      width: 60px;
+      margin-right: 15px;
+      margin-top:3px;
+      border: 0.25px rgb(221, 221, 221) solid;
+      object-fit: cover;
+      flex-shrink: 0;
+      @include med--960px-and-up {
+        height: 55px;
+        width: 55px;
       }
     }
   }
