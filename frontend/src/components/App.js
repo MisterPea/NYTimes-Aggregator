@@ -4,7 +4,8 @@ import NavBar from "./NavBar";
 import SectionMenu from "./SectionMenu";
 import uidContextProvider from "./api/UidContext";
 import FourOhFour from "./FourOhFour";
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
+import { MuiThemeProvider } from "@material-ui/core";
+import { createTheme } from "@material-ui/core/styles";
 const CreateAccount = lazy(() => import('./CreateAccount'));
 const UserInfo = lazy(() => import("./UserInfo"));
 import PropTypes from "prop-types";
@@ -19,7 +20,7 @@ export default function App() {
   const [uidContext, setUidContext] = useState({ name: null, uid: null, subscriptions: [] });
   const value = { uidContext, setUidContext };
 
-  const theme = createMuiTheme({
+  const theme = createTheme({
     props: {
       MuiButtonBase: {
         disableRipple: true,
