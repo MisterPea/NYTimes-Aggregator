@@ -1,6 +1,7 @@
-import firebase from "./Auth";
+import firebase from './Auth';
+
 const db = firebase.firestore();
-const userCollection = db.collection("users");
+const userCollection = db.collection('users');
 
 /**
  * InitUser: Creates a space on the database tied to the User Id (uid)
@@ -10,11 +11,11 @@ const userCollection = db.collection("users");
 export function InitUser(uid) {
   return new Promise((resolve, reject) => {
     userCollection.doc(uid).set({
-        active: true,
-        selections: [],
-      })
+      active: true,
+      selections: [],
+    })
       .then(() => {
-        resolve("Account created");
+        resolve('Account created');
       })
       .catch((error) => {
         reject(`Something went wrong: ${error}`);
@@ -26,13 +27,13 @@ export function InitUser(uid) {
  * Adds, and removes subscription topics.
  * @param {string} uid
  * @param {Array<string>} selection
- * @return {promise} 
+ * @return {promise}
  */
 export function AddToUser(uid, selection) {
   return new Promise((resolve, reject) => {
     userCollection.doc(uid).update({
-       selections: selection
-      })
+      selections: selection,
+    })
       .then(() => {
         resolve();
       })
@@ -43,7 +44,7 @@ export function AddToUser(uid, selection) {
 }
 
 /**
- * Retrieves current subscription from Firestore. 
+ * Retrieves current subscription from Firestore.
  * @param {string} uid
  * @return {Promise}
  */
@@ -65,7 +66,7 @@ export function GetCurrentSubscriptions(uid) {
 
 /**
  * Retrieves current active status from Firestore.
- * Active status is refereing to whether a subscritption is paused. 
+ * Active status is refereing to whether a subscritption is paused.
  * @param {string} uid
  * @return {Promise}
  */
@@ -82,7 +83,7 @@ export function GetActiveStatus(uid) {
       .catch((error) => {
         reject(`Error getting current active status. Code:${error}`);
       });
-  })
+  });
 }
 
 /**
@@ -91,16 +92,16 @@ export function GetActiveStatus(uid) {
  * @param {boolean} activeOrPaused
  * @returns {Promise}
   */
-export function SetActiveStatus(uid, activeOrPaused){
+export function SetActiveStatus(uid, activeOrPaused) {
   return new Promise((resolve, reject) => {
     userCollection.doc(uid).update({
-       active: activeOrPaused
-      })
+      active: activeOrPaused,
+    })
       .then(() => {
         resolve();
       })
       .catch((error) => {
         reject(`Error updating active status: ${error}`);
       });
-  }); 
+  });
 }
