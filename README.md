@@ -1,7 +1,6 @@
 # NYTimes Top Stories Aggregator
 React project implementing the New York Times web API
 
-* [Working link: http://35.207.5.197/](http://35.207.5.197/)
 ### Features - To do:
 - [ ] Authorization
   * [x] Firebase login for users to save articles and subscribe to topics
