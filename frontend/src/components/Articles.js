@@ -71,9 +71,11 @@ export default function Articles({ section }) {
     }
   }
 
+  // At this point, smaller images are the last index -- this could change.
   function parseMultimediaURL(multimediaArray) {
-    if (multimediaArray && multimediaArray.length > 0) {
-      return <img src={multimediaArray[0].url} alt={multimediaArray[0].caption} />;
+    const imageLength = multimediaArray.length;
+    if (multimediaArray && imageLength > 0) {
+      return <img src={multimediaArray[imageLength - 1].url} alt={multimediaArray[0].caption} />;
     }
     return <div className="nyt-logo"><NYTIcon /></div>;
   }
@@ -107,41 +109,50 @@ export default function Articles({ section }) {
             per_facet,
             geo_facet,
           }, index, wholeArray) => (
-            <li className="article-list-item" key={index}>
-              <p className="section-text">{`${section} ${subsection === '' ? '' : `• ${subsection}`}`}</p>
-              <div className="main-card-area">
-                <div className="image-headline main-card-element">
-                  {parseMultimediaURL(multimedia)}
-                  <h2 className="article-headline">{title}</h2>
+            <li
+              className="article-list-item"
+              aria-label={`${title} - ${abstract}`}
+              key={title + section}
+            >
+              <section>
+                <p className="section-text">{`${section} ${subsection === '' ? '' : `• ${subsection}`}`}</p>
+                <div className="main-card-area">
+                  <div className="image-headline main-card-element">
+                    {parseMultimediaURL(multimedia)}
+                    <header className="article-headline">{title}</header>
+                  </div>
+                  <p className="article-abstract main-card-element">{abstract}</p>
                 </div>
-                <p className="article-abstract main-card-element">{abstract}</p>
-              </div>
-              <div className="modal-button">
-                <AddCircleIcon
-                  style={{ fontSize: 32 }}
-                  className="add-reading-alert"
-                  onClick={() => {
-                    setShowModal(true) ? showModal !== true : null;
-                    setModalFacets({
-                      byline,
-                      des_facet,
-                      org_facet,
-                      per_facet,
-                      geo_facet,
-                      title,
-                    });
-                  }}
+                <div
+                  className="modal-button"
+                  aria-haspopup="true"
                 >
-                  +
-                </AddCircleIcon>
-              </div>
-              <div
-                className="shadow-holder"
-                onClick={() => {
-                  window.open(url, '_blank');
-                }}
-              />
-              {trackMapCompletion(index, wholeArray.length)}
+                  <AddCircleIcon
+                    style={{ fontSize: 32 }}
+                    className="add-reading-alert"
+                    onClick={() => {
+                      setShowModal(true) ? showModal !== true : null;
+                      setModalFacets({
+                        byline,
+                        des_facet,
+                        org_facet,
+                        per_facet,
+                        geo_facet,
+                        title,
+                      });
+                    }}
+                  >
+                    +
+                  </AddCircleIcon>
+                </div>
+                <div
+                  className="shadow-holder"
+                  onClick={() => {
+                    window.open(url, '_blank');
+                  }}
+                />
+                {trackMapCompletion(index, wholeArray.length)}
+              </section>
             </li>
           ),
         )}
