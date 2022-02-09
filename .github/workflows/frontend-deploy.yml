@@ -26,7 +26,7 @@ jobs:
           PROJECT_ID: ${{ secrets.GOOGLE_PROJECT_ID }}
           APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
         with:
-          args: compute ssh p_angelora@nyt-revprox --zone=us-east1
+          args: compute ssh p_angelora@nyt-revprox --zone=us-east1-b
           cli: gcloud
       - run: docker ps
 #       - run: docker container kill frontend && docker container rm frontend
