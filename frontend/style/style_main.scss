@@ -141,6 +141,8 @@ body {
     align-items: center;
     justify-content: space-between;
     border-bottom: 0.25px rgb(207, 197, 183) solid;
+    margin-bottom: 0;
+    transition: margin-bottom 300ms ease;
     @include small--600px-and-up {
       margin-bottom: 6px;
       border-radius: 4px;

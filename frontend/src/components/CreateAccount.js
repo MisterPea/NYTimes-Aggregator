@@ -1,19 +1,19 @@
-import React, { useEffect, useState, useContext } from "react";
-import PropTypes from 'prop-types'
-import firebase from "./api/Auth";
-import { Link, Redirect } from "react-router-dom";
-import {VerifyEmailAndPassword} from "./api/VerifyEmailPassword";
-import { InitUser } from "./api/DatabaseActions";
-import uidContextProvider from "./api/UidContext";
-import SubmitButton from "./material_ui_hoc/SubmitButton";
+import React, { useEffect, useState, useContext } from 'react';
+import PropTypes from 'prop-types';
+import { Link, Redirect } from 'react-router-dom';
+import firebase from './api/Auth';
+import { VerifyEmailAndPassword } from './api/VerifyEmailPassword';
+import { InitUser } from './api/DatabaseActions';
+import uidContextProvider from './api/UidContext';
+import SubmitButton from './material_ui_hoc/SubmitButton';
 
 export default function CreateAccount({ message }) {
-  const [credentials, setCredentials] = useState({ email: "", password: "", username: "" });
+  const [credentials, setCredentials] = useState({ email: '', password: '', username: '' });
   const [validCredentials, setValidCredentials] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [acctCreationError, setAcctCreationError] = useState({dbError: null, authError: null });
+  const [acctCreationError, setAcctCreationError] = useState({ dbError: null, authError: null });
   const [validSubmission, setValidSubmission] = useState(false);
-  const [validationErrors, setValidationErrors] = useState({email: false, password: false, user: false});
+  const [validationErrors, setValidationErrors] = useState({ email: false, password: false, user: false });
   const auth = firebase.auth();
   const { email, password, username } = credentials;
   const { dbError, authError } = acctCreationError;
@@ -26,7 +26,7 @@ export default function CreateAccount({ message }) {
       const { validEmail, validPassword, validUser } = VerifyEmailAndPassword(
         username,
         email,
-        password
+        password,
       );
       setValidationErrors({ email: validEmail, password: validPassword, user: validUser });
     }
@@ -40,14 +40,14 @@ export default function CreateAccount({ message }) {
           newUser.user.updateProfile({ displayName: username });
           InitUser(newUser.user.uid)
             .then(() => {
-              setUidContext({name:username, uid:newUser.user.uid})
-              setCredentials({...credentials, email: "", password: "" });
+              setUidContext({ name: username, uid: newUser.user.uid });
+              setCredentials({ ...credentials, email: '', password: '' });
               handleEmailVerification();
             })
             .catch((err) => {
-              setAcctCreationError({authError: true});
-              console.error(`Dang. Something's not right: ${err}`)
-            })
+              setAcctCreationError({ authError: true });
+              console.error(`Dang. Something's not right: ${err}`);
+            });
         })
         .catch(() => {
           setAcctCreationError({ dbError: true });
@@ -81,9 +81,10 @@ export default function CreateAccount({ message }) {
         <div className="create-acct-text-holder">
           <h3>Why Create an Account?</h3>
           <p>
-            {
-              "Creating an account will allow you to recieve once daily, email updates based upon the topics you have subscribed to. You will only recive an email if there are new articles for the topics you selected. Add or remove topics as often or infrequently as you like."
-            }
+            Creating an account will allow you to receive once daily,
+            email updates based upon the topics you have subscribed to.
+            You will only receive an email if there are new articles for the
+            topics you selected. Add or remove topics as often or infrequently as you like.
           </p>
         </div>
       </div>
@@ -91,9 +92,9 @@ export default function CreateAccount({ message }) {
         {message && <div className="message">{message}</div>}
         <h3 className="login-headline">Create a New Account</h3>
         <div className="email-input">
-          <label className="create-acct-space" htmlFor="username">
+          <p className="create-acct-space" htmlFor="username">
             Username
-          </label>
+          </p>
           <input
             type="text"
             name="username"
@@ -101,20 +102,23 @@ export default function CreateAccount({ message }) {
             value={username}
             onChange={(e) => {
               handleCredentialChange(e);
-            }}></input>
+            }}
+          />
         </div>
         <div className="warning-dialog new-acct">
           {validSubmission && !validationErrors.user && (
             <p>
               Username must be between 3-35 characters.
-              <br /> Using letters and &apos;-&apos;, &apos;_&apos;, or &.
+              <br />
+              {' '}
+              Using letters and &apos;-&apos;, &apos;_&apos;, or &.
             </p>
           )}
         </div>
         <div className="email-input">
-          <label className="create-acct-space" htmlFor="email">
+          <p className="create-acct-space" htmlFor="email">
             Email
-          </label>
+          </p>
           <input
             type="text"
             name="email"
@@ -122,27 +126,30 @@ export default function CreateAccount({ message }) {
             value={email}
             onChange={(e) => {
               handleCredentialChange(e);
-            }}></input>
+            }}
+          />
         </div>
         <p className="warning-dialog new-acct">
-          {validSubmission && !validationErrors.email && "Email address is not valid."}
+          {validSubmission && !validationErrors.email && 'Email address is not valid.'}
         </p>
         <div className="email-input">
-          <label className="create-acct-space" htmlFor="userPassword">
+          <p className="create-acct-space" htmlFor="userPassword">
             Password
-          </label>
+          </p>
           <input
             type="password"
             name="password"
             className="text-input"
             value={password}
-            onChange={(e) => handleCredentialChange(e)}></input>
+            onChange={(e) => handleCredentialChange(e)}
+          />
         </div>
         <div className="warning-dialog new-acct">
           {validSubmission && !validationErrors.password && (
             <p>
               Password must be 8 characters in length
-              <br /> with at least one capitalized letter and one number.
+              <br />
+              with at least one capitalized letter and one number.
             </p>
           )}
         </div>
@@ -150,17 +157,19 @@ export default function CreateAccount({ message }) {
         <SubmitButton
           submitCallback={createUser}
           disabled={false}
-          id={"create-acct-submit"}
-          >
+          id="create-acct-submit"
+        >
           Submit
         </SubmitButton>
         <div className="login-buttons">
           <Link
             className="have-account-button"
+            aria-controls="have an account"
             to={{
-              pathname: "/us",
+              pathname: '/us',
               state: { locationFrom: true },
-            }}>
+            }}
+          >
             Already have an account?
           </Link>
         </div>
@@ -180,16 +189,19 @@ export default function CreateAccount({ message }) {
 
   return (
     <div className="create-return-wrapper">
-      {success 
-        ? <Redirect to={{
-            pathname:'/us',
-            state:{newUser:credentials.username}
-          }}/> 
-          : loginInit}
+      {success
+        ? (
+          <Redirect to={{
+            pathname: '/us',
+            state: { newUser: credentials.username },
+          }}
+          />
+        )
+        : loginInit}
     </div>
   );
 }
 
 CreateAccount.propTypes = {
-  message: PropTypes.string
-}
+  message: PropTypes.string,
+};

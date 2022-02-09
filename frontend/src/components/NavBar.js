@@ -1,22 +1,22 @@
-import React, { useContext, useEffect, useState } from "react";
-import firebase from "./api/Auth";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { Link, useLocation } from "react-router-dom";
-import uidContextProvider from "./api/UidContext";
-import { GetCurrentSubscriptions } from "./api/DatabaseActions";
-import HomeIcon from "@material-ui/icons/HomeSharp";
-import { IconButton } from "@material-ui/core";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import { Menu, MenuItem } from "@material-ui/core";
-import { withStyles } from "@material-ui/styles"
-import { Dialog, DialogContent, DialogActions } from "@material-ui/core"
+import React, { useContext, useEffect, useState } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { Link, useLocation } from 'react-router-dom';
+import HomeIcon from '@material-ui/icons/HomeSharp';
+import {
+  IconButton, Menu, MenuItem, Dialog, DialogContent, DialogActions,
+} from '@material-ui/core';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import { withStyles } from '@material-ui/styles';
 import CancelIcon from '@material-ui/icons/Cancel';
-import Login from "./Login";
-import SuccessSnackbar from "./material_ui_hoc/SuccessSnackbar"
+import { GetCurrentSubscriptions } from './api/DatabaseActions';
+import uidContextProvider from './api/UidContext';
+import firebase from './api/Auth';
+import Login from './Login';
+import SuccessSnackbar from './material_ui_hoc/SuccessSnackbar';
 
 export default function NavBar() {
   const [uid, setUid] = useState(null);
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState('');
   const [subscriptions, setSubscriptions] = useState(null);
   const [user] = useAuthState(firebase.auth());
   const auth = firebase.auth();
@@ -24,27 +24,27 @@ export default function NavBar() {
   const [anchorElement, setAnchorElement] = useState(null);
   const [activeLogin, setActiveLogin] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("User");
-  let { pathname } = useLocation();
-  const uiButtonLockout = pathname === "/login" || pathname === "/sign-up";
+  const [snackbarMessage, setSnackbarMessage] = useState('User');
+  const { pathname } = useLocation();
+  const uiButtonLockout = pathname === '/login' || pathname === '/sign-up';
 
   const StyledMenu = withStyles({
     paper: {
-      margin: "0 12px",
+      margin: '0 12px',
     },
-    list:{
-      padding:"0px",
+    list: {
+      padding: '0px',
     },
-  })(Menu)
+  })(Menu);
 
   const StyledMenuItem = withStyles({
-    root:{
-      fontFamily: "neue-haas-grotesk-display, sans-serif",
-      fontSize:"16px",
+    root: {
+      fontFamily: 'neue-haas-grotesk-display, sans-serif',
+      fontSize: '16px',
       fontWeight: 400,
-      justifyContent: "center",
+      justifyContent: 'center',
     },
-  })(MenuItem)
+  })(MenuItem);
 
   /**
    * This useEffect chain is pulling the info from auth and Firestore.
@@ -77,7 +77,7 @@ export default function NavBar() {
 
   useEffect(() => {
     if (subscriptions) {
-      setUidContext({ name: username, uid: uid, subscriptions: subscriptions });
+      setUidContext({ name: username, uid, subscriptions });
     }
   }, [subscriptions]);
 
@@ -91,12 +91,12 @@ export default function NavBar() {
 
   const handleSnackBarClose = () => {
     setSnackbarOpen(false);
-  }
+  };
 
   const handleSnackbarOpen = (message) => {
     setSnackbarOpen(true);
     setSnackbarMessage(message);
-  }
+  };
 
   const signOut = () => {
     auth
@@ -114,44 +114,47 @@ export default function NavBar() {
 
   const handleOpenLogin = () => {
     setActiveLogin(true);
-  }
+  };
 
   const handleCloseLogin = () => {
     setActiveLogin(false);
-  }
+  };
 
   return (
     <div className="navbar-wrapper">
-      <SuccessSnackbar 
+      <SuccessSnackbar
         onOpen={snackbarOpen}
         onClose={handleSnackBarClose}
         message={`Welcome back, ${snackbarMessage}`}
       />
       <Dialog
         open={activeLogin}
-        onClose={handleCloseLogin}>
+        onClose={handleCloseLogin}
+      >
         <DialogContent>
           <DialogActions>
             <CancelIcon style={{ fontSize: 30 }} onClick={handleCloseLogin} className="modal-close-button" />
           </DialogActions>
-          <Login modalClose={handleCloseLogin} postLogin={handleSnackbarOpen}/>
+          <Login modalClose={handleCloseLogin} postLogin={handleSnackbarOpen} />
         </DialogContent>
       </Dialog>
       <div className="site-title">
-        the-times.page<span className="sub-title"> subscription/aggregation</span>
+        the-times.page
+        <span className="sub-title"> subscription/aggregation</span>
       </div>
       <nav className="navigation-wrapper">
-        <div className={`home-icon-${pathname === "/us" ? "deactive" : "active"}`}>
-          <IconButton disabled={pathname === "/us"} href="/">
+        <div className={`home-icon-${pathname === '/us' ? 'deactive' : 'active'}`}>
+          <IconButton aria-label="home button" disabled={pathname === '/us'} href="/">
             <HomeIcon />
           </IconButton>
         </div>
-        <div className={`user-interface-logged-${uid ? "in":"out"}`}>
+        <div className={`user-interface-logged-${uid ? 'in' : 'out'}`}>
           <IconButton
-            aria-controls="user-info-button"
+            aria-label="user info button"
             aria-haspopup="true"
             onClick={handleOpen}
-            disabled={uiButtonLockout}>
+            disabled={uiButtonLockout}
+          >
             <AccountCircleIcon />
           </IconButton>
           <StyledMenu
@@ -161,22 +164,23 @@ export default function NavBar() {
             onClose={handleClose}
             className="navbar-popover"
             anchorOrigin={{
-              vertical: "center",
-              horizontal: "left",
+              vertical: 'center',
+              horizontal: 'left',
             }}
             transformOrigin={{
-              vertical: "top",
-              horizontal: "right",
+              vertical: 'top',
+              horizontal: 'right',
             }}
-            getContentAnchorEl={null}>
-            {pathname !== "/login" && pathname !== "/sign-up" && !uid && (
-              <StyledMenuItem onClick={() => {handleClose(); handleOpenLogin(); }}>
+            getContentAnchorEl={null}
+          >
+            {pathname !== '/login' && pathname !== '/sign-up' && !uid && (
+              <StyledMenuItem onClick={() => { handleClose(); handleOpenLogin(); }}>
                 Login/Sign-up
               </StyledMenuItem>
             )}
             {uid && (
               <div>
-                {pathname !== "/user-info" && (
+                {pathname !== '/user-info' && (
                   <StyledMenuItem onClick={handleClose}>
                     <Link className="link-button" to="/user-info">
                       Account Info
