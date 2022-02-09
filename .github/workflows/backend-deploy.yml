@@ -1,0 +1,24 @@
+name: backend-deploy
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "backend/"
+jobs:
+  login-and-deploy-backend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions-hub/gcloud@master
+        env:
+          PROJECT_ID: ${{ secrets.GOOGLE_PROJECT_ID }}
+          APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+      - run: docker container kill backend && docker container rm backend
+      - run: docker image prune -a --force
+      - run: git clone https://github.com/MisterPea/NYTimes-Aggregator.git
+      - run: cd NYTimes-Aggregator/backend
+      - run: docker build -t backend:latest .
+      - run: docker run -d --name=backend --network=nyt-net backend:latest
+      - run: cd .. && rm -r --force NY*
