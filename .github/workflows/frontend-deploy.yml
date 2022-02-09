@@ -21,14 +21,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions-hub/gcloud@master
+      - uses: google-github-actions/auth@v0
         env:
           PROJECT_ID: ${{ secrets.GOOGLE_PROJECT_ID }}
           APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
         with:
-          args: compute ssh p_angelora@nyt-revprox --zone=us-east1-b
+          args: compute ssh p_angelora@nyt-revprox --zone=us-east1-b && docker ps
           cli: gcloud
-          -run: docker ps
+          
           
 #       - run: docker container kill frontend && docker container rm frontend
 #       - run: docker image prune -a --force
