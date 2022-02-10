@@ -137,12 +137,10 @@ body {
     background-color: rgb(250, 240, 225);
     position: relative;
     padding: 20px 15px 15px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     border-bottom: 0.25px rgb(207, 197, 183) solid;
     margin-bottom: 0;
     transition: margin-bottom 300ms ease;
+
     @include small--600px-and-up {
       margin-bottom: 6px;
       border-radius: 4px;
@@ -161,6 +159,24 @@ body {
     @include xl--1920px-and-up {
       flex: 0 1 calc(20% - 6px);
     }
+
+    p {
+      display: -webkit-box;
+      display: -moz-box;
+      -webkit-line-clamp: 5 ;
+      line-clamp: 5 ;
+      -webkit-box-orient: vertical;
+      -moz-box-orient: vertical;
+      text-overflow: ellipsis;
+      overflow: hidden; 
+    }
+  }
+
+  section {
+    width:100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 
   .section-text {
@@ -238,12 +254,33 @@ body {
         border-bottom: 0.25px rgb(207, 197, 183) solid
       }
     }
+    .image-placeholder {
+      flex-shrink: 0;
+      height: 70px;
+      width: 70px;
+      background: url('./defaultLogo.gif');
+      border-radius: 0 20% 20% 20%;
+      margin-right: 10px;
+      background-size: cover;
+
+      @keyframes animateIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      .inner-image {
+        animation: animateIn 300ms ease-in-out;
+      }
+    }
     img {
       height: 75px;
       width: 75px;
       border-radius: 0 18% 18% 18%;
       margin-right: 10px;
-      border: 0.25px rgb(221, 221, 221) solid;
+      border: 0.25px rgb(199, 199, 199) solid;
       object-fit: cover;
       @include med--960px-and-up {
         height: 70px;
@@ -274,6 +311,7 @@ body {
     @include med--960px-and-up {
       font-size: 14px;
       padding-right: 20px;
+      
     }
   }
 

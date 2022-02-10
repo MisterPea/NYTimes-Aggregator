@@ -20,3 +20,9 @@ timed_email_function/components/email_html/email-original-working-copy.html
 timed_email_function/components/email_html/email-original.html
 timed_email_function/components/email_html/topStories_template_v2.html
 frontend/package-lock.json
+shell scripts/backend-deploy.sh
+shell scripts/frontend-deploy.sh
+shell scripts/nginx-deploy.sh
+.github/workflows/backend-deploy.yml
+.github/workflows/nginx-deploy.yml
+.github/workflows/frontend-deploy.yml

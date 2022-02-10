@@ -7,7 +7,19 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'index.bundle.js',
+    filename: '[name].[contenthash].js',
+  },
+  optimization: {
+    runtimeChunk: 'single',
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all',
+        },
+      },
+    },
   },
   module: {
     rules: [
@@ -34,7 +46,7 @@ module.exports = {
     ],
   },
   plugins: [new HtmlWebpackPlugin({ template: './src/index.html' })],
-  mode: process.env.NODE_ENV == 'production' ? 'production' : 'development',
+  mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   devServer: {
     historyApiFallback: true,
     port: 8080,

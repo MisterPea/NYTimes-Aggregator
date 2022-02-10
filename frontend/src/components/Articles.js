@@ -7,7 +7,7 @@ import { useLocation } from 'react-router-dom';
 import SuccessSnackbar from './material_ui_hoc/SuccessSnackbar';
 import ModalSelectionLogin from './ModalSelectionLogin';
 import grabTopStories from './api/api';
-import NYTIcon from './material_ui_hoc/NYTIcon';
+import ArticleImage from './ArticleImage';
 
 const Transition = React.forwardRef((props, ref) => <Slide direction="right" ref={ref} {...props} />);
 
@@ -71,15 +71,6 @@ export default function Articles({ section }) {
     }
   }
 
-  // At this point, smaller images are the last index -- this could change.
-  function parseMultimediaURL(multimediaArray) {
-    const imageLength = multimediaArray.length;
-    if (multimediaArray && imageLength > 0) {
-      return <img src={multimediaArray[imageLength - 1].url} alt={multimediaArray[0].caption} />;
-    }
-    return <div className="nyt-logo"><NYTIcon /></div>;
-  }
-
   return (
     <div className="article-wrapper">
       <SuccessSnackbar
@@ -118,7 +109,7 @@ export default function Articles({ section }) {
                 <p className="section-text">{`${section} ${subsection === '' ? '' : `• ${subsection}`}`}</p>
                 <div className="main-card-area">
                   <div className="image-headline main-card-element">
-                    {parseMultimediaURL(multimedia)}
+                    <ArticleImage images={multimedia} />
                     <header className="article-headline">{title}</header>
                   </div>
                   <p className="article-abstract main-card-element">{abstract}</p>
@@ -145,14 +136,14 @@ export default function Articles({ section }) {
                     +
                   </AddCircleIcon>
                 </div>
-                <div
-                  className="shadow-holder"
-                  onClick={() => {
-                    window.open(url, '_blank');
-                  }}
-                />
-                {trackMapCompletion(index, wholeArray.length)}
               </section>
+              <div
+                className="shadow-holder"
+                onClick={() => {
+                  window.open(url, '_blank');
+                }}
+              />
+              {trackMapCompletion(index, wholeArray.length)}
             </li>
           ),
         )}
