@@ -9,9 +9,17 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].[contenthash].js',
   },
+  cache: {
+    type: 'filesystem',
+    compression: 'gzip',
+  },
   optimization: {
     runtimeChunk: 'single',
+    innerGraph: true,
+    mergeDuplicateChunk: true,
+    minimize: true,
     splitChunks: {
+      maxSize: 63999999,
       cacheGroups: {
         vendor: {
           test: /[\\/]node_modules[\\/]/,
