@@ -16,7 +16,7 @@ module.exports = {
   optimization: {
     runtimeChunk: 'single',
     innerGraph: true,
-    mergeDuplicateChunk: true,
+    mergeDuplicateChunks: true,
     minimize: true,
     splitChunks: {
       maxSize: 63999999,
