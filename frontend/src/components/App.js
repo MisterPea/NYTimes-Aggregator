@@ -1,9 +1,9 @@
 import React, { useState, Suspense, lazy } from "react";
 import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
 import NavBar from "./NavBar";
-import SectionMenu from "./SectionMenu";
+const SectionMenu = lazy(() => import('./SectionMenu'));
 import uidContextProvider from "./api/UidContext";
-import FourOhFour from "./FourOhFour";
+const FourOhFour = lazy(() => import("./FourOhFour"));
 import { MuiThemeProvider } from "@material-ui/core";
 import { createTheme } from "@material-ui/core/styles";
 const CreateAccount = lazy(() => import('./CreateAccount'));

@@ -1,11 +1,11 @@
 /* eslint-disable react/function-component-definition */
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect, lazy } from 'react';
 import PropTypes from 'prop-types';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { Dialog, Slide } from '@material-ui/core';
 import { useLocation } from 'react-router-dom';
-import SuccessSnackbar from './material_ui_hoc/SuccessSnackbar';
-import ModalSelectionLogin from './ModalSelectionLogin';
+const SuccessSnackbar = lazy(() => import('./material_ui_hoc/SuccessSnackbar'));
+const ModalSelectionLogin = lazy(() => import('./ModalSelectionLogin'));
 import grabTopStories from './api/api';
 import ArticleImage from './ArticleImage';
 
