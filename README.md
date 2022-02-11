@@ -12,7 +12,7 @@ React project implementing the New York Times web API
   * [x] Modals - For selecting subscriptions and login
   * [x] Styling - possible Materials-UI
   * [ ] Branding for NY Times API usage
-  * [ ] Aria Labeling
+  * [x] Aria Labeling
   * [x] _User Info_ page with current subscriptions, ability to pause change notifications, change username/password/email 
 - [x] Backend
   * [x] Scheduling calls to retreive latests stories
@@ -25,7 +25,7 @@ React project implementing the New York Times web API
 ### Continuing Development:
   * [x] Move password reset to same page as login - via Form Dialog
   * [ ] Add backdrop loading indicator 
-  * [ ] Add backend caching to nyt api calls
+  * [x] Add backend caching to nyt api calls
   * [ ] User Added Image for user icon
   * [ ] Better styling for dialogs/user-info
 ------------------------
