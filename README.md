@@ -1,5 +1,7 @@
-# NYTimes Top Stories Aggregator
+# NYTimes Top Stories Aggregator 📰
 React project implementing the New York Times web API
+
+Check it out at: [http://35.207.5.197](http://35.207.5.197)
 
 ### Features - To do:
 - [ ] Authorization
@@ -21,6 +23,7 @@ React project implementing the New York Times web API
   * [x] Rate limit prevention
   * [x] Twilio SendGrid setup
   * [x] Google Cloud Functions setup
+  * [ ] Setup HTTPS and DNS
 ------------------------
 ### Continuing Development:
   * [x] Move password reset to same page as login - via Form Dialog
