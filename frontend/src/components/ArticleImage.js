@@ -1,5 +1,4 @@
 import * as React from 'react';
-import NYTIcon from './material_ui_hoc/NYTIcon';
 
 /**
  * Abstraction to compartmentalize the application of the image to the Article card
@@ -8,11 +7,10 @@ import NYTIcon from './material_ui_hoc/NYTIcon';
  */
 export default function ArticleImage({ images }) {
   function parseMultimediaURL(multimediaArray) {
-    const imageLength = multimediaArray.length;
+    const imageLength = (multimediaArray === null || multimediaArray.length);
     if (multimediaArray && imageLength > 0) {
       return <img src={multimediaArray[imageLength - 1].url} alt={multimediaArray[0].caption} />;
     }
-    return <div className="nyt-logo"><NYTIcon /></div>;
   }
 
   return (
