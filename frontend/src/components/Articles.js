@@ -50,6 +50,10 @@ export default function Articles({ section }) {
     }
   }, [mapCompleted]);
 
+  function uniqueId(){
+    return Math.random().toString(36).substring(5);
+  }
+
   function handleModalClose() {
     setShowModal(false);
     setModalFacets({});
@@ -103,13 +107,13 @@ export default function Articles({ section }) {
             <li
               className="article-list-item"
               aria-label={`${title} - ${abstract}`}
-              key={title + section}
+              key={uniqueId()}
             >
               <section>
                 <p className="section-text">{`${section} ${subsection === '' ? '' : `• ${subsection}`}`}</p>
                 <div className="main-card-area">
                   <div className="image-headline main-card-element">
-                    <ArticleImage images={multimedia} />
+                    <ArticleImage key={uniqueId()} images={multimedia} />
                     <header className="article-headline">{title}</header>
                   </div>
                   <p className="article-abstract main-card-element">{abstract}</p>
