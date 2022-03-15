@@ -24,6 +24,7 @@ Check it out at: [http://35.207.5.197](http://35.207.5.197)
   * [x] Twilio SendGrid setup
   * [x] Google Cloud Functions setup
   * [ ] Setup HTTPS and DNS
+  * [ ] Lessen Cache Duration
 ------------------------
 ### Continuing Development:
   * [x] Move password reset to same page as login - via Form Dialog
