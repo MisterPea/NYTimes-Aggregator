@@ -26,3 +26,4 @@ shell scripts/nginx-deploy.sh
 .github/workflows/backend-deploy.yml
 .github/workflows/nginx-deploy.yml
 .github/workflows/frontend-deploy.yml
+nameserver_record_update.json
