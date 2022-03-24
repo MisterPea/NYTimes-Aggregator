@@ -21,7 +21,7 @@ function checkForEmptyData(data) {
  * @return {Promise} Top Stories data.
 */
 export default function grabTopStories(section) {
-  return fetch(`http://nytimes-aggregator_backend_1/${section}`)
+  return fetch(`https://thetimespage.misterpea.me/api/${section}`)
     .then((result) => result.json())
     .then((data) => {
       if (!data) {
