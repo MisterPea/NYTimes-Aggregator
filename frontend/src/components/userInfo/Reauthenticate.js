@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import firebase from "../api/Auth";
-import { useAuthState } from "react-firebase-hooks/auth";
-import PropTypes from "prop-types";
-import SubmitButton from "../material_ui_hoc/SubmitButton"
+import React, { useState } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import PropTypes from 'prop-types';
+import firebase from '../api/Auth';
+import SubmitButton from '../material_ui_hoc/SubmitButton';
 
 /**
  * Dialog component to reauthenticate credentials for email and password chnages.
@@ -13,22 +13,22 @@ import SubmitButton from "../material_ui_hoc/SubmitButton"
 export default function Reauthenticate({ reference }) {
   const auth = firebase.auth();
   const [user] = useAuthState(auth);
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState('');
   const [error, setError] = useState(false);
 
-  const errorsCapture = (error) => {
-    switch (error) {
-      case "auth/user-mismatch":
-      case "auth/user-not-found":
-        return "Error: User not found.";
-      case "auth/invalid-credential":
-        return "Error: Invalid credentials.";
-      case "auth/invalid-email":
-        return "Error: Invalid email.";
-      case "auth/wrong-password":
-        return "Error: Wrong password";
+  const errorsCapture = (err) => {
+    switch (err) {
+      case 'auth/user-mismatch':
+      case 'auth/user-not-found':
+        return 'Error: User not found.';
+      case 'auth/invalid-credential':
+        return 'Error: Invalid credentials.';
+      case 'auth/invalid-email':
+        return 'Error: Invalid email.';
+      case 'auth/wrong-password':
+        return 'Error: Wrong password';
       default:
-        return "Error: Invalid credentials.";
+        return 'Error: Invalid credentials.';
     }
   };
 
