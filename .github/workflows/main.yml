@@ -26,7 +26,7 @@ jobs:
     
     - name: Remove previous docker files
       run: |
-        gcloud compute ssh nyt-aggregator-instance-group-60v5 --zone=us-east4-c --command="cd NYTimes-Aggregator && docker-compose down"
+        gcloud compute ssh nyt-aggregator-instance-group-60v5 --zone=us-east4-c --command="ls"
         gcloud compute ssh nyt-aggregator-instance-group-60v5 --zone=us-east4-c --command="sudo docker rmi $(docker images -q) && sudo docker image prune -a --force"
     - name: Run docker-compose - detached
       run: gcloud compute ssh nyt-aggregator-instance-group-60v5 --zone=us-east4-c --command="cd NYTimes-Aggregator && sudo docker-compose up -d"
