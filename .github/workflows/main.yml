@@ -23,7 +23,7 @@ jobs:
     
     - name: Clone Repository
       run: |
-        gcloud compute ssh nyt-aggregator-instance-group-60v5 --zone=us-east4-c --command="sudo rm -r NYTimes-Aggregator"
+        # gcloud compute ssh nyt-aggregator-instance-group-60v5 --zone=us-east4-c --command="sudo rm -r NYTimes-Aggregator"
         gcloud compute ssh nyt-aggregator-instance-group-60v5 --zone=us-east4-c --command="git clone https://github.com/MisterPea/NYTimes-Aggregator.git"
     
     - name: Remove previous docker files
