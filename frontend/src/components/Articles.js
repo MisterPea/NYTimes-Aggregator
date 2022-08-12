@@ -8,6 +8,7 @@ const SuccessSnackbar = lazy(() => import('./material_ui_hoc/SuccessSnackbar'));
 const ModalSelectionLogin = lazy(() => import('./ModalSelectionLogin'));
 import grabTopStories from './api/api';
 import ArticleImage from './ArticleImage';
+import DialogMemo from './DialogMemo';
 
 const Transition = React.forwardRef((props, ref) => <Slide direction="right" ref={ref} {...props} />);
 
@@ -50,7 +51,8 @@ export default function Articles({ section }) {
     }
   }, [mapCompleted]);
 
-  function uniqueId(){
+
+  function uniqueId() {
     return Math.random().toString(36).substring(5);
   }
 
@@ -63,6 +65,15 @@ export default function Articles({ section }) {
   function handleLoginSnackbarClose() {
     setShowLoginSnackbar(false);
     window.history.replaceState({ newUser: null }, null);
+  }
+
+  function deriveId(imageArray) {
+    const imageLength = (imageArray === null || imageArray.length);
+    if (imageArray && imageLength > 0) {
+      return imageArray[imageLength - 1].url.split(/([\d\w.-]+)/).pop();
+    } else {
+      return uniqueId();
+    }
   }
 
   // This tracks the completion of the article population.
@@ -82,13 +93,13 @@ export default function Articles({ section }) {
         onClose={handleLoginSnackbarClose}
         message={userMessage}
       />
-      <Dialog
-        open={showModal}
-        onClose={handleModalClose}
-        TransitionComponent={Transition}
-      >
-        <ModalSelectionLogin modalFacets={modalFacets} message={state ? 'articles' : ''} closeModal={handleModalClose} />
-      </Dialog>
+      <DialogMemo
+        showModal={showModal}
+        handleModalClose={handleModalClose}
+        transition={Transition}
+        modalFacets={modalFacets}
+        state={state}
+      />
       <ul>
         {topStoriesData.map(
           ({
@@ -107,13 +118,13 @@ export default function Articles({ section }) {
             <li
               className="article-list-item"
               aria-label={`${title} - ${abstract}`}
-              key={uniqueId()}
+              key={`${title}-${section}`}
             >
               <section>
                 <p className="section-text">{`${section} ${subsection === '' ? '' : `• ${subsection}`}`}</p>
                 <div className="main-card-area">
                   <div className="image-headline main-card-element">
-                    <ArticleImage key={uniqueId()} images={multimedia} />
+                    <ArticleImage key={deriveId(multimedia)} images={multimedia} />
                     <header className="article-headline">{title}</header>
                   </div>
                   <p className="article-abstract main-card-element">{abstract}</p>
