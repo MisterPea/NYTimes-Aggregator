@@ -38,7 +38,7 @@ export default function HorizontalScrollMenu({ sections, section }) {
   };
 
   return (
-    <div className="menu-bar">
+    <div key="menu-bar-Hoz-scroll-menu" className="menu-bar">
       <StyledAppBar position="static">
         <StyledTabs
           value={value}

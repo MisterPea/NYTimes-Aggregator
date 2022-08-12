@@ -42,7 +42,7 @@ export default function SectionMenu() {
   return (
     <div className="menu-wrapper">
       <HorizontalScrollMenu sections={sections} section={section} />
-      <Articles section={section} />
+      <Articles key="articles" section={section} />
     </div>
   );
 }

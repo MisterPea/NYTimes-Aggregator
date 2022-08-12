@@ -71,7 +71,6 @@ export default function Login({ message, modalClose, postLogin }) {
           type="text"
           name="userEmail"
           className="text-input"
-          // placeholder="Email"
           value={email}
           onChange={(e) => {
             setEmail(e.target.value);

@@ -140,7 +140,7 @@
  
    const postSubmit = (
      <div>
-       <p className="submit-confirm">{submittedResponse ? `Your subcriptions have been updated` : `${submittedResponse}`}</p>
+       <p className="submit-confirm">{submittedResponse ? `Your subscriptions have been updated` : `${submittedResponse}`}</p>
        <SubmitButton type="submit" submitCallback={handleCloseModal}>Close</SubmitButton>
      </div>
    );
@@ -149,14 +149,14 @@
  
    return (
      <div>
-       <div className="modal-wrapper">
+       <div key="modal-wrapper-modalSelectionLogin" className="modal-wrapper">
        <DialogActions>
          <CancelIcon style={{fontSize: 30}} className="modal-close-button" onClick={handleCloseModal} />
        </DialogActions>
          {!uidContext.uid 
           ? <Login message={"You must be logged in to subscribe to topics."} />
           : <div>
-          <h4 className="modal-cta">Subsribe to articles relating to:</h4>
+          <h4 className="modal-cta">Subscribe to articles relating to:</h4>
          <div className="modal-headline-div">
          <h3 className="modal-headline">{props.modalFacets.title}</h3>
          </div>
