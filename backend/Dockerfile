@@ -5,13 +5,15 @@ WORKDIR /backend
 ENV NYT_API_KEY=nDByaIg6JlesybbNCdNId8mQ7ScGOKCD
 
 COPY package*.json ./
-COPY /routes ./routes/
+COPY /datasource ./datasource/
 COPY server.js ./
+COPY resolvers.js ./
+COPY schema.js ./
 
 # RUN npm install
 
 RUN npm ci --loglevel warn
 
-EXPOSE 80
+EXPOSE 4000
 
 CMD ["node", "server.js"]
