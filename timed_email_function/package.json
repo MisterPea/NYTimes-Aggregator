@@ -14,7 +14,7 @@
     "@sendgrid/mail": "^7.4.2",
     "axios": "^0.21.2",
     "dotenv": "^8.2.0",
-    "firebase-admin": "^9.2.0"
+    "firebase-admin": "^11.4.1"
   },
   "devDependencies": {
     "eslint": "^7.6.0",
