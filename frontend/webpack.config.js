@@ -73,6 +73,10 @@ module.exports = {
   ],
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   devServer: {
+    client: {
+      webSocketTransport: 'sockjs', // Needed b/c webSocket was crashing devServer
+    },
+    webSocketServer: 'sockjs',
     historyApiFallback: true,
     port: 8080,
     host: '192.168.1.152',

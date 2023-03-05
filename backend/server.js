@@ -1,15 +1,32 @@
 const express = require("express");
 const cors = require("cors");
+const { ApolloServer, gql } = require('apollo-server-express');
+const typeDefs = require('./schema');
+const NytApi = require('./datasource/nyt-api');
+const resolvers = require('./resolvers');
+
+
 require("dotenv").config();
 
-const app = express();
-const port = 80;
+async function startApolloServer() {
+    const port = 4000;
+    const server = new ApolloServer({
+        typeDefs,
+        resolvers,
+        dataSources: () => ({
+            nytApi: new NytApi(),
+        })
+    });
 
-app.use(cors());
+    await server.start();
 
-const nyt_api = require("./routes/nyt_api");
-app.use("/", nyt_api);
+    const app = express();
+    app.use(cors());
 
-app.listen(port, () => {
-    console.log(`Server is running on PORT:${port}`)
-});
+    server.applyMiddleware({ app });
+
+    await new Promise((resolve) => app.listen({ port }, resolve));
+    console.log(`🚀 Server is running on PORT:${port}-${server.graphqlPath}`);
+}
+
+startApolloServer();
