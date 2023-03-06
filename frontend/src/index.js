@@ -6,7 +6,7 @@ import '../style/style_main.scss';
 import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
 
 const client = new ApolloClient({
-  uri: ' http://backend:4000/graphql/',
+  uri: 'https://thetimespage.misterpea.me/graphql',
   cache: new InMemoryCache()
 });
 
